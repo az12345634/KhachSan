@@ -1,4 +1,4 @@
-package com.example.KhachSan.model.response;
+package com.example.KhachSan.model.respobse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

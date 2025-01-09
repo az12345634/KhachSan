@@ -1,6 +1,6 @@
 package com.example.KhachSan.config;
 
-import com.t3h.group3_petshop.security.CustomUserDetailsService;
+import com.example.KhachSan.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

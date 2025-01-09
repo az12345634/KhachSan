@@ -11,7 +11,7 @@ public class HomeController {
     @GetMapping("/home")
     public String index(Model model) {
         model.addAttribute("pageTitle", "Trang chủ");
-        return "login";
+        return "index";
     }
 
 //    @GetMapping("/blog")

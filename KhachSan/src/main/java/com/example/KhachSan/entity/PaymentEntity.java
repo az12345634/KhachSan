@@ -3,15 +3,12 @@ package com.example.KhachSan.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "order_master")
-public class OrderEntity extends AbstractEntity {
+@Table(name = "payment")
+public class PaymentEntity extends AbstractEntity {
     // Mã đơn hàng
     private String code;
 
