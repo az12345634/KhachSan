@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/head :: head"></head>
+<body>
+<!-- start cssload-loader -->
+<div class="preloader" id="preloader">
+    <div class="loader">
+        <svg class="spinner" viewBox="0 0 50 50">
+            <circle
+                    class="path"
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    fill="none"
+                    stroke-width="5"
+            ></circle>
+        </svg>
+    </div>
+</div>
+<div th:replace="layout/header :: header"></div>
+<section class="breadcrumb-top-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-list breadcrumb-top-list">
+                    <ul class="list-items bg-transparent radius-none p-0">
+                        <li><a href="index.html">Home</a></li>
+                        <li>France</li>
+                        <li>Hilton Hotel and Resorts</li>
+                    </ul>
+                </div>
+                <!-- end breadcrumb-list -->
+            </div>
+            <!-- end col-lg-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</section>
+<!-- end breadcrumb-top-bar -->
+<!-- ================================
+    END BREADCRUMB TOP BAR
+================================= -->
+
+<!-- ================================
+    START BREADCRUMB AREA
+================================= -->
+<section class="breadcrumb-area bread-bg-7 py-0">
+    <div class="breadcrumb-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-btn">
+                        <div class="btn-box">
+
+                            <a
+                                    class="theme-btn"
+                                    data-src="/frontend/images/img1.jpg"
+                                    data-fancybox="gallery"
+                                    data-caption="Showing image - 01"
+                                    data-speed="700"
+                            >
+                                <i class="la la-photo me-2"></i>More Photos
+                            </a>
+
+<!--                        </div>-->
+
+<!--                        <a-->
+<!--                                class="d-none"-->
+<!--                                data-fancybox="gallery"-->
+<!--                                data-src="/frontend/images/img3.jpg"-->
+<!--                                data-caption="Showing image - 03"-->
+<!--                                data-speed="700"-->
+<!--                        ></a>-->
+<!--                        <a-->
+<!--                                class="d-none"-->
+<!--                                data-fancybox="gallery"-->
+<!--                                data-src="/frontend/images/img4.jpg"-->
+<!--                                data-caption="Showing image - 04"-->
+<!--                                data-speed="700"-->
+<!--                        ></a>-->
+<!--                    </div>-->
+                    <!-- end breadcrumb-btn -->
+                </div>
+                <!-- end col-lg-12 -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end breadcrumb-wrap -->
+</section>
+<!-- end breadcrumb-area -->
+<!-- ================================
+    END BREADCRUMB AREA
+================================= -->
+
+<!-- ================================
+    START TOUR DETAIL AREA
+================================= -->
+<section class="tour-detail-area padding-bottom-90px">
+    <div
+            class="single-content-navbar-wrap menu section-bg"
+            id="single-content-navbar"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-content-nav" id="single-content-nav">
+                        <ul>
+                            <li>
+                                <a
+                                        data-scroll="description"
+                                        href="#description"
+                                        class="scroll-link active"
+                                >Hotel Details</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                        data-scroll="availability"
+                                        href="#availability"
+                                        class="scroll-link"
+                                >Availability</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                        data-scroll="amenities"
+                                        href="#amenities"
+                                        class="scroll-link"
+                                >Amenities</a
+                                >
+                            </li>
+                            <li>
+                                <a data-scroll="faq" href="#faq" class="scroll-link">Faq</a>
+                            </li>
+                            <li>
+                                <a data-scroll="reviews" href="#reviews" class="scroll-link"
+                                >Reviews</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end single-content-navbar-wrap -->
+    <div class="single-content-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="single-content-wrap padding-top-60px">
+                        <div id="description" class="page-scroll">
+                            <div class="single-content-item pb-4">
+                                <h3 class="title font-size-26">Hilton Hotel and Resorts</h3>
+                                <div class="d-flex align-items-center pt-2">
+                                    <p class="me-2">Boston, MA, USA</p>
+                                    <p>
+                        <span
+                                class="badge text-bg-warning text-white font-size-16"
+                        >4.7</span
+                        >
+                                        <span>(4,209 Reviews)</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- end single-content-item -->
+                            <div class="section-block"></div>
+                            <div class="single-content-item py-4">
+                                <div class="row">
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-hotel"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Hotel Type
+                                                </h3>
+                                                <span class="font-size-13">4 Star</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-user"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Extra People
+                                                </h3>
+                                                <span class="font-size-13">No Charge</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-bed"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Minimum Stay
+                                                </h3>
+                                                <span class="font-size-13">2 Nights</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-money"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Security Deposit
+                                                </h3>
+                                                <span class="font-size-13">$279</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-globe"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Country
+                                                </h3>
+                                                <span class="font-size-13">France</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-map"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    City
+                                                </h3>
+                                                <span class="font-size-13">Paris</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-user"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Neighborhood
+                                                </h3>
+                                                <span class="font-size-13">République</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                    <div class="col-lg-4 responsive-column">
+                                        <div
+                                                class="single-tour-feature d-flex align-items-center mb-3"
+                                        >
+                                            <div
+                                                    class="single-feature-icon icon-element ms-0 flex-shrink-0 me-3"
+                                            >
+                                                <i class="la la-times"></i>
+                                            </div>
+                                            <div class="single-feature-titles">
+                                                <h3 class="title font-size-15 font-weight-medium">
+                                                    Cancellation
+                                                </h3>
+                                                <span class="font-size-13">Strict</span>
+                                            </div>
+                                        </div>
+                                        <!-- end single-tour-feature -->
+                                    </div>
+                                    <!-- end col-lg-4 -->
+                                </div>
+                                <!-- end row -->
+                            </div>
+                            <!-- end single-content-item -->
+                            <div class="section-block"></div>
+                            <div
+                                    class="single-content-item padding-top-40px padding-bottom-40px"
+                            >
+                                <h3 class="title font-size-20">
+                                    About Hilton Hotel and Resorts
+                                </h3>
+                                <p class="py-3">
+                                    Per consequat adolescens ex, cu nibh commune temporibus
+                                    vim, ad sumo viris eloquentiam sed. Mea appareat
+                                    omittantur eloquentiam ad, nam ei quas oportere
+                                    democritum. Prima causae admodum id est, ei timeam
+                                    inimicus sed. Sit an meis aliquam, cetero inermis vel ut.
+                                    An sit illum euismod facilisis, tamquam vulputate
+                                    pertinacia eum at.
+                                </p>
+                                <p>
+                                    Cum et probo menandri. Officiis consulatu pro et, ne sea
+                                    sale invidunt, sed ut sint blandit efficiendi. Atomorum
+                                    explicari eu qui, est enim quaerendum te. Quo harum viris
+                                    id. Per ne quando dolore evertitur, pro ad cibo commune.
+                                </p>
+                            </div>
+                            <!-- end single-content-item -->
+                            <div class="section-block"></div>
+                        </div>
+
+
+
+                        <div class="review-box">
+                            <div class="single-content-item padding-top-40px">
+                                <h3 class="title font-size-20">Showing 3 guest reviews</h3>
+                                <div class="comments-list padding-top-50px">
+                                    <div class="comment">
+                                        <div class="comment-avatar">
+                                            <img
+                                                    class="avatar__img"
+                                                    alt=""
+                                                    src="images/team8.jpg"
+                                            />
+                                        </div>
+                                        <div class="comment-body">
+                                            <div class="meta-data">
+                                                <h3 class="comment__author">Jenny Doe</h3>
+                                                <div class="meta-data-inner d-flex">
+                              <span
+                                      class="ratings d-flex align-items-center me-1"
+                              >
+                                <i class="la la-star"></i>
+                                <i class="la la-star"></i>
+                                <i class="la la-star"></i>
+                                <i class="la la-star"></i>
+                                <i class="la la-star"></i>
+                              </span>
+                                                    <p class="comment__date">April 5, 2019</p>
+                                                </div>
+                                            </div>
+                                            <p class="comment-content">
+                                                Lorem ipsum dolor sit amet, dolores mandamus
+                                                moderatius ea ius, sed civibus vivendum imperdiet
+                                                ei, amet tritani sea id. Ut veri diceret fierent
+                                                mei, qui facilisi suavitate euripidis
+                                            </p>
+                                            <div
+                                                    class="comment-reply d-flex align-items-center justify-content-between"
+                                            >
+                                                <a
+                                                        class="theme-btn"
+                                                        href="#"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#replayPopupForm"
+                                                >
+                                                    <span class="la la-mail-reply me-1"></span>Reply
+                                                </a>
+                                                <div class="reviews-reaction">
+                                                    <a href="#" class="comment-like"
+                                                    ><i class="la la-thumbs-up"></i> 13</a
+                                                    >
+                                                    <a href="#" class="comment-dislike"
+                                                    ><i class="la la-thumbs-down"></i> 2</a
+                                                    >
+                                                    <a href="#" class="comment-love"
+                                                    ><i class="la la-heart-o"></i> 5</a
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end comments -->
+
+
+                                    <div class="btn-box load-more text-center">
+                                        <button
+                                                class="theme-btn theme-btn-small theme-btn-transparent"
+                                                type="button"
+                                        >
+                                            Load More Review
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end comments-list -->
+
+                                <!-- end comment-forum -->
+                            </div>
+                            <!-- end single-content-item -->
+                        </div>
+                        <!-- end review-box -->
+                    </div>
+                    <!-- end single-content-wrap -->
+                </div>
+                <!-- end col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="sidebar single-content-sidebar mb-0">
+                        <div class="sidebar-widget single-content-widget">
+                            <div class="sidebar-widget-item">
+                                <div class="sidebar-book-title-wrap mb-3">
+                                    <h3>Popular</h3>
+                                    <p>
+                        <span class="text-form">From</span
+                        ><span class="text-value ms-2 me-1">$399.00</span>
+                                        <span class="before-price">$412.00</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- end sidebar-widget-item -->
+                            <div class="sidebar-widget-item">
+                                <div class="contact-form-action">
+                                    <form action="#">
+                                        <div class="input-box">
+                                            <label class="label-text">Check in - Check out</label>
+                                            <div class="form-group">
+                                                <span class="la la-calendar form-icon"></span>
+                                                <input
+                                                        class="date-range form-control"
+                                                        type="text"
+                                                        name="daterange"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="input-box">
+                                            <label class="label-text">Rooms</label>
+                                            <div class="form-group select2-container-wrapper">
+                                                <div class="select-contain w-auto">
+                                                    <select class="select-contain-select">
+                                                        <option value="0">Select Rooms</option>
+                                                        <option value="1">1 Room</option>
+                                                        <option value="2">2 Rooms</option>
+                                                        <option value="3">3 Rooms</option>
+                                                        <option value="4">4 Rooms</option>
+                                                        <option value="5">5 Rooms</option>
+                                                        <option value="6">6 Rooms</option>
+                                                        <option value="7">7 Rooms</option>
+                                                        <option value="8">8 Rooms</option>
+                                                        <option value="9">9 Rooms</option>
+                                                        <option value="10">10 Rooms</option>
+                                                        <option value="11">11 Rooms</option>
+                                                        <option value="12">12 Rooms</option>
+                                                        <option value="13">13 Rooms</option>
+                                                        <option value="14">14 Rooms</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- end sidebar-widget-item -->
+                            <div class="sidebar-widget-item">
+                                <div
+                                        class="qty-box mb-2 d-flex align-items-center justify-content-between"
+                                >
+                                    <label class="font-size-16"
+                                    >Adults <span>Age 18+</span></label
+                                    >
+                                    <div class="qtyBtn d-flex align-items-center">
+                                        <div class="qtyDec"><i class="la la-minus"></i></div>
+                                        <input type="text" name="qtyInput" value="0" />
+                                        <div class="qtyInc"><i class="la la-plus"></i></div>
+                                    </div>
+                                </div>
+                                <!-- end qty-box -->
+                                <div
+                                        class="qty-box mb-2 d-flex align-items-center justify-content-between"
+                                >
+                                    <label class="font-size-16"
+                                    >Children <span>2-12 years old</span></label
+                                    >
+                                    <div class="qtyBtn d-flex align-items-center">
+                                        <div class="qtyDec"><i class="la la-minus"></i></div>
+                                        <input type="text" name="qtyInput" value="0" />
+                                        <div class="qtyInc"><i class="la la-plus"></i></div>
+                                    </div>
+                                </div>
+                                <!-- end qty-box -->
+                                <div
+                                        class="qty-box mb-2 d-flex align-items-center justify-content-between"
+                                >
+                                    <label class="font-size-16"
+                                    >Infants <span>0-2 years old</span></label
+                                    >
+                                    <div class="qtyBtn d-flex align-items-center">
+                                        <div class="qtyDec"><i class="la la-minus"></i></div>
+                                        <input type="text" name="qtyInput" value="0" />
+                                        <div class="qtyInc"><i class="la la-plus"></i></div>
+                                    </div>
+                                </div>
+                                <!-- end qty-box -->
+                            </div>
+                            <!-- end sidebar-widget-item -->
+                            <div class="btn-box pt-2">
+                                <a
+                                        th:href="@{${'/views/order/pl'}}"
+                                        class="theme-btn text-center w-100 mb-2"
+                                ><i class="la la-shopping-cart me-2 font-size-18"></i>Book
+                                    Now</a
+                                >
+                                <a
+                                        href="#"
+                                        class="theme-btn text-center w-100 theme-btn-transparent"
+                                ><i class="la la-heart-o me-2"></i>Add to Wishlist</a
+                                >
+                                <div
+                                        class="d-flex align-items-center justify-content-between pt-2"
+                                >
+                                    <a
+                                            href="#"
+                                            class="btn theme-btn-hover-gray font-size-15"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#sharePopupForm"
+                                    ><i class="la la-share me-1"></i>Share</a
+                                    >
+                                    <p>
+                                        <i class="la la-eye me-1 font-size-15 color-text-2"></i
+                                        >3456
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- end sidebar -->
+                </div>
+                <!-- end col-lg-4 -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end single-content-box -->
+</section>
+<!-- end tour-detail-area -->
+<!-- ================================
+    END TOUR DETAIL AREA
+================================= -->
+
+<div class="section-block"></div>
+
+<!-- ================================
+    START RELATE TOUR AREA
+================================= -->
+
+<footer th:replace="layout/footer :: footer"></footer>
+<!-- end footer-area -->
+<!-- ================================
+       START FOOTER AREA
+================================= -->
+
+<!-- start back-to-top -->
+<div id="back-to-top">
+    <i class="la la-angle-up" title="Go top"></i>
+</div>
+<!-- end back-to-top -->
+
+<!-- end modal-shared -->
+<div class="modal-popup">
+    <div
+            class="modal fade"
+            id="signupPopupForm"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title title" id="exampleModalLongTitle">
+                            Sign Up
+                        </h5>
+                        <p class="font-size-14">Hello! Welcome Create a New Account</p>
+                    </div>
+                    <button
+                            type="button"
+                            class="btn-close close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true" class="la la-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-form-action">
+                        <form method="post">
+                            <div class="input-box">
+                                <label class="label-text">Username</label>
+                                <div class="form-group">
+                                    <span class="la la-user form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type your username"
+                                    />
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="input-box">
+                                <label class="label-text">Email Address</label>
+                                <div class="form-group">
+                                    <span class="la la-envelope form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type your email"
+                                    />
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="input-box">
+                                <label class="label-text">Password</label>
+                                <div class="form-group">
+                                    <span class="la la-lock form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type password"
+                                    />
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="input-box">
+                                <label class="label-text">Repeat Password</label>
+                                <div class="form-group">
+                                    <span class="la la-lock form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type again password"
+                                    />
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="btn-box pt-3 pb-4">
+                                <button type="button" class="theme-btn w-100">
+                                    Register Account
+                                </button>
+                            </div>
+                            <div class="action-box text-center">
+                                <p class="font-size-14">Or Sign up Using</p>
+                                <ul class="social-profile py-3">
+                                    <li>
+                                        <a href="#" class="bg-5 text-white"
+                                        ><i class="lab la-facebook-f"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-6 text-white"
+                                        ><i class="lab la-twitter"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-7 text-white"
+                                        ><i class="lab la-instagram"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-5 text-white"
+                                        ><i class="lab la-linkedin-in"></i
+                                        ></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end contact-form-action -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal-popup -->
+
+<!-- end modal-shared -->
+<div class="modal-popup">
+    <div
+            class="modal fade"
+            id="loginPopupForm"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title title" id="exampleModalLongTitle2">
+                            Login
+                        </h5>
+                        <p class="font-size-14">Hello! Welcome to your account</p>
+                    </div>
+                    <button
+                            type="button"
+                            class="btn-close close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true" class="la la-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-form-action">
+                        <form method="post">
+                            <div class="input-box">
+                                <label class="label-text">Username</label>
+                                <div class="form-group">
+                                    <span class="la la-user form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type your username"
+                                    />
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="input-box">
+                                <label class="label-text">Password</label>
+                                <div class="form-group mb-2">
+                                    <span class="la la-lock form-icon"></span>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            name="text"
+                                            placeholder="Type your password"
+                                    />
+                                </div>
+                                <div
+                                        class="d-flex align-items-center justify-content-between"
+                                >
+                                    <div class="custom-checkbox mb-0">
+                                        <input
+                                                type="checkbox"
+                                                class="form-check-input"
+                                                id="rememberchb"
+                                        />
+                                        <label for="rememberchb">Remember me</label>
+                                    </div>
+                                    <p class="forgot-password">
+                                        <a href="recover.html">Forgot Password?</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- end input-box -->
+                            <div class="btn-box pt-3 pb-4">
+                                <button type="button" class="theme-btn w-100">
+                                    Login Account
+                                </button>
+                            </div>
+                            <div class="action-box text-center">
+                                <p class="font-size-14">Or Login Using</p>
+                                <ul class="social-profile py-3">
+                                    <li>
+                                        <a href="#" class="bg-5 text-white"
+                                        ><i class="lab la-facebook-f"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-6 text-white"
+                                        ><i class="lab la-twitter"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-7 text-white"
+                                        ><i class="lab la-instagram"></i
+                                        ></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="bg-5 text-white"
+                                        ><i class="lab la-linkedin-in"></i
+                                        ></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end contact-form-action -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal-popup -->
+
+<!-- end modal-shared -->
+<div class="modal-popup">
+    <div
+            class="modal fade"
+            id="replayPopupForm"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="exampleModalLongTitle3">
+                        Replay to review
+                    </h5>
+                    <button
+                            type="button"
+                            class="btn-close close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true" class="la la-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-form-action">
+                        <form method="post">
+                            <div class="input-box">
+                                <div class="form-group mb-0">
+                                    <i class="la la-pencil form-icon"></i>
+                                    <textarea
+                                            class="message-control form-control"
+                                            name="message"
+                                            placeholder="Write message here..."
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- end contact-form-action -->
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button
+                            type="button"
+                            class="btn font-weight-bold font-size-15 color-text-2 me-2"
+                            data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+                    <button type="button" class="theme-btn theme-btn-small">
+                        Replay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal-popup -->
+
+<!-- end modal-shared -->
+<div class="modal-popup">
+    <div
+            class="modal fade"
+            id="sharePopupForm"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="exampleModalLongTitle4">
+                        Share this tour
+                    </h5>
+                    <button
+                            type="button"
+                            class="btn-close close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true" class="la la-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="copy-to-clipboard-wrap">
+                        <div class="copy-to-clipboard">
+                            <div class="contact-form-action d-flex align-items-center">
+                                <span class="text-success-message">Copied!</span>
+                                <input
+                                        type="text"
+                                        class="form-control copy-input"
+                                        value="https://www.trizen.com/share/101WxMB0oac1hVQQ==/"
+                                />
+                                <div class="btn-box">
+                                    <button class="theme-btn theme-btn-light copy-text">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end copy-to-clipboard -->
+                        <ul class="social-profile text-center">
+                            <li>
+                                <a href="#"><i class="lab la-facebook-f"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="lab la-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="lab la-instagram"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="lab la-linkedin-in"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/script :: script"></div>
+</body>
+
+<!-- Mirrored from techydevs.com/demos/themes/html/trizen-demo/html/hotel-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Jan 2025 03:41:56 GMT -->
+</html>

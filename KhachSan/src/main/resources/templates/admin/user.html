@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="admin/fragments/head :: head"></div>
+<body>
+<!-- ======= Header ======= -->
+<div th:replace="admin/fragments/header :: header"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="admin/fragments/aside :: aside"></div>
+
+<main id="main" class="main">
+<!--Chứa table -->
+    <div class="pagetitle">
+        <h1>Data Account</h1>
+        <div id="notification-delete" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-success" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn xóa thành công !
+        </div>
+        <div id="notification-update" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-warning" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn cập nhật thành công !
+        </div>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin}" href="index.html">Trang Chủ</a></li>
+                <li class="breadcrumb-item">Tables</li>
+                <li class="breadcrumb-item active">Data </li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Danh Sách Tài Khoản <span type="button" class="badge bg-warning" style="color:#ffffff">+ Thêm mới</span ></h5>
+                        <!-- Table thông tin muốn hiển thị -->
+
+                        <table class="table table-separate table-head-custom table-checkable" id="kt_datatable">
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Họ và Tên</th>
+                                <th scope="col">Tên Đăng Nhập</th>
+                                <th scope="col">Gmail</th>
+                                <th scope="col">Cập Nhật</th>
+                                <th scope="col">Xóa</th>
+                            </tr>
+                            </thead>
+                            <tbody id="iuser-Body" style="cursor: context-menu;"> </tbody>
+                        </table>
+                        <!--    thư mục 1 2 3 phân trang-->
+                        <div class="container mt-3" style="display: ruby-text;">
+                            <ul id="page-User" class="pagination">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!--chứa modal uodate -->
+    <div class="modal" id="myModal" >
+        <div class="modal-dialog" style="display: table;">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span  class="badge bg-danger" >Cập Nhật</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" >
+                    <div class="your-new-wrapper">
+                        <table class="table table-separate table-head-custom table-checkable" >
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Họ và Tên</th>
+                                <th scope="col">Tên Đăng Nhập</th>
+                                <th scope="col">Gmail</th>
+<!--                                <th scope="col">Số Điện Thoại</th>-->
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td id="userId"></td>
+                                <td id="fullName"><input type="text" id="name"></td>
+                                <td id="userName"><input type="text" id="account"></td>
+                                <td id="emailUser"><input type="email" id="email"></td>
+<!--                                <td Id="phoneUser"><input type="tel" id="phone"></td>-->
+                            </tr>
+                            <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="buttonApply" >Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</main><!-- End #main -->
+
+<div th:replace="admin/fragments/footer :: footer"></div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div th:replace="admin/fragments/script :: script"></div>
+
+
+ <script>
+   $(document).ready(function (){
+       UserTable();
+   });
+     function UserTable() {
+         let page = 0;
+         let size = 5;
+         let objectUser = {name : null}
+         getUserAdmin(page, size, objectUser)
+     }
+     function getUserAdmin(page, size, objectUser){
+         console.log(objectUser);
+         $.ajax({
+             type: "POST",
+             url: "http://localhost:8080/api/account/ListUser?page=" + page + "&size=" + size,
+             contentType: "application/json",
+             data: JSON.stringify(objectUser),
+             dataType: "json",
+             success: function(response) {
+                let dataUser = response?.data?.content;
+                let userD = '';
+                 for (let i = 0; i < dataUser.length; i++) {
+                     console.log(dataUser[i]);
+                     userD += '<tr>' +
+                         '<td data-id="' + dataUser[i].id + '">' + (i + 1) + '</td>' +
+                         '<td data-full="' + dataUser[i].fullName + '">' + dataUser[i].fullName + '</td>' +
+                         '<td data-user="' + dataUser[i].username + '">' + dataUser[i].username + '</td>' +
+                         '<td data-email="' + dataUser[i].email + '">' + dataUser[i].email + '</td>' +
+                         // '<td data-phone="' + dataUser[i].phone + '">' + dataUser[i].phone + '</td>' +
+                         '<td id="iconUpdate" data-bs-toggle="modal" data-bs-target="#myModal"><i  class="fas fa-edit" style="color: #45d25b; cursor: pointer; font-size: 20px;"></i></td>' +
+                         '<td><i data-delete = " '+ dataUser[i].id +' " id="iconFix" class="fas fa-trash-alt" style="text-align: center; color: #ff5959; cursor: pointer; font-size: 18px;"></i></td>' +
+                         '</tr>';
+                 }
+                 $('#iuser-Body').html(userD);
+
+                 let pagePanpum = response.data.totalPages;
+                 let presentUser = response.data.pageable.pageNumber;
+                 if (pagePanpum > 0){
+                     $('#page-User').empty();
+                     let pageUseri = '<li class="page-item"><a class="page-link" onclick="loadUser(' + (presentUser - 1)+ ',5,event)" href="#"><</a></li>';
+                     for (let i = 0; i < pagePanpum; i++) {
+                         if (presentUser === i){
+                             pageUseri += '            <li class="page-item active">\n' +
+                                 '                <a class="page-link " onclick="loadUser(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }else {
+                             pageUseri += '            <li class="page-item">\n' +
+                                 '                <a class="page-link" onclick="loadUser(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }
+
+                     }
+                     pageUseri +='<li class="page-item"><a class="page-link" onclick="loadUser(' + (presentUser + 1) + ',5,event)" href="#">Next</a></li>';
+                     $("#page-User").append(pageUseri);
+                 }
+                 },
+             error: function (error) {
+                 console.log(error);
+             }
+         });
+     };
+
+   function loadUser(page, size, event){
+       event.preventDefault();
+       getUserAdmin(page, size, {});
+   }
+     // hàm cập nhật /update
+     $(document).on('click', '#iconUpdate', function() {
+         var userId = $(this).closest('tr').find('td:eq(0)').data('id');
+         var fullName = $(this).closest('tr').find('td:eq(1)').text();
+         var userName = $(this).closest('tr').find('td:eq(2)').text();
+         var email = $(this).closest('tr').find('td:eq(3)').text();
+         var phone = $(this).closest('tr').find('td:eq(4)').text();
+         var $tr = $(this).closest('tr');
+         var  myModal = $('#myModal').attr('data-id',userId);
+         myModal.find('#userId').text(userId);
+         myModal.find('#userId').val(userId);
+         $('#name').val(fullName);
+         $('#account').val(userName);
+         $('#email').val(email);
+         // $('#phone').val(phone)
+     });
+     $(document).on('click','#buttonApply',function (e) {
+         console.log("lỗi");
+         var spanlId = $('#myModal').find('#userId').val();
+         $.ajax({
+             type : "PUT",
+             url: "http://localhost:8080/api/account/update/" + spanlId,
+             contentType: "application/json",
+             dataType: "json",
+             data: JSON.stringify({
+                 id: $('#userId').data('id'),
+                 fullName: $('#name').val(),
+                 username: $('#account').val(),
+                 email: $('#email').val(),
+                 // phone: $('#phone').val(),
+             }),
+             success: function(response) {
+                 console.log(response);
+                 $('#notification-update').show().animate({right: '1%'}, 500);
+                 // Tự động ẩn thông báo sau 2 giây
+                 setTimeout(function() {
+                     $('#notification-update').animate({right: '-300px'}, 500, function() {
+                         $(this).hide();
+                     });
+                 },2000);
+                 getUserAdmin(0, 5, {});
+             },
+             error: function(error) {
+                 console.log("lỗi");
+             }
+         });
+     })
+
+   // $(document).ready(function() {
+   //     $('#successAlert').css('right', '-300px');
+   // });
+
+     // hàm xóa
+     $(document).on('click', '#iconFix', function() {
+         var userId = $(this).data('delete');
+         var $tr = $(this).closest('tr');
+         $.ajax({
+             type: "DELETE",
+             url: "http://localhost:8080/api/account/" + userId,
+             contentType: "application/json",
+             data: JSON.stringify({
+                 id: userId
+             }),
+             dataType: "json",
+             success: function(response) {
+                 $('#notification-delete').show().animate({right: '1%'}, 500);
+                 // Tự động ẩn thông báo sau 2 giây
+                 setTimeout(function() {
+                     $('#notification-delete').animate({right: '-300px'}, 500, function() {
+                         $(this).hide();
+                     });
+                 },2000);
+                 getUserAdmin(0, 5, {});
+             },
+             error: function(error) {
+                 console.log("tài khoản xóa không thành công");
+             }
+         });
+     });
+
+ </script>
+</body>
+
+</html>

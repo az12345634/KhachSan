@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="admin/fragments/head :: head"></div>
+
+<body>
+<!-- ======= Header ======= -->
+<div th:replace="admin/fragments/header :: header"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="admin/fragments/aside :: aside"></div>
+
+<main id="main" class="main">
+<!--Chứa table -->
+    <div class="pagetitle">
+        <h1>Data Category</h1>
+        <div id="notification-delete" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-success" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn xóa thành công !
+        </div>
+        <div id="notification-update" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-warning" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn cập nhật thành công !
+        </div>
+        <div id="notification-add" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-info" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn thêm mới thành công !
+        </div>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin}" href="index.html">Trang Chủ</a></li>
+                <li class="breadcrumb-item">Tables</li>
+                <li class="breadcrumb-item active">Data</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Danh Sách Danh Mục <span data-bs-toggle="modal" data-bs-target="#myModal1" type="button" class="badge bg-warning" style="color:#ffffff" >+ Thêm mới</span ></h5>
+                        <table class="table" id="tableDate">
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên danh mục</th>
+                                <th scope="col">Loại danh mục</th>
+
+                                <th scope="col">Cập Nhật</th>
+                                <th scope="col">Xóa</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            </tbody>
+                        </table>
+                        <nav style="display: ruby-text;" aria-label="...">
+                            <ul class="pagination" id="pageId">
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!--chứa modal uodate -->
+    <div class="modal" id="myModal" >
+        <div class="modal-dialog" style="display: table;">
+            <div class="modal-content">
+
+                <!-- Modal body -->
+                <div class="modal-body" >
+                    <div class="your-new-wrapper">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên danh mục</th>
+                                <th scope="col">Loại danh mục</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td id="id"></td>
+                                <td id="CategoryName"><input type="text" id="name"></td>
+                                <td id="CategoryCode"><input type="text" id="code"></td>
+
+                            </tr>
+                            <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="buttonApply" >Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--chứa modal thêm -->
+    <div class="modal" id="myModal1" >
+        <div class="modal-dialog" style="display: table;">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <span class="badge bg-warning">Thêm</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" >
+                    <div class="your-new-wrapper">
+                        <table class="table">
+                            <thead>
+                            <tr>
+
+                                <th scope="col">Tên danh mục</th>
+                                <th scope="col">Loại danh mục</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+
+                                <td id="CategoryNam"><input type="text" id="name1"></td>
+                                <td id="CategoryCode1"><input type="text" id="code1"></td>
+
+                            </tr>
+                            <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="buttonApply1" >Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Table with stripped rows -->
+
+
+
+</main><!-- End #main -->
+
+<div th:replace="admin/fragments/footer :: footer"></div>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div th:replace="admin/fragments/script :: script"></div>
+
+
+ <script>
+     $(document).ready(function (){
+         initData();
+     })
+// gọi tới hàm load và phân trang
+     function initData(){
+         let page=0;
+         let size=5;
+         let objFilter = {
+             name:null
+         };
+         getCategoryAdmin(page,size,objFilter);
+     }
+     function getCategoryAdmin(page,size,objectFilter){
+         console.log(objectFilter);
+         $.ajax({
+             type: "POST",
+             url: "http://localhost:8080/api/category?page=" + page + "&size=" + size,
+             contentType: "application/json",
+             // data: JSON.stringify({
+             // }),
+             data: JSON.stringify(objectFilter),
+             dataType: "json",
+             success: function (response) {
+                 let dataCategory = response?.data?.content;
+                let categoryC = '';
+                 for (let i = 0; i < dataCategory.length; i++) {
+                     console.log(dataCategory[i]);
+                     categoryC += '<tr>' +
+                         '<td data-id="' + dataCategory[i].id + '">' + (i + 1) + '</td>' +
+                         '<td data-full="' + dataCategory[i].name + '">' + dataCategory[i].name + '</td>' +
+                         '<td data-user="' + dataCategory[i].code + '">' + dataCategory[i].code + '</td>' +
+
+                         '<td data-bs-toggle="modal" data-bs-target="#myModal"><i id="iconUpdate" class="fas fa-edit" style="color: #45d25b; cursor: pointer; font-size: 20px;"></i></td>' +
+                         '<td><i data-dle="'+dataCategory[i].id+'" id="iconFix" class="fas fa-trash-alt" style="text-align: center; color: #ff5959; cursor: pointer; font-size: 18px;"></i></td>' +
+                         '</tr>';
+                 }
+                 $('#tableDate tbody').empty(); //  jQuery được sử dụng để xóa tất cả các phần tử có id là tableDate để ko lặp trang.
+                 $('#tableDate').append(categoryC);// lấy danh sách gán vào view
+
+                 // Phân trang
+                 let totalPage = response.data.totalPages;
+                 let currentPage = response.data.pageable.pageNumber;
+                 if (totalPage > 0){
+                     $("#pageId").empty();
+                     let pages = '<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage - 1)+ ',5,event)" href="#"><</a></li>';
+                     for (let i = 0; i < totalPage; i++) {
+                         if (currentPage === i){
+                             pages += '            <li class="page-item active">\n' +
+                                 '                <a class="page-link " onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }else {
+                             pages += '            <li class="page-item">\n' +
+                                 '                <a class="page-link" onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }
+
+                     }
+                     pages +='<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage + 1) + ',5,event)" href="#">Next</a></li>';
+                     $("#pageId").append(pages);
+                 }
+
+             },
+
+             error: function (error) {
+                 console.log(error);
+             }
+         });
+     };
+     // hàm xử lý sự kiện
+     function changePage(page,size,event){
+         event.preventDefault();
+         // searchCondition(page,size);
+         getCategoryAdmin(page, size, {}); // lấy dữ liệu trang mới
+     }
+
+
+     // hàm xóa
+         $(document).on('click', '#iconFix', function() {
+             var id = $(this).data('dle');
+             console.log (id,$(this))
+             var $tr = $(this).closest('tr');
+             $.ajax({
+                 type: "DELETE",
+                 url: "http://localhost:8080/api/category/delete" + "?id="+id,
+                 contentType: "application/json",
+                 data: JSON.stringify({
+                     id: id
+                 }),
+                 dataType: "json",
+                 success: function(response) {
+                     $('#notification-delete').show().animate({right: '1%'}, 500);
+                     // Tự động ẩn thông báo sau 2 giây
+                     setTimeout(function() {
+                         $('#notification-delete').animate({right: '-300px'}, 500, function() {
+                             $(this).hide();
+                         });
+                     },1500);
+                     // console.log("tài khoản được xóa thành công");
+                     getCategoryAdmin(0, 5, {});
+                 },
+                 error: function(error) {
+                     console.log("tài khoản xóa không thành công");
+                 }
+             });
+
+         });
+
+     // hàm cập nhật
+     $(document).on('click', '#iconUpdate', function() {
+         var id = $(this).closest('tr').find('td:eq(0)').data('id');
+         var CategoryName = $(this).closest('tr').find('td:eq(1)').text();
+         var CategoryCode = $(this).closest('tr').find('td:eq(2)').text();
+
+
+         var $tr = $(this).closest('tr');
+         var  myModal = $('#myModal').attr('data-id',id);
+         myModal.find('#id').text(id);
+         myModal.find('#id').val(id);
+         $('#name').val(CategoryName);
+         $('#code').val(CategoryCode)
+     });
+     $(document).on('click','#buttonApply',function (e) {
+         console.log("lỗi");
+         var id = $('#myModal').find('#id').val();
+         $.ajax({
+             type : "PUT",
+             url: "http://localhost:8080/api/category/update/" + id,
+             contentType: "application/json",
+             dataType: "json",
+             data: JSON.stringify({
+                 id: $('#id').data('id'),
+                 name: $('#name').val(),
+
+                 code: $('#code').val(),
+             }),
+             success: function(response) {
+                 $('#notification-update').show().animate({right: '1%'}, 500);
+                 // Tự động ẩn thông báo sau 2 giây
+                 setTimeout(function() {
+                     $('#notification-update').animate({right: '-300px'}, 500, function() {
+                         $(this).hide();
+                     });
+                 },2000);
+                 getCategoryAdmin(0 , 5 , {});
+             },
+             error: function(error) {
+                 console.log("lỗi");
+             }
+         });
+     })
+// thêm danh mục
+     $(document).on('click', '#buttonApply1', function() {
+         var categoryName = $('#name1').val();
+         var categoryCode = $('#code1').val();
+
+         $.ajax({
+             type: "POST",
+             url: "http://localhost:8080/api/category/create",
+             contentType: "application/json",
+             dataType: "json",
+             data: JSON.stringify({
+                 name: categoryName,
+                 code: categoryCode
+             }),
+             success: function(response) {
+                 $('#notification-add').show().animate({right: '1%'}, 500);
+                 // Tự động ẩn thông báo sau 2 giây
+                 setTimeout(function() {
+                     $('#notification-add').animate({right: '-300px'}, 500, function() {
+                         $(this).hide();
+                     });
+                 },2000);
+                 getCategoryAdmin(0, 5, {} );
+
+             },
+             error: function(error) {
+                 console.log("Lỗi khi thêm danh mục");
+             }
+         });
+     });
+
+
+ </script>
+</body>
+
+</html>

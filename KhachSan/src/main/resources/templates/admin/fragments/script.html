@@ -1,0 +1,133 @@
+<div th:fragment="script">
+    <script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/vendor/chart.js/chart.umd.js}"></script>
+    <script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+    <script th:src="@{/assets/vendor/quill/quill.min.js}"></script>
+    <script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+    <script th:src="@{/assets/vendor/tinymce/tinymce.min.js}"></script>
+    <script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <!-- Template Main JS File -->
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/common/constant.js}"></script>
+    <script type="text/javascript" th:src="@{/common/func.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function getCategoryProduct() {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/category",
+                contentType: "application/json",
+                data: JSON.stringify({}),
+                dataType: "json",
+                success: function (response) {
+                    if (response.code === 200) {
+                        let dataCategory = response.data.content;
+                        let categoryHtml = '';
+                        if (dataCategory.length > 0) {
+                            console.log(response);
+                            for (let i = 0; i < dataCategory.length; i++) {
+                                categoryHtml += '<option value="' + dataCategory[i].id + '">' + dataCategory[i].name + '</option>'
+                            }
+                            $('#category').append(categoryHtml);
+                        }
+                    } else alertInfo("", response.message, "error")
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function getSizeProduct() {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/size",
+                contentType: "application/json",
+                data: JSON.stringify({}),
+                dataType: "json",
+                success: function (response) {
+                    if (response.code === 200) {
+                        let dataSize = response.data.content;
+                        let sizeHtml = '';
+                        if (dataSize.length > 0) {
+                            console.log(response);
+                            for (let i = 0; i < dataSize.length; i++) {
+                                sizeHtml += '<option value="' + dataSize[i].id + '">' + dataSize[i].name + '</option>'
+                            }
+                            $('#size').append(sizeHtml);
+                        }
+
+                    } else alertInfo("", response.message, "error")
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function changeImage() {
+            $('input[type="file"][name="image"]').on('change', function (e) {
+                e.preventDefault();
+                let input = e.target;
+                let reader = new FileReader();
+                reader.onload = function () {
+                    let dataURL = reader.result;
+                    $('#imageProduct').attr('src', dataURL);
+                }
+                reader.readAsDataURL(input.files[0]);
+            })
+        }
+
+        function uploadImage(file) {
+            let objectData = new FormData();
+            objectData.append('image', file);
+            return $.ajax({
+                type: "POST",
+                url: HOST + "/api/image/storage",
+                data: objectData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function checkValidateProduct(objectData) {
+            let check;
+            if (objectData.code.trim() === "") {
+                alertInfo("", "Không để trống mã sản phẩm", "error");
+                check = false;
+            } else if (objectData.name.trim() === "") {
+                alertInfo("", "Không để trống tên sản phẩm", "error");
+                check = false;
+            } else if (objectData.price.trim() === "") {
+                alertInfo("", "Không để trống giá sản phẩm", "error");
+                check = false;
+            } else if (objectData.quantity.trim() === "") {
+                alertInfo("", "Không để trống số lượng sản phẩm", "error");
+                check = false;
+            } else if (objectData.categoryId === null) {
+                alertInfo("", "Không để trống danh mục sản phẩm", "error");
+                check = false;
+            } else if (objectData.shortDescription.trim() === "") {
+                alertInfo("", "Không để trống mô tả ngắn sản phẩm", "error");
+                check = false;
+            } else if (objectData.sizeIds.length < 1) {
+                alertInfo("", "Không để trống kích cỡ sản phẩm", "error");
+                check = false;
+            } else if (objectData.description.trim() === "") {
+                alertInfo("", "Không để trống mô tả chi tiết sản phẩm", "error");
+                check = false;
+            } else check = true;
+
+            return check;
+        }
+    </script>
+</div>
