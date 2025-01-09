@@ -69,90 +69,86 @@
 <script src="/login/script.js"></script>
 </body>
 <script>
-   //  ///validate thông báo đăng ký tài khoản khi rỗng
-   //      $("#myForm").submit(function(event) {
-   //          let fullName = $("#fullname").val();
-   //          let username = $("#userName").val();
-   //          let password = $("#password").val();
-   //          let email = $("#email").val();
-   //          if (fullName.trim() === '' || username.trim() === '' || password.trim() === '' || email.trim() === '') {
-   //              $("#errorMessage").text("Đăng ký không thành công. Vui lòng thử lại sau."); // Đặt thông báo lỗi
-   //              $("#errorMessage").show(); // Hiển thị thông báo lỗi
-   //              event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu nếu có trường không được điền
-   //          } else {
-   //              $("#errorMessage").hide(); // Ẩn thông báo lỗi nếu mọi thứ đều hợp lệ
-   //          }
-   //      });
-   //
-   //  function getParameterByName(name, url) {
-   //      if (!url) url = window.location.href;
-   //      name = name.replace(/[\[\]]/g, "\\$&");
-   //      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-   //          results = regex.exec(url);
-   //      if (!results) return null;
-   //      if (!results[2]) return '';
-   //      return decodeURIComponent(results[2].replace(/\+/g, " "));
-   //  }
-   //
-   // // đăng ký tài khoản !
-   //  $("#submit").click(function (event) {
-   //      // Lấy thông tin từ các input
-   //      let fullName = $("#fullname").val().trim();
-   //      let username = $("#userName").val().trim();
-   //      let password = $("#password").val().trim();
-   //      let email = $("#email").val().trim();
-   //      // thông báo rỗng khi đăng nhập
-   //      if (fullName === '' || username === '' || password === '' || email === '') {
-   //          $("#errorMessage").text("Đăng ký không thành công. Vui lòng thử lại sau.");
-   //          $("#errorMessage").show();
-   //          return false;
-   //      } else {
-   //          $("#errorMessage").hide();
-   //      }
-   //      // Gửi request POST đến server
-   //      $.ajax({
-   //          type: "POST",
-   //          url: "http://localhost:8080/api/account/addUser",
-   //          contentType: "application/json",
-   //          data: JSON.stringify({
-   //              "fullName": fullName,
-   //              "username": username,
-   //              "password": password,
-   //              "email": email
-   //          }),
-   //          dataType: "json",
-   //          success: function (response) {
-   //              console.log(response);
-   //              if (response.code === 200) {
-   //                  $("#plron").text("Đăng ký thành công.");
-   //                  $("#plron").removeClass("alert-danger").addClass("alert-success");
-   //                  $("#plron").show();
-   //
-   //              }
-   //              if (response.code === 400){
-   //                  $("#errorMessage").text("Tên người dùng đã tồn tại trong hệ thống.");
-   //                  $("#errorMessage").show();
-   //              }
-   //          },
-   //          error: function (error) {
-   //              console.log(error);
-   //              // Kiểm tra thông báo lỗi từ server
-   //                  $("#errorMessage").text("Tên người dùng đã tồn tại trong hệ thống.");
-   //              $("#errorMessage").show();
-   //          }
-   //      });
-   //  });
-   //
-   //  // thông báo đăng nhập sai
-   //  $(document).ready(function() {
-   //      // Lấy giá trị của biến login_status từ URL
-   //      let loginStatus = getParameterByName("login_status");
-   //          console.log(loginStatus);
-   //      // Kiểm tra nếu biến login_status có giá trị là 1
-   //      if (parseInt(loginStatus) === 1) {
-   //          console.log(loginStatus);
-   //          $('#message').text("Thông tin đăng nhập không chính xác");
-   //      }
-   //  });
+    ///validate thông báo đăng ký tài khoản khi rỗng
+    $("#myForm").submit(function(event) {
+        let fullName = $("#fullname").val();
+        let username = $("#userName").val();
+        let password = $("#password").val();
+        let email = $("#email").val();
+        if (fullName.trim() === '' || username.trim() === '' || password.trim() === '' || email.trim() === '') {
+            $("#errorMessage").text("Đăng ký không thành công. Vui lòng thử lại sau."); // Đặt thông báo lỗi
+            $("#errorMessage").show(); // Hiển thị thông báo lỗi
+            event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu nếu có trường không được điền
+        } else {
+            $("#errorMessage").hide(); // Ẩn thông báo lỗi nếu mọi thứ đều hợp lệ
+        }
+    });
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // đăng ký tài khoản !
+    $("#submit").click(function (event) {
+        // Lấy thông tin từ các input
+        let fullName = $("#fullname").val().trim();
+        let username = $("#userName").val().trim();
+        let password = $("#password").val().trim();
+        let email = $("#email").val().trim();
+        // thông báo rỗng khi đăng nhập
+        if (fullName === '' || username === '' || password === '' || email === '') {
+            $("#errorMessage").text("Đăng ký không thành công. Vui lòng thử lại sau.");
+            $("#errorMessage").show();
+            return false;
+        } else {
+            $("#errorMessage").hide();
+        }
+        // Gửi request POST đến server
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/account/addUser",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "fullName": fullName,
+                "username": username,
+                "password": password,
+                "email": email
+            }),
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.code === 200) {
+                    $("#plron").text("Đăng ký thành công.");
+                    $("#plron").removeClass("alert-danger").addClass("alert-success");
+                    $("#plron").show();
+
+                }
+                if (response.code === 400){
+                    $("#errorMessage").text("Tên người dùng đã tồn tại trong hệ thống.");
+                    $("#errorMessage").show();
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                // Kiểm tra thông báo lỗi từ server
+                $("#errorMessage").text("Tên người dùng đã tồn tại trong hệ thống.");
+                $("#errorMessage").show();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        let loginStatus = getParameterByName("login_status");
+        if (parseInt(loginStatus) === 1) {
+            $('#message').text("Thông tin đăng nhập không chính xác").show();
+        }
+    });
+
 </script>
 </html>

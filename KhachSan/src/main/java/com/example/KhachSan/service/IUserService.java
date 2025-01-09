@@ -1,9 +1,8 @@
 package com.example.KhachSan.service;
-
 import com.example.KhachSan.entity.UserEntity;
 import com.example.KhachSan.model.dto.UserDTO;
 import com.example.KhachSan.model.request.UserRequest;
-import com.example.KhachSan.model.response.BaseResponse;
+import com.example.KhachSan.model.respobse.BaseResponse;
 import org.springframework.data.domain.Page;
 
 public interface IUserService {

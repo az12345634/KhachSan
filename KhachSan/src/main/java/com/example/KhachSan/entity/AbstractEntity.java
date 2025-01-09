@@ -29,6 +29,7 @@ public abstract class AbstractEntity {
     @Column(name = "modified_by")
     private String lastModifiedBy;
 
-    // Trạng thái xóa
-    private Boolean deleted = false;
+    @Convert(converter = BooleanToIntegerConverter.class)
+    @Column(name = "deleted")
+    private boolean deleted = false;
 }
