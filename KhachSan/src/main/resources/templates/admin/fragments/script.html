@@ -41,32 +41,32 @@
             });
         }
 
-        function getSizeProduct() {
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:8080/api/size",
-                contentType: "application/json",
-                data: JSON.stringify({}),
-                dataType: "json",
-                success: function (response) {
-                    if (response.code === 200) {
-                        let dataSize = response.data.content;
-                        let sizeHtml = '';
-                        if (dataSize.length > 0) {
-                            console.log(response);
-                            for (let i = 0; i < dataSize.length; i++) {
-                                sizeHtml += '<option value="' + dataSize[i].id + '">' + dataSize[i].name + '</option>'
-                            }
-                            $('#size').append(sizeHtml);
-                        }
-
-                    } else alertInfo("", response.message, "error")
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+        // function getSizeProduct() {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "http://localhost:8080/api/size",
+        //         contentType: "application/json",
+        //         data: JSON.stringify({}),
+        //         dataType: "json",
+        //         success: function (response) {
+        //             if (response.code === 200) {
+        //                 let dataSize = response.data.content;
+        //                 let sizeHtml = '';
+        //                 if (dataSize.length > 0) {
+        //                     console.log(response);
+        //                     for (let i = 0; i < dataSize.length; i++) {
+        //                         sizeHtml += '<option value="' + dataSize[i].id + '">' + dataSize[i].name + '</option>'
+        //                     }
+        //                     $('#size').append(sizeHtml);
+        //                 }
+        //
+        //             } else alertInfo("", response.message, "error")
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // }
 
         function changeImage() {
             $('input[type="file"][name="image"]').on('change', function (e) {
@@ -86,7 +86,7 @@
             objectData.append('image', file);
             return $.ajax({
                 type: "POST",
-                url: HOST + "/api/image/storage",
+                url: "http://localhost:8080/api/image/storage",  // Đảm bảo URL đúng
                 data: objectData,
                 processData: false,
                 contentType: false,
@@ -98,6 +98,7 @@
                 }
             });
         }
+
 
         function checkValidateProduct(objectData) {
             let check;
@@ -119,9 +120,9 @@
             } else if (objectData.shortDescription.trim() === "") {
                 alertInfo("", "Không để trống mô tả ngắn sản phẩm", "error");
                 check = false;
-            } else if (objectData.sizeIds.length < 1) {
-                alertInfo("", "Không để trống kích cỡ sản phẩm", "error");
-                check = false;
+            // } else if (objectData.sizeIds.length < 1) {
+            //     alertInfo("", "Không để trống kích cỡ sản phẩm", "error");
+            //     check = false;
             } else if (objectData.description.trim() === "") {
                 alertInfo("", "Không để trống mô tả chi tiết sản phẩm", "error");
                 check = false;

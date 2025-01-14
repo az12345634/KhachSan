@@ -39,7 +39,6 @@
                                     <th>STT</th>
                                     <th style="width: 12%">Mã Sản Phẩm</th>
                                     <th>Tên hiển thị</th>
-                                    <th>Kích cỡ</th>
                                     <th>Giá niêm yết</th>
                                     <th style="width: 12%">Danh Mục</th>
                                     <th>Hình ảnh</th>
@@ -95,15 +94,7 @@
                     producT += '<tr>' +
                         '<td data-id="' + productData[p].id + '">' + (p + 1) + '</td>' +
                         '<td data-code="' + productData[p].code + '">' + productData[p].code + '</td>' +
-                        '<td data-name="' + productData[p].name + '">' + productData[p].name + '</td>' +
-                        '<td style="width: 12%">';
-                    for (let i = 0; i < productData[p].sizes.length; i++) {
-                        producT += productData[p].sizes[i].name;
-                        if (i < productData[p].sizes.length - 1) {
-                            producT += ',  ';
-                        }
-                        console.log(productData[p].sizes[i]);
-                    }
+                        '<td data-name="' + productData[p].name + '">' + productData[p].name + '</td>'
                     let formattedPrice = productData[p].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                     producT +=
                         '</td>' +

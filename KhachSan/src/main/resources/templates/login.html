@@ -143,12 +143,16 @@
         });
     });
 
+    // thông báo đăng nhập sai
     $(document).ready(function() {
+        // Lấy giá trị của biến login_status từ URL
         let loginStatus = getParameterByName("login_status");
+        console.log(loginStatus);
+        // Kiểm tra nếu biến login_status có giá trị là 1
         if (parseInt(loginStatus) === 1) {
-            $('#message').text("Thông tin đăng nhập không chính xác").show();
+            console.log(loginStatus);
+            $('#message').text("Thông tin đăng nhập không chính xác");
         }
     });
-
 </script>
 </html>

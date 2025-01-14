@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/views/order")
 public class OrderController {
 
-    @GetMapping("/pl")
-    public String index(Model model) {
-        model.addAttribute("pageTitle", "Sản phẩm");
-        return "place_order";
-    }
-
-
     @GetMapping("/place-order/{code}")// link này chuyển trang trong layout dùng chung
     public String shop(@PathVariable("code") String code, Model model) {
         model.addAttribute("pageTitle", "Thanh toán đơn hàng");

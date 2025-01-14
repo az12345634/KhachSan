@@ -13,11 +13,6 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping("/detail")
-    public String a(Model model) {
-        model.addAttribute("pageTitle", "Sản phẩm");
-        return "product_detail";
-    }
     @GetMapping("/detail/{code}")// link này chuyển trang trong layout dùng chung
     public String productDetail(Model model) {
         model.addAttribute("pageTitle", "Chi tiết sản phẩm");
