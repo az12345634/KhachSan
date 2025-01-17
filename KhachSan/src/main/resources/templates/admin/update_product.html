@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="admin/fragments/head :: head"></div>
+<body>
+<!-- ======= Header ======= -->
+<div th:replace="admin/fragments/header :: header"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="admin/fragments/aside :: aside"></div>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Sản phẩm</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin}">Trang Chủ</a></li>
+                <li class="breadcrumb-item">Sản phẩm</li>
+                <li class="breadcrumb-item active">Thêm mới</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="card-body" style="display: grid;grid-template-columns:1fr 1fr;grid-gap:20px">
+        <h5 class="card-title">Thêm mới sản phẩm<a th:href="@{/admin/product}"><span
+                style="margin-left: 1%;color:#ffffff"
+                type="button" class="badge bg-info">Danh sách</span></a></h5>
+        <div class="form-group row"></div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Mã Phòng <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="code" type="text"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Tên hiển thị <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="name_product" type="text" value=""/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Hình ảnh <span class="text-danger">*</span></label>
+            <div class="col-9 row">
+                <div class="col-2">
+                    <img id="imageProduct" width="150%" src="/frontend/images/no_img.png">
+                </div>
+                <div class="col-10">
+                    <input class="form-control" name="image" type="file"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Giá niêm yết <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="price" type="text" value=""/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Số lượng <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="quantity" type="text" value=""/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Loại Phòng <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <select class="form-control" name="category" id="category">
+                    <option selected disabled>Chọn danh mục sản phẩm</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Mô tả ngắn <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <textarea class="form-control" name="short_description"></textarea>
+            </div>
+        </div>
+<!--        <div class="form-group row">-->
+<!--            <label class="col-3 col-form-label">Kích cỡ <span class="text-danger">*</span></label>-->
+<!--            <div class="col-9">-->
+<!--                <select name="size" id="size" class="form-select" multiple aria-label="multiple select example">-->
+<!--                    <option selected disabled>Ctrl + Click để chọn kích cỡ</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="form-group row">
+            <label class="col-3 col-form-label">Mô tả chi tiết <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <textarea class="form-control" name="description"></textarea>
+            </div>
+        </div>
+        <div class="form-group row"></div>
+        <div class="form-group row">
+            <div class="col-10">
+                <button id="submitUpdate" type="button" class="btn btn-success mr-2">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="admin/fragments/footer :: footer"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<div th:replace="admin/fragments/script :: script"></div>
+<script>
+    getCategoryProduct();
+    getProductWithCode();
+    changeImage();
+    submitUpdate();
+
+    function submitUpdate() {
+        $('#submitUpdate').click(function () {
+            let objectData = {};
+            let code = $('input[type="text"][name="code"]').val();
+            let name = $('input[type="text"][name="name_product"]').val();
+            let image = $('input[type="file"][name="image"]')[0].files[0];
+            let price = $('input[type="text"][name="price"]').val();
+            let quantity = $('input[type="text"][name="quantity"]').val();
+            let category = $('select[name="category"]').val();
+            let shortDescription = $('textarea[name="short_description"]').val();
+            let description = $('textarea[name="description"]').val();
+
+            objectData.code = code;
+            objectData.name = name;
+            objectData.price = price;
+            objectData.quantity = quantity;
+            objectData.categoryId = category;
+            objectData.shortDescription = shortDescription;
+            objectData.description = description;
+            objectData.image = null;
+            let check = checkValidateProduct(objectData);
+            if (!check) {
+                return;
+            }
+            if (image) {
+                uploadImage(image).then(function (data) {
+                    objectData.image = data.data;
+                    updateProduct(objectData)
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            } else updateProduct(objectData);
+        })
+    }
+
+    function updateProduct(objectData) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/product/update/" + getCode(),
+            contentType: "application/json",
+            data: JSON.stringify(objectData),
+            dataType: "json",
+            success: function (response) {
+                if (response.code === 200) {
+                    alertAndRedirect("", response.message, "success", HOST + "/admin/product/update/" + objectData.code);
+                } else alertInfo("", response.message, "error")
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function selectedCategory(selected) {
+        $('#category option').map(function () {
+            console.log($(this).val(), selected);
+            $(this).prop('selected', false);
+            if (selected === parseInt($(this).val())) {
+                $(this).prop('selected', true);
+            }
+        });
+    }
+
+    function getProductWithCode() {
+        let objectFilter = {
+            code: getCode()
+        }
+        $.ajax({
+            type: "POST",
+            url: HOST + "/api/product/detail",
+            contentType: "application/json",
+            data: JSON.stringify(objectFilter),
+            dataType: "json",
+            success: function (response) {
+                if (response.code === 200) {
+                    let productData = response.data;
+                    console.log(productData);
+                    $('input[type="text"][name="code"]').val(productData.code);
+                    $('input[type="text"][name="name_product"]').val(productData.name);
+                    $('#imageProduct').attr('src', productData.image);
+                    $('input[type="text"][name="price"]').val(productData.price);
+                    $('input[type="text"][name="quantity"]').val(productData.quantity);
+
+                    selectedCategory(productData.categoryId);
+                    $('textarea[name="short_description"]').val(productData.shortDescription);
+
+
+                    $('textarea[name="description"]').val(productData.description);
+                } else alertAndRedirect("", response.message, "error", HOST + "/admin/product/new");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+</script>
+</body>
+</html>

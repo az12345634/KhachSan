@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="admin/fragments/head :: head"></div>
+
+<body>
+<!-- ======= Header ======= -->
+<div th:replace="admin/fragments/header :: header"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="admin/fragments/aside :: aside"></div>
+
+<main id="main" class="main">
+<!--Chứa table -->
+    <div class="pagetitle">
+        <h1>Data Order</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin}" href="index.html">Trang Chủ</a></li>
+                <li class="breadcrumb-item">Tables</li>
+                <li class="breadcrumb-item active">Data</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="search">
+                            <h5 class="card-title">Danh sách hoá đơn <span type="button" class="badge bg-warning" style="margin-left: 1%;color:#ffffff">+ Thêm mới</span ></h5></div>
+
+<!--                         Table thông tin muốn hiển thị -->
+                        <table class="table table-bordered" id="tableDate">
+                            <thead>
+                            <tr >
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col">Khách hàng </th>
+                                <th scope="col">Tên sản phẩm  </th>
+                                <th scope="col">Tổng giá</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th  scope="col">Ngày Thanh toán</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            </tbody>
+                        </table>
+                        <div class="container mt-3" style="display: ruby-text;">
+                            <ul id="pageId" class="pagination">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+<div th:replace="admin/fragments/footer :: footer"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<div th:replace="admin/fragments/script :: script"></div>
+ <script>
+     $(document).ready(function (){
+         initData();
+     })
+// gọi tới hàm load và phân trang
+     function initData(){
+         let page=0;
+         let size=5;
+         let objFilter = {
+             name:null
+         };
+         getOderAdmin(page,size,objFilter);
+     }
+     function getOderAdmin(page,size,objectFilter){
+         $.ajax({
+             type: "POST",
+             url: "http://localhost:8080/api/order?page=" + page + "&size=" + size,
+             contentType: "application/json",
+             data: JSON.stringify(objectFilter),
+             dataType: "json",
+             success: function (response) {
+                 let dataOder = response?.data?.content;
+                let OderO = ''
+                 for (let i = 0; i < dataOder.length; i++) {
+                     let formattedOrder = dataOder[i].totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                     console.log(dataOder[i]);
+                     OderO += '<tr>' +
+                         '<td data-id="' + dataOder[i].id + '">' + (i + 1) + '</td>' +
+                         '<td data-code="' + dataOder[i].code + '">' + dataOder[i].code + '</td>'+
+                         '<td data-code="' + dataOder[i].username + '">' + dataOder[i].username + '</td>'+
+                         '<td data-code="' + dataOder[i].productname + '">' + dataOder[i].productname + '</td>'+
+                         '<td data-totalAmount="' + dataOder[i].totalAmount + '">'+ formattedOrder + '</td>' +
+                         '<td data-addressShipping="' + dataOder[i].addressShipping + '">' + dataOder[i].addressShipping + '</td>' +
+                         '<td data-phoneShipping="' + dataOder[i].phoneShipping + '">' + dataOder[i].phoneShipping + '</td>' +
+                         '<td data-createDate="' + dataOder[i].createDate + '">' + dataOder[i].createDate + '</td>' +
+                         '</tr>';
+                 }
+                 $('#tableDate tbody').empty(); //  jQuery được sử dụng để xóa tất cả các phần tử có id là tableDate để ko lặp trang.
+                 $('#tableDate').append(OderO);// lấy danh sách gán vào view
+
+                 // Phân trang
+                 let totalPage = response.data.totalPages;
+                 let currentPage = response.data.pageable.pageNumber;
+                 if (totalPage > 0){
+                     $("#pageId").empty();
+                     let pages = '<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage - 1)+ ',5,event)" href="#"> < </a></li>';
+                     for (let i = 0; i < totalPage; i++) {
+                         if (currentPage === i){
+                             pages += '            <li class="page-item active">\n' +
+                                 '                <a class="page-link " onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }else {
+                             pages += '            <li class="page-item">\n' +
+                                 '                <a class="page-link" onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                 '            <li class="page-item">'
+                         }
+                     }
+                     pages +='<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage + 1) + ',5,event)" href="#">Next</a></li>';
+                     $("#pageId").append(pages);
+                 }
+             },
+
+             error: function (error) {
+                 console.log(error);
+             }
+         });
+     };
+     // hàm xử lý sự kiện
+     function changePage(page,size,event){
+         event.preventDefault();
+
+         getOderAdmin(page, size, {}); // lấy dữ liệu trang mới
+     }
+ </script>
+</body>
+
+</html>

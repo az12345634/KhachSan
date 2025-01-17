@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="admin/fragments/head :: head"></div>
+<body>
+<!-- ======= Header ======= -->
+<div th:replace="admin/fragments/header :: header"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="admin/fragments/aside :: aside"></div>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Sản phẩm</h1>
+        <div id="notification-delete" style=" right: -300px ;top: 11%; z-index: 10; position: fixed;" class="alert alert-success" role="alert">
+            <strong><i style="font-size: larger" class="fa-regular fa-circle-check"></i></i></strong> bạn xóa thành công !
+        </div>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/admin}">Trang Chủ</a></li>
+                <li class="breadcrumb-item">Sản phẩm</li>
+                <li class="breadcrumb-item active">Danh sách</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Danh sách sản phẩm <a th:href="@{/admin/product/new}"><span
+                                style="margin-left: 1%;color:#ffffff"
+                                type="button" class="badge bg-warning">+ Thêm mới</span></a>
+                        </h5>
+
+                        <div class="bd-example">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th style="width: 12%">Mã Phòng</th>
+                                    <th>Tên hiển thị</th>
+                                    <th>Giá Phòng</th>
+                                    <th style="width: 12%">Loại Phòng</th>
+                                    <th>Hình ảnh</th>
+                                    <th style="width:9%; text-align: center">Chi tiết</th>
+                                    <th style="text-align: center">Xóa</th>
+                                </tr>
+                                </thead>
+                                <tbody id="body-Produc"></tbody>
+                            </table>
+                        </div>
+                        <div class="container mt-3" style="display: ruby-text;">
+                            <ul id="pageCD" class="pagination">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div th:replace="admin/fragments/footer :: footer"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<div th:replace="admin/fragments/script :: script"></div>
+</body>
+
+
+<script>
+    $(document).ready(function () {
+        productData();
+    });
+    function productData() {
+        let page = 0;
+        let size = 5;
+        let objFilter = {name: null}
+        getProductAdmin(page, size, objFilter)
+    }
+    function getProductAdmin(page, size, objFilter) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/product?page=" + page + "&size=" + size,
+            contentType: "application/json",
+            data: JSON.stringify(objFilter),
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                let productData = response?.data?.content;
+                let producT = '';
+                console.log(productData)
+                for (let p = 0; p < productData.length; p++) {
+                    console.log(productData[p]);
+                    producT += '<tr>' +
+                        '<td data-id="' + productData[p].id + '">' + (p + 1) + '</td>' +
+                        '<td data-code="' + productData[p].code + '">' + productData[p].code + '</td>' +
+                        '<td data-name="' + productData[p].name + '">' + productData[p].name + '</td>'
+                    let formattedPrice = productData[p].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    producT +=
+                        '</td>' +
+                        '<td data-price="' + productData[p].price + '">' + formattedPrice + '</td>' +
+                        '<td data-category="' + productData[p].category + '">' + productData[p].category + '</td>' +
+                        '<td style="width: 13%" > <img src="' + productData[p].image + '" style="width: 58%; margin-left: 21%">  </td>' +
+                        '<td  style="text-align: center"  id="iconUpdate"><a href="' + HOST + "/admin/product/update/" + productData[p].code + '"><i  class="fas fa-edit" style="color: #45d25b; cursor: pointer; font-size: 20px;"></i></a></td>' +
+                        '<td style="text-align: center"><i data-product = " ' + productData[p].id + ' " id="iconDelete" class="fas fa-trash-alt" style="text-align: center; color: #ff5959; cursor: pointer; font-size: 18px;"></i></td>'
+                        + '</tr>';
+                }
+                $('#body-Produc').html(producT);
+                let productNumber = response.data.totalPages;
+                let productPresent = response.data.pageable.pageNumber;
+                if (productNumber > 0) {
+                    $('#pageCD').empty();
+                    let pageproduct = '<li class="page-item"><a class="page-link" onclick="loadPage(' + (productPresent - 1) + ',5,event)" href="#"><</a></li>';
+                    for (let i = 0; i < productNumber; i++) {
+                        if (productPresent === i) {
+                            pageproduct += '            <li class="page-item active">\n' +
+                                '                <a class="page-link " onclick="loadPage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                '            <li class="page-item">'
+                        } else {
+                            pageproduct += '            <li class="page-item">\n' +
+                                '                <a class="page-link" onclick="loadPage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
+                                '            <li class="page-item">'
+                        }
+                    }
+                    pageproduct += '<li class="page-item"><a class="page-link" onclick="loadPage(' + (productPresent + 1) + ',5,event)" href="#">Next</a></li>';
+                    $("#pageCD").append(pageproduct);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    };
+
+    function loadPage(page, size, event) {
+        event.preventDefault();
+        getProductAdmin(page, size, {});
+    }
+
+    $(document).on('click', '#iconDelete', function () {
+        let id = $(this).data('product');
+        let $tr = $(this).closest('tr');
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/api/product/" + id,
+            contentType: "application/json",
+            data: JSON.stringify({
+                id: id
+            }),
+            dataType: "json",
+            success: function (response) {
+                $('#notification-delete').show().animate({right: '1%'}, 500);
+                setTimeout(function() {
+                    $('#notification-delete').animate({right: '-300px'}, 500, function() {
+                        $(this).hide();
+                    });
+                },2000);
+                getProductAdmin(0, 5, {});
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    });
+</script>
+</html>
