@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/head :: head"></head>
+<body>
+<div th:replace="layout/header :: header"></div>
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Danh sách sản phẩm -->
+        <div class="col-lg-8">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                    <tr>
+                        <th scope="col" width="50">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="selectAll" aria-label="Select all items">
+                            </div>
+                        </th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Giá phòng</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col" class="text-end">Tổng</th>
+                    </tr>
+                    </thead>
+                    <tbody  class="theme-body" id="bodyCart">
+                    <!-- Sản phẩm 1 -->
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center item-product">
+                                <img src="/frontend/images/hero-bg2.jpg" class="product-img rounded" alt="Product">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">Fresh Organic Salad</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="txt-blue">>120,000đ</td>
+                        <td>
+                            <div  class="quantity-control d-flex align-items-center quantity">
+                                <button class="btn btn-sm btn-outline-secondary minus-btn">-</button>
+                                <input type="number" class="form-control mx-2" value="1" min="1">
+                                <button class="btn btn-sm btn-outline-secondary">+</button>
+                            </div>
+                        </td>
+                        <td class="text-end">120,000đ</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Thông tin tổng đơn hàng -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Tổng đơn hàng</h5>
+<!--                    <div class="d-flex justify-content-between mb-3">-->
+<!--                        <span>Tạm tính</span>-->
+<!--                        <span>370,000đ</span>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex justify-content-between mb-3">-->
+<!--                        <span>Phí vận chuyển</span>-->
+<!--                        <span class="text-success">Miễn phí</span>-->
+<!--                    </div>-->
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Tổng cộng</strong>
+                        <strong class="subtotal" >370,000đ</strong>
+                    </div>
+                    <button id="checkoutCart" class="btn btn-checkout w-100 ">Tiến hành thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="layout/footer :: footer"></footer>
+<div th:replace="layout/script :: script"></div>
+
+<script>
+    $(document).ready(function () {
+        initShopCart();
+        checkoutCart();
+        checkForAll();
+    });
+
+    function initShopCart() {
+        let page = 0;
+        let size = 100;
+        let objFilter = {};
+        getProductShopCart(page, size, objFilter);
+    }
+
+    function getProductShopCart(page, size, objectFilter) {
+        console.log("Gọi API giỏ hàng...");
+
+        $.ajax({
+            type: "POST",
+            url: `http://localhost:8080/api/cart?page=${page}&size=${size}`,
+            contentType: "application/json",
+            data: JSON.stringify(objectFilter),
+            dataType: "json",
+            success: function (response) {
+                console.log("Dữ liệu từ API:", response);
+
+                if (response.code === 200 && response.data?.content.length) {
+                    const cartData = response.data.content;
+                    let cartHtml = '';
+                    let subTotal = cartData.reduce((sum, item) => sum + item.totalOneP, 0);
+
+                    cartData.forEach(cartItem => {
+                        cartHtml += `
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <input id="proCheckbox" data-quantity="${cartItem.quantity}" data-cart="${cartItem.id}" data-pro="${cartItem.productId}" checked type="checkbox" name="proChoose" value="${cartItem.totalOneP}" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center item-product">
+                                <img src="${cartItem.imgProduct}" class="product-img rounded" alt="Product">
+                                <div class="ms-3">
+                                    <h6 class="mb-0">${cartItem.productName}</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="txt-blue">${formatPrice(cartItem.productPrice)}</td>
+                        <td>
+                            <div class="quantity-control d-flex align-items-center quantity">
+                                <button class="btn btn-sm btn-outline-secondary minus-btn" onclick="updateQuantity(${cartItem.id}, -1)">-</button>
+                                <input type="number" class="form-control mx-2" value="${cartItem.quantity}" min="1" onchange="updateQuantity(${cartItem.id}, this.value)">
+                                <button class="btn btn-sm btn-outline-secondary plus-btn" onclick="updateQuantity(${cartItem.id}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td class="text-end">${formatPrice(cartItem.totalOneP)}</td>
+                    </tr>`;
+                    });
+
+                    $('#bodyCart').html(cartHtml);
+                    $('.subtotal').html(formatPrice(subTotal));
+                    checkboxCart();
+                } else {
+                    console.warn("Không có sản phẩm nào trong giỏ hàng!");
+                    $('.userCart').html(`
+                    <div class="container text-center">
+                        <img src="/frontend/images/shop/empty.gif" alt="Empty Cart"><br><br>
+                        <h4><a style="text-decoration: underline" href="/login">Đăng nhập để xem giỏ hàng</a></h4>
+                    </div>`);
+                }
+            },
+            error: function (error) {
+                console.error("Lỗi khi gọi API:", error);
+            }
+        });
+    }
+
+
+    function formatPrice(price) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    }
+
+    function checkForAll() {
+        $('#proCheckAll').click(function () {
+            if ($(this).is(':checked')) {
+                let checkboxes = $('input[type="checkbox"][name="proChoose"]');
+                if (checkboxes.length > 0) {
+                    checkboxes.each(function () {
+                        $(this).prop('checked', true);
+                    });
+                }
+                let checkboxChecked = $('input[type="checkbox"][name="proChoose"]:checked');
+                checkboxProp(checkboxChecked, true);
+            } else {
+                let checkboxes = $('input[type="checkbox"][name="proChoose"]:checked');
+                checkboxProp(checkboxes, false);
+            }
+        });
+    }
+    function checkboxProp(checkboxes, checked) {
+        let total = 0;
+        if (checkboxes.length > 0) {
+            checkboxes.each(function () {
+                $(this).prop('checked', checked);
+                if (checked) {
+                    total += parseInt($(this).val());
+                }
+            });
+        }
+        $('.subtotal').html(formatPrice(total)).attr("data-value", total);
+    }
+    function checkboxCart() {
+        $('input[name="proChoose"]').change(function () {
+            let checkboxChecked = $('input[type="checkbox"][name="proChoose"]:checked');
+            let checkboxes = $('input[type="checkbox"][name="proChoose"]');
+            if (checkboxChecked.length === checkboxes.length) {
+                $('#proCheckAll').prop('checked', true);
+            } else $('#proCheckAll').prop('checked', false);
+            checkboxProp(checkboxChecked, true);
+        });
+    }
+
+    function checkoutCart() {
+        $('#checkoutCart').click(function () {
+            let checkboxChecked = $('input[type="checkbox"][name="proChoose"]:checked');
+
+            if (checkboxChecked.length > 0) {
+                console.log(checkboxChecked.length);
+                let arrDetail = [];
+                let totalAmount = 0;
+                let arrCart = [];
+                checkboxChecked.each(function () {
+                    let detail = {};
+                    let cart = {};
+                    cart.id = $(this).data('cart');
+                    detail.productId = $(this).data('pro');
+                    detail.quantity = $(this).data('quantity');
+                    detail.total = $(this).val()
+                    arrDetail.push(detail);
+                    arrCart.push(cart)
+                    totalAmount += parseInt($(this).val());
+                });
+
+                console.log(arrDetail, totalAmount, arrCart);
+
+                let objectFilter = {
+                    totalAmount: totalAmount,
+                    orderDetail: arrDetail
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/api/order/create",
+                    contentType: "application/json",
+                    data: JSON.stringify(objectFilter),
+                    dataType: "json",
+                    success: function (response) {
+                        detailOrder(response.data, arrDetail);
+                        deleteCart(arrCart);
+                        window.location.href = "http://localhost:8080/views/order/place-order/" + response.data.code
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            } else alertInfo("", "Cần chọn ít nhất 1 sản phẩm để thanh toán", "error");
+        })
+
+        function detailOrder(order, data) {
+            for (let i = 0; i < data.length; i++) {
+                data[i].orderId = order.id;
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/api/order/detail/create",
+                    contentType: "application/json",
+                    data: JSON.stringify(data[i]),
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+
+        }
+
+        function deleteCart(data) {
+            for (let i = 0; i < data.length; i++) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/api/cart/delete-cart",
+                    contentType: "application/json",
+                    data: JSON.stringify(data[i]),
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+        }
+    }
+
+
+
+
+</script>
+</body>
+</html>

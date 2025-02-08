@@ -36,6 +36,12 @@
                 <input class="form-control" name="name_product" type="text" value=""/>
             </div>
         </div>
+        <div  class="form-group row">
+            <label class="col-3 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="address" type="text" value=""/>
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-3 col-form-label">Hình ảnh <span class="text-danger">*</span></label>
             <div class="col-9 row">
@@ -110,6 +116,7 @@
             let objectData = {};
             let code = $('input[type="text"][name="code"]').val();
             let name = $('input[type="text"][name="name_product"]').val();
+            let address = $('input[type="text"][name="address"]').val();
             let image = $('input[type="file"][name="image"]')[0].files[0];
             let price = $('input[type="text"][name="price"]').val();
             let quantity = $('input[type="text"][name="quantity"]').val();
@@ -118,6 +125,7 @@
             let description = $('textarea[name="description"]').val();
 
             objectData.code = code;
+            objectData.address = address;
             objectData.name = name;
             objectData.price = price;
             objectData.quantity = quantity;

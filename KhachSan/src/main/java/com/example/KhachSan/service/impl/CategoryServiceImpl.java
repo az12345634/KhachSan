@@ -3,7 +3,7 @@ package com.example.KhachSan.service.impl;
 import com.example.KhachSan.entity.CategoryEntity;
 import com.example.KhachSan.model.dto.CategoryDTO;
 import com.example.KhachSan.model.request.CategoryFilterRequest;
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.repository.CategoryRepository;
 import com.example.KhachSan.service.CategoryService;
 import org.modelmapper.ModelMapper;

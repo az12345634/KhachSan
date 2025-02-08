@@ -1,0 +1,78 @@
+:root {
+    --primary: #ff6b00;
+    --primary-foreground: #ffffff;
+    --secondary: #f4f4f5;
+    --secondary-foreground: #18181b;
+    --background: #ffffff;
+    --foreground: #18181b;
+    --card: #ffffff;
+    --card-foreground: #18181b;
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+    --ring: #18181b;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+.product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.quantity-control input {
+    width: 60px;
+    text-align: center;
+}
+
+.btn-checkout {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    padding: 12px;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-checkout:hover {
+    background-color: #e65c00;
+    color: var(--primary-foreground);
+}
+
+.card {
+    border-color: var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    border-color: var(--border);
+}
+
+.form-control:focus {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.1);
+}
+
+.btn-outline-secondary {
+    border-color: var(--border);
+    color: var(--foreground);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary);
+    border-color: var(--border);
+    color: var(--secondary-foreground);
+}
+
+@media (max-width: 768px) {
+    .product-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .quantity-control {
+        flex-wrap: nowrap;
+    }
+}

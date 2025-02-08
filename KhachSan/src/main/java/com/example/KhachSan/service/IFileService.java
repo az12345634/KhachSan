@@ -1,7 +1,7 @@
 package com.example.KhachSan.service;
 
 
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IFileService {

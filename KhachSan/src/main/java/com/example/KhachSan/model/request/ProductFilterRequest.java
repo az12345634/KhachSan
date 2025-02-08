@@ -11,4 +11,5 @@ public class ProductFilterRequest {
     private Long sizeId;
     private Integer categoryId;
     private String created;
+    private String address;
 }

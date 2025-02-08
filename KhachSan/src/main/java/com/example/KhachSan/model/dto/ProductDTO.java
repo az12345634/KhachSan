@@ -15,12 +15,7 @@ public class ProductDTO {
     private String name;
     // Giá Giá niêm yết
     private Double price;
-    // Giá min
-    private Double minPrice;
-    // Giá max
-    private Double maxPrice;
-//    // Giá theo size đang active
-//    private Double priceActive;
+
     // Mô tả
     private String description;
     // Mô tả ngắn
@@ -33,13 +28,7 @@ public class ProductDTO {
     private String category;
     // Id danh mục
     private Long categoryId;
-//    // Danh sách size
-//    private Set<SizeDTO> sizes;
-//    // Danh sách id size
-//    private Set<Long> sizeIds;
-//    // Id size active
-//    private Long sizeActive;
-    // Deleted
+
     private Boolean deleted;
     // Ngày tạo
     private LocalDateTime createDate;
@@ -49,4 +38,5 @@ public class ProductDTO {
     private LocalDateTime lastModifiedDate;
     // Người chỉnh sửa
     private String lastModifiedBy;
+    private String address;
 }

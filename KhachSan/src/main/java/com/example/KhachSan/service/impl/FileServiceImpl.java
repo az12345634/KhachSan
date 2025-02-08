@@ -1,7 +1,7 @@
 package com.example.KhachSan.service.impl;
 
 
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.service.IFileService;
 import com.example.KhachSan.utils.Constant;
 import org.springframework.http.HttpStatus;

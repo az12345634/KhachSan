@@ -4,7 +4,7 @@ import com.example.KhachSan.entity.UserEntity;
 import com.example.KhachSan.model.dto.RoleDTO;
 import com.example.KhachSan.model.dto.UserDTO;
 import com.example.KhachSan.model.request.UserRequest;
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.repository.RoleRepository;
 import com.example.KhachSan.repository.UserRepository;
 import com.example.KhachSan.service.IUserService;

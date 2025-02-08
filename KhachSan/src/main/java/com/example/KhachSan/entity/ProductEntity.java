@@ -20,6 +20,8 @@ public class ProductEntity extends AbstractEntity{
     private int quantity;
     private String image;
 
+    private String address;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @ToString.Exclude

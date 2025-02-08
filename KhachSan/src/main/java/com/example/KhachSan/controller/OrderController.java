@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/views/order")
 public class OrderController {
 
+
     @GetMapping("/place-order/{code}")// link này chuyển trang trong layout dùng chung
     public String shop(@PathVariable("code") String code, Model model) {
         model.addAttribute("pageTitle", "Thanh toán đơn hàng");
@@ -24,7 +25,7 @@ public class OrderController {
 
     @GetMapping("/payment/result/{code}")
     public String resultPayment(@PathVariable String code) {
-        return "place_order";
+        return "result_payment";
     }
 
     @GetMapping("/detail/{code}")

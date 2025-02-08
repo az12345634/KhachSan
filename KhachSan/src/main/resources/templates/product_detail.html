@@ -37,21 +37,14 @@
     </div>
     <!-- end container -->
 </section>
-<!-- end breadcrumb-top-bar -->
-<!-- ================================
-    END BREADCRUMB TOP BAR
-================================= -->
 
-<!-- ================================
-    START BREADCRUMB AREA
-================================= -->
 <section class="breadcrumb-area bread-bg-7 py-0">
     <div class="breadcrumb-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-btn">
-                        <div  class="btn-box ">
+                        <div  class="btn-box btn-boxx">
                             <a
                                     class="theme-btn"
                                     data-src="/frontend/images/img1.jpg"
@@ -70,14 +63,7 @@
     </div>
     <!-- end breadcrumb-wrap -->
 </section>
-<!-- end breadcrumb-area -->
-<!-- ================================
-    END BREADCRUMB AREA
-================================= -->
 
-<!-- ================================
-    START TOUR DETAIL AREA
-================================= -->
 <section class="tour-detail-area padding-bottom-90px">
     <div
             class="single-content-navbar-wrap menu section-bg"
@@ -286,7 +272,7 @@
                                 <div  class="sidebar-book-title-wrap mb-3">
                                     <h3>Thông tin phòng</h3>
                                     <p>
-                        <span class="text-form">From</span
+                        <span class="text-form">Giá</span
                         ><span id="price" class="text-value ms-2 me-1">$399.00</span>
                                     </p>
                                 </div>
@@ -309,21 +295,22 @@
                                 <div class="qty-box mb-2 d-flex align-items-center justify-content-between">
                                     <label class="font-size-16">Số lượng </label>
                                     <div class="qtyBtn d-flex align-items-center">
-                                        <div class="qtyDec"><i class="la la-minus"></i></div>
-                                        <input type="text" name="qtyInput" value="0" />
-                                        <div class="qtyInc"><i class="la la-plus"></i></div>
+                                        <button name="qtt-0"  onclick="minusQuantity(this.name, this.value)" value="1" class="minus-btn" type="button">
+                                            <i class="la la-minus"></i></button>
+                                        <input type="text" onchange="changeQuantity(this.name,this.value)" name="qtt-0" value="1">
+                                        <button name="qtt-0" onclick="plusQuantity(this.name, this.value)" value="1" class="plus-btn" type="button">
+                                            <i class="la la-plus"></i></button>
                                     </div>
                                 </div>
 
                             </div>
-                            <!-- end sidebar-widget-item -->
-                            <div class="btn-box pt-2">
-                                <a
-                                        th:href="@{${'/views/order/pl'}}"
-                                        class="theme-btn text-center w-100 mb-2"
-                                ><i class="la la-shopping-cart me-2 font-size-18"></i>Book Now</a>
 
+                            <div class="btn-box pt-2">
+                                <a id="createBooking" class="theme-btn text-center w-100 mb-2">
+                                    <i class="la la-shopping-cart me-2 font-size-18"></i>Book Now
+                                </a>
                             </div>
+
                         </div>
 
                     </div>
@@ -345,42 +332,11 @@
 
 <script>
     initProductDetail();
-    // clickCart();
-    // function clickCart() {
-    //     $('#addToCart').click(function () {
-    //         let sizeId = $('input[type="radio"][name=sizeOption]:checked').val();
-    //         let quantity = $('input[type="text"][name="qtt-0"]').val();
-    //         let weight = $('input[type="radio"][name=sizeOption]:checked').data("weight");
-    //         let price = $('span[name=priceProduct]').data("value");
-    //         let productId = $('span[name=nameProduct]').data("value");
-    //
-    //         if ($.isNumeric(price) && price !== 0) {
-    //             let totalOneP = price * weight * quantity;
-    //             console.log(sizeId, quantity, weight, price, totalOneP, productId);
-    //             let objCart = {
-    //                 productId: productId,
-    //                 sizeId: sizeId,
-    //                 quantity: quantity,
-    //                 totalOneP: totalOneP
-    //             };
-    //             addToCart(objCart);
-    //         } else alertInfo("", "Bạn cần chọn size để tiếp tục", "error");
-    //
-    //     })
-    // }
+    clickBooking();
 
-    function initProductDetail() {
-        let codeProduct = getCode();
-        let objFilter = {
-            code: codeProduct,
-            sizeId: null
-        };
-        getProduct(objFilter, true);
-    }
-    function formatPrice(price) {
-        // Hàm định dạng số có dấu chấm phân cách hàng nghìn
-        return price.toLocaleString('vi-VN', { style: 'decimal', minimumFractionDigits: 0 });
-    }
+    // Biến toàn cục để lưu giá sản phẩm
+    let currentProductPrice = 0;
+
     function getProduct(objectFilter, loadImg) {
         $.ajax({
             type: "POST",
@@ -389,14 +345,23 @@
             data: JSON.stringify(objectFilter),
             dataType: "json",
             success: function (response) {
-                console.log(response);
-                // Lấy thông tin product theo response trả về
-                let productData = response.data;
-                let price = formatPrice(productData.price) + ' VNĐ';
+                const productData = response.data;
+
+                if (!productData) {
+                    console.error("Product data is missing.");
+                    return;
+                }
+
+                // Lấy giá sản phẩm từ API
+                currentProductPrice = productData.price;
+
+                // Format giá và hiển thị trên giao diện
+                let price = formatPrice(currentProductPrice) + ' VNĐ';
+                let priceHtml = '<span name="priceProduct" data-value="' + currentProductPrice + '">' + price + '</span>';
+                $('#price').html(priceHtml);
 
                 let img =
-                    '<a ' +
-                    'class="theme-btn" ' +
+                    '<a class="theme-btn" ' +
                     'data-src="' + productData.image + '" ' +
                     'data-fancybox="gallery" ' +
                     'data-caption="Showing image - Updated" ' +
@@ -404,57 +369,89 @@
                     '<i class="la la-photo me-2"></i>More Photos' +
                     '</a>';
 
-                $('.btn-box').html(img);
+                $('.btn-boxx').html(img);
 
-
-
-                // Load tên sản phẩm
-                let nameProductHtml = '<span name="title font-size-26" data-value="' + productData.id + '">' + productData.name + '</span>'
+                let nameProductHtml = '<span name="nameProduct" data-value="' + productData.id + '">' + productData.name + '</span>';
                 $('.titlee').html(nameProductHtml);
 
-                // Load mô tả ngắn
-                let shortDesciption = '<p>' + productData.shortDescription + '</p>';
-                $('#shortDes').html(shortDesciption);
+                $('#shortDes').html('<p>' + productData.shortDescription + '</p>');
+                $('#pills-home').html('<p>' + productData.description + '</p>');
+                $('#cate').html('<a href="#" class="link-oragne">' + productData.category + '</a>');
 
-                // Load mô tả sản phẩm
-                let description = '<p>' + productData.description + '</p>';
-                $('#pills-home').html(description);
-
-                let category = '<a href="#" class="link-oragne">' + productData.category + '</a>'
-                $('#cate').html(category);
-
-                let priceHtml = '<span>' + price + '</span>';
-                $('#price').html(priceHtml);
-
-                // Bắt event thay đổi size
-                changeSize();
-                let object = {
-                    productId: productData.id,
-                };
-               // getCommentsAndDisplay(object);
-
+                // changeSize();
             },
             error: function (error) {
                 console.log(error);
             }
-        })
+        });
+    }
+    function clickBooking() {
+        $('#createBooking').click(function () {
+            let quantity = $('input[type="text"][name="qtt-0"]').val();
+            let price = currentProductPrice; // Lấy giá từ biến toàn cục
+            let productId = $('span[name=nameProduct]').data("value");
+
+            // Kiểm tra giá hợp lệ (số và khác 0)
+            if ($.isNumeric(price) && price !== 0) {
+                let totalOneP = price * quantity; // Tính tổng giá trị của sản phẩm
+                console.log(quantity, price, totalOneP, productId);
+
+                let objCart = {
+                    productId: productId,
+                    quantity: quantity,
+                    totalOneP: totalOneP
+                };
+
+                // Gọi hàm tạo booking
+                createBooking(objCart);
+            } else {
+                alertInfo("", "Giá sản phẩm không hợp lệ hoặc chưa chọn số lượng", "error");
+            }
+        });
     }
 
-    function changeSize() {
-        let sizeOptionValue;
+    function createBooking(objCart) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/cart/add-to-cart",
+            contentType: "application/json",
+            data: JSON.stringify(objCart),
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.code === 200) {
+                    alertInfo("", "Bạn đã Đặt phòng thành công", "success");
+                    countCart(); // Cập nhật giỏ hàng
+
+                    // Chuyển hướng đến trang giỏ hàng sau khi đặt phòng thành công
+                    setTimeout(function () {
+                        window.location.href = "http://localhost:8080/views/cart";
+                    }, 1500); // Chờ 1.5s để hiển thị thông báo trước khi chuyển trang
+                } else {
+                    window.location.href = "http://localhost:8080/login"; // Nếu lỗi, chuyển đến trang đăng nhập
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                alertInfo("", "Đã có lỗi xảy ra. Vui lòng thử lại", "error");
+            }
+        });
+    }
+
+
+    function initProductDetail() {
         let codeProduct = getCode();
-        $('input[type=radio][name=sizeOption]').change(function () {
-            sizeOptionValue = $(this).val();
-            $('input[type="radio"][name=sizeOption]').not(this).prop('checked', false);
-
-            let objFilter = {
-                code: codeProduct,
-                sizeId: sizeOptionValue
-            };
-            getProduct(objFilter, false);
-            $(this).prop('checked', true);
-        })
+        let objFilter = {
+            code: codeProduct
+        };
+        getProduct(objFilter, true);
     }
+
+    function formatPrice(price) {
+        return price ? price.toLocaleString('vi-VN', { style: 'decimal', minimumFractionDigits: 0 }) : 'N/A';
+    }
+
+
 </script>
 
 </body>

@@ -3,7 +3,7 @@ package com.example.KhachSan.controller.resource;
 import com.example.KhachSan.entity.ProductEntity;
 import com.example.KhachSan.model.dto.ProductDTO;
 import com.example.KhachSan.model.request.ProductFilterRequest;
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.service.IProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

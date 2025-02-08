@@ -36,6 +36,12 @@
                 <input class="form-control" name="name_product" type="text" value=""/>
             </div>
         </div>
+        <div  class="form-group row">
+            <label class="col-3 col-form-label">Địa chỉ <span class="text-danger">*</span></label>
+            <div class="col-9">
+                <input class="form-control" name="address" type="text" value=""/>
+            </div>
+        </div>
         <div class="form-group row">
             <label class="col-3 col-form-label">Hình ảnh <span class="text-danger">*</span></label>
             <div class="col-9 row">
@@ -117,6 +123,7 @@
             let category = $('select[name="category"]').val();
             let shortDescription = $('textarea[name="short_description"]').val();
             let description = $('textarea[name="description"]').val();
+            let address = $('input[type="text"][name="address"]').val();
 
             objectData.code = code;
             objectData.name = name;
@@ -125,6 +132,8 @@
             objectData.categoryId = category;
             objectData.shortDescription = shortDescription;
             objectData.description = description;
+            objectData.address = address;
+
             objectData.image = null;
             let check = checkValidateProduct(objectData);
             if (!check) {
@@ -188,6 +197,8 @@
                     $('#imageProduct').attr('src', productData.image);
                     $('input[type="text"][name="price"]').val(productData.price);
                     $('input[type="text"][name="quantity"]').val(productData.quantity);
+                    $('input[type="text"][name="address"]').val(productData.address);
+
 
                     selectedCategory(productData.categoryId);
                     $('textarea[name="short_description"]').val(productData.shortDescription);

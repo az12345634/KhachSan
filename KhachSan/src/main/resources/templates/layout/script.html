@@ -19,5 +19,192 @@
     <script th:src="@{/frontend/js/main.js}"></script>
     <script type="text/javascript" th:src="@{/common/constant.js}"></script>
     <script type="text/javascript" th:src="@{/common/func.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        // $(document).ready(function () {
+        //     showUserName();
+        // });
+        // $(document).on('click', '#logout',function (e) {
+        //     console.log(200);
+        //     $.ajax({
+        //         type: "POST",
+        //         url: HOST + "/logout",
+        //         success: function (response) {
+        //             $('body').html(response);
+        //         },
+        //     })
+        // });
+        // function showUserName() {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: HOST + "/api/account/current-user",
+        //         contentType: "application/json",
+        //         dataType: "json",
+        //         success: function (response) {
+        //             console.log(response);
+        //             let logHtml;
+        //             if (response.username != null) {
+        //                 logHtml = '<a href="#" class="theme-btn theme-btn-small">' + response.username + '</a>'
+        //                 $('#logCheck').html(logHtml);
+        //                 $('.loading').append('<div id="logout" class="header-right-action">\n' +
+        //                     '                            <div class="user">' +
+        //                     '                                <span class="theme-btn theme-btn-small theme-btn-transparent me-1"> Đăng Xuất </span>\n' + // fas fa-power-off
+        //                     '                                \n' +
+        //                     '                            </div>\n' +
+        //                     '                        </div>');
+        //
+        //             } else {
+        //                 logHtml = '<a href="http://localhost:8080/login" class="theme-btn theme-btn-small">Đăng Nhập</a>'
+        //                 $('#logCheck').html(logHtml);
+        //             }
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     })
+        // }
+
+        $(document).ready(function () {
+            showUserName();
+            countCart();
+        });
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        //
+        // $(document).on('click', '#logout', function (e) {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: HOST + "/logout",
+        //         success: function (response) {
+        //             localStorage.removeItem("authToken"); // Xóa token sau khi logout
+        //             $('body').html(response);
+        //         },
+        //         error: function (error) {
+        //             console.log(error);
+        //         }
+        //     });
+        // });
+
+
+        function countCart() {
+            $.ajax({
+                type: "GET",
+                url: HOST + "/api/cart/count",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.data != null) {
+                        $('.badge-success').html(response.data);
+                    } else $('.badge-success').html(0);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        }
+
+        $(document).on('click', '#logout',function (e) {
+            console.log(200);
+            $.ajax({
+                type: "POST",
+                url: HOST + "/logout",
+                success: function (response) {
+                    $('body').html(response);
+                },
+            })
+        });
+        function showUserName() {
+            $.ajax({
+                type: "GET",
+                url: HOST + "/api/account/current-user",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    let logHtml;
+                    if (response && response.username) {
+                        logHtml = `<a href="#" class="theme-btn theme-btn-small">${response.username}</a>`;
+                        $('#logCheck').html(logHtml);
+                        $('.loading').append(`
+                        <div id="logout" class="header-right-action">
+                            <div class="user">
+                                <span class="theme-btn theme-btn-small theme-btn-transparent me-1">Đăng Xuất</span>
+                            </div>
+                        </div>
+                    `);
+                    } else {
+                        logHtml = `<a href="${HOST}/login" class="theme-btn theme-btn-small">Đăng Nhập</a>`;
+                        $('#logCheck').html(logHtml);
+                    }
+                },
+                error: function () {
+                    // Nếu không lấy được thông tin user, hiện nút đăng nhập
+                    let logHtml = `<a href="${HOST}/login" class="theme-btn theme-btn-small">Đăng Nhập</a>`;
+                    $('#logCheck').html(logHtml);
+                }
+            });
+        }
+
+        function getCode() {
+            let url = window.location.href;
+            return url.split('/').pop();
+        }
+        function alertInfo(title, text, icon) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+            });
+        }
+
+        //Giảm số lượng
+        function minusQuantity(classItem, quantity) {
+            checkQuantity(quantity);
+            let value = parseInt(quantity);
+            if (value > 1) {
+                value -= 1;
+            }
+            $('input[type="text"][name="' + classItem + '"]').val(value)
+            $('button[type="button"][name="' + classItem + '"]').val(value)
+        }
+
+        // đoạn này là hiển thị số
+        function changeQuantity(classItem, quantity) {
+            checkQuantity(classItem, quantity);
+        }
+        function checkQuantity(classItem, quantity) {
+            if (quantity === "") {
+                $('input[type="text"][name="' + classItem + '"]').val(1)
+                $('button[type="button"][name="' + classItem + '"]').val(1)
+            }
+            if (!$.isNumeric(quantity)) {
+                $('input[type="text"][name="' + classItem + '"]').val(1)
+                $('button[type="button"][name="' + classItem + '"]').val(1)
+            }
+        }
+        // Tăng số lượng
+        function plusQuantity(classItem, quantity) {
+            checkQuantity(quantity);
+            let value = parseInt(quantity);
+            if (value < 10) {
+                value += 1;
+            }
+            $('input[type="text"][name="' + classItem + '"]').val(value)
+            $('button[type="button"][name="' + classItem + '"]').val(value)
+        }
+    </script>
 
 </div>

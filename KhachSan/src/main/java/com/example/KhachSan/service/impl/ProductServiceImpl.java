@@ -4,7 +4,7 @@ import com.example.KhachSan.entity.CategoryEntity;
 import com.example.KhachSan.entity.ProductEntity;
 import com.example.KhachSan.model.dto.ProductDTO;
 import com.example.KhachSan.model.request.ProductFilterRequest;
-import com.example.KhachSan.model.respobse.BaseResponse;
+import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.repository.CategoryRepository;
 import com.example.KhachSan.repository.ProductRepository;
 import com.example.KhachSan.service.IProductService;
@@ -17,13 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -155,7 +152,7 @@ public class ProductServiceImpl implements IProductService {
         productEntity.setDescription(productDTO.getDescription());
 
         productEntity.setShortDescription(productDTO.getShortDescription());
-
+        productEntity.setAddress(productDTO.getAddress());
 
         productEntity.setLastModifiedDate(LocalDateTime.now());
 
@@ -186,8 +183,7 @@ public class ProductServiceImpl implements IProductService {
         productDTO.setId(productEntity.getId());
         // Set tên
         productDTO.setName(productEntity.getName());
-        // Set ảnh
-        productDTO.setImage("data:image/jpeg;base64," + Constant.encodeImage(productEntity.getImage()));
+
         // Set mô tả ngắn
         productDTO.setShortDescription(productEntity.getShortDescription());
         // Set mô tả chi tiết
@@ -196,13 +192,16 @@ public class ProductServiceImpl implements IProductService {
         productDTO.setCode(productEntity.getCode());
         // Set số lượng
         productDTO.setQuantity(productEntity.getQuantity());
+
+        productDTO.setAddress(productEntity.getAddress());
         // Set giá
         productDTO.setPrice(productEntity.getPrice());
         // Set tên danh mục
         productDTO.setCategory(productEntity.getCategoryEntity().getName());
         // Set id danh mục
         productDTO.setCategoryId(productEntity.getCategoryEntity().getId());
-
+        // Set ảnh
+        productDTO.setImage("data:image/jpeg;base64," + Constant.encodeImage(productEntity.getImage()));
 
 //        // Set giá sản phẩm trong khoảng min - max
 //        OptionalDouble minPrice = productEntity.getSizeEntities().stream()
