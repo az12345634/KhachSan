@@ -82,44 +82,46 @@ START BOOKING AREA
                                 <div class="row">
                                     <div class="col-lg-6 responsive-column">
                                         <div class="input-box">
-                                            <label class="label-text">Họ và tên</label>
+                                            <label for="userName" class="label-text">Họ và tên <span
+                                                    class="text-danger">*</span><span id="user"></span> </label>
                                             <div class="form-group">
-                                                <span class="la la-user form-icon"></span>
-                                                <input
-                                                        class="form-control"
-                                                        type="text"
-                                                        name="text"
-                                                        placeholder="Họ và tên"
+                                                <span  class="la la-user form-icon"></span>
+                                                <input name="userName" id="userName"
+                                                       class="form-control"
+                                                       type="text"
+
+                                                       placeholder="Họ và tên"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <!-- end col-lg-6 -->
-<!--                                    <div class="col-lg-6 responsive-column">-->
-<!--                                        <div class="input-box">-->
-<!--                                            <label class="label-text">Last Name</label>-->
-<!--                                            <div class="form-group">-->
-<!--                                                <span class="la la-user form-icon"></span>-->
-<!--                                                <input-->
-<!--                                                        class="form-control"-->
-<!--                                                        type="text"-->
-<!--                                                        name="text"-->
-<!--                                                        placeholder="Last name"-->
-<!--                                                />-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="col-lg-6 responsive-column">-->
+                                    <!--                                        <div class="input-box">-->
+                                    <!--                                            <label class="label-text">Last Name</label>-->
+                                    <!--                                            <div class="form-group">-->
+                                    <!--                                                <span class="la la-user form-icon"></span>-->
+                                    <!--                                                <input-->
+                                    <!--                                                        class="form-control"-->
+                                    <!--                                                        type="text"-->
+                                    <!--                                                        name="text"-->
+                                    <!--                                                        placeholder="Last name"-->
+                                    <!--                                                />-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
                                     <!-- end col-lg-6 -->
                                     <div class="col-lg-6 responsive-column">
                                         <div class="input-box">
-                                            <label class="label-text">Điện thoại</label>
+                                            <label for="phoneNumber" class="label-text">Điện thoại <span
+                                                    class="text-danger">*</span><span id="errPhone"></span> </label>
                                             <div class="form-group">
                                                 <span class="la la-phone form-icon"></span>
-                                                <input
-                                                        class="form-control"
-                                                        type="text"
-                                                        name="phone"
-                                                        placeholder="Điện thoại"
+                                                <input name="phoneNumber" id="phoneNumber"
+                                                       class="form-control"
+                                                       type="text"
+
+                                                       placeholder="Điện thoại"
                                                 />
                                             </div>
                                         </div>
@@ -127,13 +129,13 @@ START BOOKING AREA
                                     <!-- end col-lg-6 -->
                                     <div class="col-lg-12 responsive-column">
                                         <div class="input-box">
-                                            <label class="label-text">Lưu ý </label>
+                                            <label for="noteOder" class="label-text">Lưu ý </label>
                                             <div class="form-group">
-                                                <input
-                                                        class="form-control"
-                                                        type="text"
-                                                        name="note"
-                                                        placeholder="Lưu ý của khách hàng"
+                                                <input name="noteOder" id="noteOder"
+                                                       class="form-control"
+                                                       type="text"
+
+                                                       placeholder="Lưu ý của khách hàng"
                                                 />
                                             </div>
                                         </div>
@@ -171,9 +173,10 @@ START BOOKING AREA
 
                                 <div class="col-lg-12">
                                     <div class="btn-box">
-                                        <button class="theme-btn" type="submit">
-                                            Confirm Booking
+                                        <button id="payment" class="theme-btn" type="submit">
+                                            Thanh toán
                                         </button>
+
                                     </div>
                                 </div>
                             </form>
@@ -204,16 +207,16 @@ START BOOKING AREA
                                         <h3 id="productItem" class="card-title">Golden Gate Seaplane Tour</h3>
                                         <p class="addres card-meta">124 E Huron St, New york</p>
                                     </div>
-<!--                                    <div>-->
-<!--                                        <a href="tour-details.html" class="btn ms-1"-->
-<!--                                        ><i-->
-<!--                                                class="la la-edit"-->
-<!--                                                data-bs-toggle="tooltip"-->
-<!--                                                data-placement="top"-->
-<!--                                                title="Edit"-->
-<!--                                        ></i-->
-<!--                                        ></a>-->
-<!--                                    </div>-->
+                                    <!--                                    <div>-->
+                                    <!--                                        <a href="tour-details.html" class="btn ms-1"-->
+                                    <!--                                        ><i-->
+                                    <!--                                                class="la la-edit"-->
+                                    <!--                                                data-bs-toggle="tooltip"-->
+                                    <!--                                                data-placement="top"-->
+                                    <!--                                                title="Edit"-->
+                                    <!--                                        ></i-->
+                                    <!--                                        ></a>-->
+                                    <!--                                    </div>-->
                                 </div>
                                 <div class="section-block"></div>
                                 <ul class="list-items list-items-2 list-items-flush py-2">
@@ -232,10 +235,10 @@ START BOOKING AREA
                         </i>Check in</span>12 May 2020 7:40am
                                     </li>
                                     <li class="font-size-15"><span class="w-auto d-block mb-n1"><i
-                                class="la la-calendar me-1 text-black font-size-17"
-                        ></i
-                        >Check out</span
-                        >15 May 2020 7:40am
+                                            class="la la-calendar me-1 text-black font-size-17"
+                                    ></i
+                                    >Check out</span
+                                    >15 May 2020 7:40am
                                     </li>
                                     <li class="font-size-15">
                         <span class="w-auto d-block mb-n1"
@@ -270,30 +273,51 @@ START BOOKING AREA
 <div th:replace="layout/script :: script"></div>
 
 <script>
-    showOrder();
-
-    validateForm();
-
+    $(document).ready(function () {
+        validateForm();
+        showOrder();
+    });
 
     function validateForm() {
-        $('#payment').click(function () {
-            let address = $('input[type=text][name=address]').val().trim();
+        $('#payment').click(function (e) {
+            e.preventDefault(); // Chặn hành động submit mặc định của form
+
+            let userName = $('input[type=text][name=userName]').val().trim();
             let phoneNumber = $('input[type=text][name=phoneNumber]').val().trim();
-            if (address === "") {
-                $('#errAddress').html('Hãy nhập vào địa chỉ nhận hàng của bạn').addClass('text-danger');
-            }else $('#errAddress').html('');
+            let noteOder = $('input[type=text][name=noteOder]').val().trim();
 
+            let isValid = true;
+
+            // Kiểm tra Họ và tên
+            if (userName === "") {
+                $('#user').html('Hãy nhập vào họ tên của bạn').addClass('text-danger');
+                isValid = false;
+            } else {
+                $('#user').html('');
+            }
+
+            // Kiểm tra Số điện thoại
             if (phoneNumber === "") {
-                $('#errPhone').html('Hãy nhập vào số điện thoại nhận hàng của bạn').addClass('text-danger');
-            }else $('#errPhone').html('');
+                $('#errPhone').html('Hãy nhập vào số điện thoại ').addClass('text-danger');
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phoneNumber)) {  // Kiểm tra số điện thoại có đúng định dạng 10 chữ số không
+                $('#errPhone').html('Số điện thoại không hợp lệ').addClass('text-danger');
+                isValid = false;
+            } else {
+                $('#errPhone').html('');
+            }
 
-            let objectData = {};
-            objectData.code = $(this).data('code')
-            objectData.addressShipping = address;
-            objectData.phoneShipping = phoneNumber;
-            console.log(objectData);
+            // Nếu tất cả các trường hợp đều hợp lệ, thực hiện AJAX
+            if (isValid) {
+                let objectData = {
+                    code: $(this).data('code'),
+                    note: noteOder,
+                    username: userName,
+                    phoneShipping: phoneNumber
+                };
 
-            if(address !== "" && phoneNumber !== ""){
+                console.log(objectData);
+
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:8080/api/order/update",
@@ -306,15 +330,15 @@ START BOOKING AREA
                     error: function (error) {
                         console.log(error);
                     }
-                })
+                });
             }
         });
     }
 
-    function payment(){
+    function payment() {
         let objectData = {
-            code : getCode()
-        }
+            code: getCode()
+        };
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/api/payment/vnpay",
@@ -327,13 +351,14 @@ START BOOKING AREA
             error: function (error) {
                 console.log(error);
             }
-        })
+        });
     }
+
     function showOrder() {
         let orderCode = getCode();
         let objData = {
             code: orderCode
-        }
+        };
         console.log(orderCode);
         $.ajax({
             type: "POST",
@@ -345,13 +370,11 @@ START BOOKING AREA
                 let productItemHtml = '';
                 let detail = response.data.orderDetails;
                 for (let i = 0; i < detail.length; i++) {
-                    productItemHtml +=
-                        '<span>' + detail[i].productName +'</span>';
-
+                    productItemHtml += '<span>' + detail[i].productName + '</span>';
                 }
 
                 $('#productItem').html(productItemHtml);
-                $('.totalAmount').html(formatPrice(response.data.totalAmount))
+                $('.totalAmount').html(formatPrice(response.data.totalAmount));
 
                 $('input[type="text"][name="address"]').val(response.data.addressShipping);
                 $('input[type="text"][name="phoneNumber"]').val(response.data.phoneShipping);
@@ -362,8 +385,9 @@ START BOOKING AREA
             error: function (error) {
                 console.log(error);
             }
-        })
+        });
     }
 </script>
+
 </body>
 </html>

@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("https://sandbox.vnpayment.vn/paymentv2/**").permitAll() // Cho phép truy cập vào URL của VNPay
                         .requestMatchers("/process-after-login").hasAnyRole(new String[]{"ADMIN", "USER"}) // cho phép truy cập khi có quyền user hoặc admin
                         .requestMatchers("/login/**", "/common/**","/assets/**", "/frontend/**", "/image/**").permitAll()
+
                 ).formLogin(form ->
                         form.
                                 loginPage("/login") // GET  

@@ -24,8 +24,8 @@ public class OrderEntity extends AbstractEntity {
 
     // Trạng thái đơn hàng
     private Integer status;
-
-
+    private Integer username;
+    private String note;
     // Số điện thoại đặt đơn
     @Column(name = "phone_shipping")
     private String phoneShipping;

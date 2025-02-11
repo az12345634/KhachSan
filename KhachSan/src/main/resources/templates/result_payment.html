@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout/head :: head">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div id="pageloader">
+    <div class="loader-item">
+        <div class="loader-item-content">
+            <i class="icofont-paw"></i>
+        </div>
+    </div>
+</div>
+
+<b class="screen-overlay"></b>
+<div th:replace="layout/header :: header"></div>
+
+<main id="body-content" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Kết Quả Thanh Toán</div>
+                    <div class="card-body">
+                        <div id="paymentResult" class="text-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="layout/footer :: footer"></footer>
+
+<a id="mkdf-back-to-top" href="#" class="btn btn-primary rounded-circle position-fixed end-0 bottom-0 m-4" style="display: none;">
+    <i class="icofont-rounded-up"></i>
+</a>
+
+<div th:replace="layout/script :: script"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        resultPayment();
+    });
+
+    function resultPayment() {
+        try {
+            let paymentStatus = getParameterByName('vnp_TransactionStatus');
+            let orderCode = getCode().split('?')[0];
+            let formattedDateTime = new Date().toLocaleString('en-US', {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false, timeZone: 'Asia/Ho_Chi_Minh'
+            });
+
+            let paymentResult = `
+                <ul class="list-group list-group-flush text-start">
+                    <li class="list-group-item"><strong>Mã đơn hàng:</strong> ${orderCode}</li>
+                    <li class="list-group-item"><strong>Tổng số tiền:</strong> ${formatPrice(getParameterByName('vnp_Amount') / 100)} VNĐ</li>
+                    <li class="list-group-item"><strong>Ngày giao dịch:</strong> ${formattedDateTime}</li>
+            `;
+
+            switch (paymentStatus) {
+                case "00":
+                    paymentResult += `<li class="list-group-item"><strong>Ngân hàng:</strong> ${getParameterByName('vnp_BankCode')}</li>
+                                      <li class="list-group-item status-success"><strong>Thanh toán thành công!</strong></li>
+                                      <li class="list-group-item"><a href="${HOST}/views/order/detail/${orderCode}" class="btn btn-info btn-sm">Xem đơn hàng</a></li>`;
+                    updateOrderStatus(orderCode, 2);
+                    break;
+                case "01":
+                    paymentResult += '<li class="list-group-item status-failure"><strong>Giao dịch chưa hoàn tất</strong></li>';
+                    break;
+                case "02":
+                    paymentResult += '<li class="list-group-item status-failure"><strong>Giao dịch bị lỗi</strong></li>';
+                    break;
+                default:
+                    paymentResult += '<li class="list-group-item status-failure"><strong>Thanh toán thất bại</strong></li>';
+                    break;
+            }
+
+            paymentResult += '</ul>';
+            $('#paymentResult').html(paymentResult);
+        } catch (error) {
+            console.error('Error processing payment result:', error);
+            $('#paymentResult').html('<div class="alert alert-danger">Đã xảy ra lỗi khi xử lý kết quả thanh toán</div>');
+        }
+    }
+
+    function updateOrderStatus(orderCode, status) {
+        let objectData = { code: orderCode, status: status };
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/order/update",
+            contentType: "application/json",
+            data: JSON.stringify(objectData),
+            success: function(response) {
+                console.log('Order update response:', response);
+            },
+            error: function(error) {
+                console.error('Error updating order status:', error);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

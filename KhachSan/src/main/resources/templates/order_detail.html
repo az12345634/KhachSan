@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/head :: head"></head>
+<body>
+
+<div id="pageloader">
+    <div class="loader-item">
+        <div class="loader-item-content">
+            <i class="icofont-paw"></i>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout/header :: header"></div>
+
+<main id="body-content">
+    <section class="py-5">
+        <div class="container">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Chi tiết đơn hàng</h4>
+                </div>
+                <div class="card-body">
+                    <div id="infoOrder" class="mb-4"></div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Đơn giá / Kg</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tổng</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bodyDetailOrder"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="layout/footer :: footer"></footer>
+
+<div th:replace="layout/script :: script"></div>
+
+<script>
+    initOrderDetailCustom();
+
+    function checkoutReturn(code) {
+        $('#checkoutCart').click(function () {
+            window.location.href = HOST + "/views/order/place-order/" + code;
+        });
+    }
+
+    function initOrderDetailCustom() {
+        let orderCode = getCode();
+        let objData = { code: orderCode };
+        getDetailOrderCustom(0, 100, objData);
+    }
+
+    function getDetailOrderCustom(page, size, objData) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/order/detail",
+            contentType: "application/json",
+            data: JSON.stringify(objData),
+            dataType: "json",
+            success: function (response) {
+                let data = response.data.orderDetails;
+                let detailHtml = '';
+                let infoHtml = '';
+                let statusOrder = response.data.status === 1 ? "Chưa thanh toán" : "Đã thanh toán";
+                let address = response.data.addressShipping || "...";
+                let phone = response.data.phoneShipping || "...";
+                let classStatus = response.data.status === 1 ? "text-danger" : "text-success";
+
+                infoHtml += `<p><strong>Mã đơn hàng:</strong> ${response.data.code}</p>`;
+                infoHtml += `<p><strong>Số điện thoại:</strong> ${phone}</p>`;
+                infoHtml += `<p><strong>Trạng thái:</strong> <span class="${classStatus}">${statusOrder}</span></p>`;
+                $('#infoOrder').html(infoHtml);
+
+                data.forEach(item => {
+                    detailHtml += `
+                        <tr>
+                            <td><a href="${HOST}/views/product/detail/${item.productCode}" class="text-info">${item.productName}</a></td>
+                            <td>${formatPrice(item.total / item.quantity)} VNĐ</td>
+                            <td>${item.quantity}</td>
+                            <td>${formatPrice(item.total)} VNĐ</td>
+                        </tr>`;
+                });
+
+                $('#bodyDetailOrder').html(detailHtml);
+                $('.subtotalDetail').text(formatPrice(response.data.totalAmount));
+
+                if (response.data.status === 1) {
+                    $('#checkoutCart').show().click(function () {
+                        checkoutReturn(response.data.code);
+                    });
+                }
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
