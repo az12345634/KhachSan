@@ -3,10 +3,9 @@ package com.example.KhachSan.model.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
-public class ProductDTO {
+public class RoomDTO {
     // ID
     private Long id;
     // Code

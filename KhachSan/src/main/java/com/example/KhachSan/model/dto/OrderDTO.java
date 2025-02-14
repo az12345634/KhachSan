@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @Data
@@ -30,10 +31,10 @@ public class OrderDTO {
     private Integer status;
 
     // Ngày nhận phòng
-    private LocalDateTime checkInDate;
+    private LocalDate checkInDate;
     // Ngày trả phòng
-    private LocalDateTime checkOutDate;
-
+    private LocalDate checkOutDate;
+    private String note;
     // Số điện thoại giao hàng
     private String phoneShipping;
     // Tổng số tiền đơn hàng

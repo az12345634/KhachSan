@@ -2,15 +2,14 @@ package com.example.KhachSan.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Set;
+import java.util.Collection;
 
-@Table(name = "product")
+@Table(name = "room")
 @Entity
 @Data
-public class ProductEntity extends AbstractEntity{
+public class RoomEntity extends AbstractEntity{
     private String name;
     private String description;
     private String code;

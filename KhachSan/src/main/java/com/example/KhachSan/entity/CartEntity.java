@@ -22,10 +22,10 @@ public class CartEntity extends AbstractEntity{
 
     // ID sản phẩm
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "room_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private ProductEntity productEntity;
+    private RoomEntity roomEntity;
 
 
     // Số lượng sản phẩm

@@ -5,7 +5,7 @@ import com.example.KhachSan.model.dto.CartDTO;
 import com.example.KhachSan.model.dto.UserDTO;
 import com.example.KhachSan.model.response.BaseResponse;
 import com.example.KhachSan.repository.CartRepository;
-import com.example.KhachSan.repository.ProductRepository;
+import com.example.KhachSan.repository.RoomRepository;
 import com.example.KhachSan.repository.UserRepository;
 import com.example.KhachSan.service.ICartService;
 import com.example.KhachSan.service.IUserService;
@@ -19,8 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,10 +29,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements ICartService {
-    private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(RoomServiceImpl.class);
 
     @Autowired
-    private ProductRepository productRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
     private CartRepository cartRepository;
@@ -73,15 +71,15 @@ public class CartServiceImpl implements ICartService {
             cartDTO.setCreatedBy(cartEntity.getUserEntity().getUsername());
 
             // Set id sản phẩm
-            cartDTO.setProductId(cartEntity.getProductEntity().getId());
+            cartDTO.setProductId(cartEntity.getRoomEntity().getId());
 
             // Set tên sản phẩm
-            String productName = cartEntity.getProductEntity().getName();
+            String productName = cartEntity.getRoomEntity().getName();
             cartDTO.setProductName(productName);
 
-            cartDTO.setProductCode(cartEntity.getProductEntity().getCode());
+            cartDTO.setProductCode(cartEntity.getRoomEntity().getCode());
             // Set giá sản phẩm
-            Double productPrice = cartEntity.getProductEntity().getPrice();
+            Double productPrice = cartEntity.getRoomEntity().getPrice();
             cartDTO.setProductPrice(productPrice);
 
             // Set số lượng sản phẩm
@@ -92,7 +90,7 @@ public class CartServiceImpl implements ICartService {
             Double totalOneP = productPrice  * quantity;
             cartDTO.setTotalOneP(totalOneP);
             try {
-                cartDTO.setImgProduct("data:image/jpeg;base64," + Constant.encodeImage(cartEntity.getProductEntity().getImage()));
+                cartDTO.setImgProduct("data:image/jpeg;base64," + Constant.encodeImage(cartEntity.getRoomEntity().getImage()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -121,7 +119,7 @@ public class CartServiceImpl implements ICartService {
         }
 
         UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
-        Optional<ProductEntity> product = productRepository.findById(cartDTO.getProductId());
+        Optional<RoomEntity> product = roomRepository.findById(cartDTO.getProductId());
 
         if (product.isEmpty()) {
             response.setCode(HttpStatus.BAD_REQUEST.value());
@@ -136,7 +134,7 @@ public class CartServiceImpl implements ICartService {
         CartEntity cartEntity = new CartEntity();
         cartEntity.setId(cartDTO.getId());
         cartEntity.setUserEntity(userEntity);
-        cartEntity.setProductEntity(product.get());
+        cartEntity.setRoomEntity(product.get());
         cartEntity.setTotal(cartDTO.getTotalOneP());
         cartEntity.setQuantity(cartDTO.getQuantity());
         LocalDateTime now = LocalDateTime.now();

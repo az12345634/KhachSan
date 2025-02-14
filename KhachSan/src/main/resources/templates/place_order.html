@@ -143,10 +143,10 @@ START BOOKING AREA
                                     <!-- end col-lg-12 -->
                                     <div class="col-lg-6 responsive-column">
                                         <div class="input-box">
-                                            <label class="label-text">Ngày Check-in</label>
+                                            <label for="check_in_date" class="label-text">Ngày Check-in</label>
                                             <div class="form-group">
                                                 <span class="la la-calendar form-icon"></span>
-                                                <input
+                                                <input id="check_in_date"
                                                         class="form-control"
                                                         type="date"
                                                         name="check_in_date"
@@ -157,10 +157,10 @@ START BOOKING AREA
                                     <!-- end col-lg-6 -->
                                     <div class="col-lg-6 responsive-column">
                                         <div class="input-box">
-                                            <label class="label-text">Ngày Check-out</label>
+                                            <label for="check_out_date" class="label-text">Ngày Check-out</label>
                                             <div class="form-group">
                                                 <span class="la la-calendar form-icon"></span>
-                                                <input
+                                                <input id="check_out_date"
                                                         class="form-control"
                                                         type="date"
                                                         name="check_out_date"
@@ -207,16 +207,7 @@ START BOOKING AREA
                                         <h3 id="productItem" class="card-title">Golden Gate Seaplane Tour</h3>
                                         <p class="addres card-meta">124 E Huron St, New york</p>
                                     </div>
-                                    <!--                                    <div>-->
-                                    <!--                                        <a href="tour-details.html" class="btn ms-1"-->
-                                    <!--                                        ><i-->
-                                    <!--                                                class="la la-edit"-->
-                                    <!--                                                data-bs-toggle="tooltip"-->
-                                    <!--                                                data-placement="top"-->
-                                    <!--                                                title="Edit"-->
-                                    <!--                                        ></i-->
-                                    <!--                                        ></a>-->
-                                    <!--                                    </div>-->
+
                                 </div>
                                 <div class="section-block"></div>
                                 <ul class="list-items list-items-2 list-items-flush py-2">
@@ -282,11 +273,25 @@ START BOOKING AREA
         $('#payment').click(function (e) {
             e.preventDefault(); // Chặn hành động submit mặc định của form
 
-            let userName = $('input[type=text][name=userName]').val().trim();
-            let phoneNumber = $('input[type=text][name=phoneNumber]').val().trim();
-            let noteOder = $('input[type=text][name=noteOder]').val().trim();
-
+            let userName = $('input[name="userName"]').val().trim();
+            let phoneNumber = $('input[name="phoneNumber"]').val().trim();
+            let noteOder = $('input[name="noteOder"]').val().trim();
+            let checkInDate = $('input[name="check_in_date"]').val();
+            let checkOutDate = $('input[name="check_out_date"]').val();
             let isValid = true;
+            let today = new Date().toISOString().split('T')[0]; // Lấy ngày hiện tại
+
+            // Kiểm tra ngày Check-in
+            if (!checkInDate || checkInDate < today) {
+                alert("Ngày check-in phải từ hôm nay trở đi.");
+                isValid = false;
+            }
+
+            // Kiểm tra ngày Check-out
+            if (!checkOutDate || checkOutDate <= checkInDate) {
+                alert("Ngày check-out phải sau ngày check-in.");
+                isValid = false;
+            }
 
             // Kiểm tra Họ và tên
             if (userName === "") {
@@ -309,9 +314,14 @@ START BOOKING AREA
 
             // Nếu tất cả các trường hợp đều hợp lệ, thực hiện AJAX
             if (isValid) {
+                let formattedCheckInDate = new Date(checkInDate).toISOString().split('T')[0];
+                let formattedCheckOutDate = new Date(checkOutDate).toISOString().split('T')[0];
+
                 let objectData = {
                     code: $(this).data('code'),
                     note: noteOder,
+                    checkInDate: formattedCheckInDate,
+                    checkOutDate: formattedCheckOutDate,
                     username: userName,
                     phoneShipping: phoneNumber
                 };
@@ -375,10 +385,6 @@ START BOOKING AREA
 
                 $('#productItem').html(productItemHtml);
                 $('.totalAmount').html(formatPrice(response.data.totalAmount));
-
-                $('input[type="text"][name="address"]').val(response.data.addressShipping);
-                $('input[type="text"][name="phoneNumber"]').val(response.data.phoneShipping);
-
                 $('#payment').data("code", response.data.code);
                 console.log(response);
             },
@@ -388,6 +394,7 @@ START BOOKING AREA
         });
     }
 </script>
+
 
 </body>
 </html>

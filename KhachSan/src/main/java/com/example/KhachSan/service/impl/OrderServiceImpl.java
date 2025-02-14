@@ -15,7 +15,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.example.KhachSan.entity.*;
 import com.example.KhachSan.model.dto.OrderDTO;
 import com.example.KhachSan.model.dto.OrderDetailDTO;
-import com.example.KhachSan.model.dto.ProductDTO;
+import com.example.KhachSan.model.dto.RoomDTO;
 import com.example.KhachSan.model.dto.UserDTO;
 import com.example.KhachSan.model.request.OrderFilterRequest;
 import com.example.KhachSan.model.response.BaseResponse;
@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,7 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
     @Autowired
-    private ProductRepository productRepository;
+    private RoomRepository roomRepository;
 
 
     @Override
@@ -74,8 +75,8 @@ public class OrderServiceImpl implements IOrderService {
             // Tạo danh sách tên sản phẩm cho mỗi đơn hàng
             List<String> productNames = new ArrayList<>();
             for (OrderDetailEntity orderDetail : orderDetails) {
-                ProductEntity productEntity = orderDetail.getProductEntity();
-                productNames.add(productEntity.getName()); // Giả sử tên sản phẩm được lưu trong trường 'name'
+                RoomEntity roomEntity = orderDetail.getRoomEntity();
+                productNames.add(roomEntity.getName()); // Giả sử tên sản phẩm được lưu trong trường 'name'
             }
 
             // Đặt danh sách tên sản phẩm cho đơn hàng
@@ -117,7 +118,7 @@ public class OrderServiceImpl implements IOrderService {
             orderDetailDTO.setTotal(orderDetailEntity.getTotal());
             orderDetailDTO.setQuantity(orderDetailEntity.getQuantity());
 
-            Optional<ProductEntity> product = productRepository.findById(orderDetailEntity.getProductEntity().getId());
+            Optional<RoomEntity> product = roomRepository.findById(orderDetailEntity.getRoomEntity().getId());
             if (product.isEmpty()) {
                 orderDetailDTO.setProductName(null);
                 orderDetailDTO.setProductCode(null);
@@ -179,6 +180,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
+
     public BaseResponse<?> updateOrder(OrderDTO orderDTO) {
         BaseResponse<?> response = new BaseResponse<>();
         UserDTO userDTO = userService.getCurrentUser(true);
@@ -186,20 +188,51 @@ public class OrderServiceImpl implements IOrderService {
 
         if (order.isEmpty()) {
             response.setCode(HttpStatus.BAD_REQUEST.value());
-            response.setMessage("Order not exits in system");
+            response.setMessage("Order not exists in system");
             return response;
         }
 
+        OrderEntity orderEntity = order.get();
 
+        // Cập nhật thông tin cơ bản
         if (orderDTO.getPhoneShipping() != null) {
-            order.get().setPhoneShipping(orderDTO.getPhoneShipping());
+            orderEntity.setPhoneShipping(orderDTO.getPhoneShipping());
+        }
+
+        if (orderDTO.getNote() != null) {
+            orderEntity.setNote(orderDTO.getNote());
+        }
+        if (orderDTO.getCheckInDate() != null) {
+            orderEntity.setCheckInDate(orderDTO.getCheckInDate());
         }
         if (orderDTO.getStatus() != null) {
             order.get().setStatus(orderDTO.getStatus());
         }
-        order.get().setLastModifiedBy(userDTO.getUsername());
-        orderRepository.save(order.get());
-        response.setMessage("Update order successfully");
+        if (orderDTO.getCheckOutDate() != null) {
+            orderEntity.setCheckOutDate(orderDTO.getCheckOutDate());
+        }
+
+        // Tính toán tổng tiền mới nếu có ngày check-in và check-out
+        if (orderDTO.getCheckInDate() != null && orderDTO.getCheckOutDate() != null) {
+            long daysBetween = ChronoUnit.DAYS.between(orderDTO.getCheckInDate(), orderDTO.getCheckOutDate());
+            if (daysBetween <= 0) {
+                daysBetween = 1;  // Nếu ít hơn 1 ngày, mặc định là 1 ngày
+            }
+
+            // Lấy giá trị totalAmount từ orderDTO hoặc orderEntity nếu bị null
+            double totalAmount = orderDTO.getTotalAmount() != null ? orderDTO.getTotalAmount() :
+                    (orderEntity.getTotalAmount() != null ? orderEntity.getTotalAmount() : 0.0);
+
+            double newTotalAmount = totalAmount * daysBetween;
+
+            // Gán tổng tiền mới cho orderEntity
+            orderEntity.setTotalAmount(newTotalAmount);
+        }
+
+        orderEntity.setLastModifiedBy(userDTO.getUsername());
+        orderRepository.save(orderEntity);
+
+        response.setMessage("Update order successfully. New total amount: " + orderEntity.getTotalAmount());
         response.setCode(HttpStatus.OK.value());
         return response;
     }
@@ -220,7 +253,7 @@ public class OrderServiceImpl implements IOrderService {
             return response;
         }
 
-        Optional<ProductEntity> product = productRepository.findById(orderDetailDTO.getProductId());
+        Optional<RoomEntity> product = roomRepository.findById(orderDetailDTO.getProductId());
         if (product.isEmpty()) {
             response.setCode(HttpStatus.BAD_REQUEST.value());
             response.setMessage("Product not exits in system");
@@ -230,7 +263,7 @@ public class OrderServiceImpl implements IOrderService {
 
         OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
         orderDetailEntity.setOrderEntity(order.get());
-        orderDetailEntity.setProductEntity(product.get());
+        orderDetailEntity.setRoomEntity(product.get());
         orderDetailEntity.setQuantity(orderDetailDTO.getQuantity());
         orderDetailEntity.setTotal(orderDetailDTO.getTotal());
         orderDetailRepository.save(orderDetailEntity);
@@ -314,26 +347,26 @@ public class OrderServiceImpl implements IOrderService {
         fiveColumnTable.addCell(new Cell().add("Total").setBold().setFontColor(Color.WHITE).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
 
         document.add(fiveColumnTable);
-        ProductDTO productDTOO = new ProductDTO();
-        productDTOO.setName("Test Product PDF 1");
-        ProductDTO productDTOT = new ProductDTO();
-        productDTOT.setName("Test Product PDF 2");
-        ProductDTO productDTOTH = new ProductDTO();
-        productDTOTH.setName("Test Product PDF 3");
-        ProductDTO productDTOF = new ProductDTO();
-        productDTOF.setName("Test Product PDF 4");
-        ProductDTO productDTOFI = new ProductDTO();
-        productDTOFI.setName("Test Product PDF 5");
+        RoomDTO roomDTOO = new RoomDTO();
+        roomDTOO.setName("Test Product PDF 1");
+        RoomDTO roomDTOT = new RoomDTO();
+        roomDTOT.setName("Test Product PDF 2");
+        RoomDTO roomDTOTH = new RoomDTO();
+        roomDTOTH.setName("Test Product PDF 3");
+        RoomDTO roomDTOF = new RoomDTO();
+        roomDTOF.setName("Test Product PDF 4");
+        RoomDTO roomDTOFI = new RoomDTO();
+        roomDTOFI.setName("Test Product PDF 5");
 
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        productDTOS.add(productDTOO);
-        productDTOS.add(productDTOT);
-        productDTOS.add(productDTOTH);
-        productDTOS.add(productDTOF);
-        productDTOS.add(productDTOFI);
+        List<RoomDTO> roomDTOS = new ArrayList<>();
+        roomDTOS.add(roomDTOO);
+        roomDTOS.add(roomDTOT);
+        roomDTOS.add(roomDTOTH);
+        roomDTOS.add(roomDTOF);
+        roomDTOS.add(roomDTOFI);
 
         Table fiveColumnTableT = new Table(fiveColumnWidth);
-        for (ProductDTO product : productDTOS) {
+        for (RoomDTO product : roomDTOS) {
             fiveColumnTableT.addCell(new Cell().add(product.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT));
             fiveColumnTableT.addCell(new Cell().add(product.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED));
             fiveColumnTableT.addCell(new Cell().add(product.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.JUSTIFIED));

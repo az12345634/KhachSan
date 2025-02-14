@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
 
     @Query(value = "SELECT DISTINCT o FROM CategoryEntity o " +
-            "LEFT JOIN o.productEntities u " +
+            "LEFT JOIN o.roomEntities u " +
             " WHERE " +
             "(:#{#condition.productId} is null or u.id = :#{#condition.productId} )" +
             "AND o.deleted=false ORDER BY o.createdDate desc "

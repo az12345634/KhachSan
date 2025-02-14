@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/views/product")
-public class ProductController {
+public class RoomController {
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("pageTitle", "Sản phẩm");
-        return "product";
+        return "room";
     }
 
     @GetMapping("/detail/{code}")// link này chuyển trang trong layout dùng chung
     public String productDetail(Model model) {
         model.addAttribute("pageTitle", "Chi tiết sản phẩm");
 
-        return "product_detail"; //  này là chỉ tới trang giao diên html
+        return "room_detail"; //  này là chỉ tới trang giao diên html
     }
+
 
 
 }

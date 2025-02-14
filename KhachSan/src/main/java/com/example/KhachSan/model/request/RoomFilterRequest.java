@@ -3,7 +3,7 @@ package com.example.KhachSan.model.request;
 import lombok.Data;
 
 @Data
-public class ProductFilterRequest {
+public class RoomFilterRequest {
     private String name;
     private String code;
     private Float price;

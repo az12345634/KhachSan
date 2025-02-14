@@ -17,10 +17,10 @@ public class OrderDetailEntity extends AbstractEntity {
 
     // ID sản phẩm
     @OneToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "room_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private ProductEntity productEntity;
+    private RoomEntity roomEntity;
 
 
     // Số lượng sản phẩm

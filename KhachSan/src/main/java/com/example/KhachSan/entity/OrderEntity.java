@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -31,12 +32,13 @@ public class OrderEntity extends AbstractEntity {
     private String phoneShipping;
 
     // Ngày nhận phòng
-    @Column(name = "check_in_date", nullable = true)
-    private LocalDateTime checkInDate;
+    @Column(name = "check_in_date")
+    private LocalDate checkInDate;
 
     // Ngày trả phòng
-    @Column(name = "check_out_date", nullable = true)
-    private LocalDateTime checkOutDate;
+    @Column(name = "check_out_date")
+    private LocalDate checkOutDate;
+//    private LocalDateTime checkOutDate;
 
 
     // Tổng tiền đơn hàng

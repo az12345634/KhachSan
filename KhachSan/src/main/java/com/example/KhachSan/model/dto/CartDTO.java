@@ -19,7 +19,7 @@ public class CartDTO {
     // Tổng giá trị đơn hàng
     private Double totalAmount;
     // Sản phẩm
-    private ProductDTO product;
+    private RoomDTO product;
     // Tên sản phẩm
     private String productName;
     // Url ảnh sản phẩm

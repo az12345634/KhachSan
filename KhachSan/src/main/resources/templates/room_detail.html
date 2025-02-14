@@ -51,7 +51,7 @@
                                     data-fancybox="gallery"
                                     data-caption="Showing image - 01"
                                     data-speed="700">
-                                <i class="la la-photo me-2"></i>More Photos
+                                <i class="la la-photo me-2"></i>Xem ảnh
                             </a>
 
                 </div>
@@ -272,9 +272,16 @@
                                 <div  class="sidebar-book-title-wrap mb-3">
                                     <h3>Thông tin phòng</h3>
                                     <p>
-                        <span class="text-form">Giá</span
-                        ><span id="price" class="text-value ms-2 me-1">$399.00</span>
+                                        <span class="text-form">Giá</span>
+                                        <span id="price" class="text-value ms-2 me-1">$399.00</span>
                                     </p>
+                                </div>
+                            </div>
+
+                            <div class="input-box">
+
+                                <div  class="form-group">
+                                    <span>Địa chỉ : </span><label id="address" class="label-text"> Địa chỉ</label>
                                 </div>
                             </div>
                             <!-- end sidebar-widget-item -->
@@ -366,7 +373,7 @@
                     'data-fancybox="gallery" ' +
                     'data-caption="Showing image - Updated" ' +
                     'data-speed="700">' +
-                    '<i class="la la-photo me-2"></i>More Photos' +
+                    '<i class="la la-photo me-2"></i>Xem ảnh' +
                     '</a>';
 
                 $('.btn-boxx').html(img);
@@ -375,6 +382,7 @@
                 $('.titlee').html(nameProductHtml);
 
                 $('#shortDes').html('<p>' + productData.shortDescription + '</p>');
+                $('#address').html('<p style="color: #9a6e3a;fo">' + productData.address + '</p>');
                 $('#pills-home').html('<p>' + productData.description + '</p>');
                 $('#cate').html('<a href="#" class="link-oragne">' + productData.category + '</a>');
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, Long> {
     @Query(value = "SELECT od FROM OrderDetailEntity od " +
-            "LEFT JOIN od.productEntity p " +
+            "LEFT JOIN od.roomEntity p " +
             " WHERE " +
             " (:#{#orderId} is null or od.orderEntity.id = :#{#orderId}) " +
             "AND p.deleted=false"
@@ -16,7 +16,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
     List<OrderDetailEntity> findByCode(Long orderId);
     @Query(value = "SELECT o FROM OrderDetailEntity o " +
             "LEFT JOIN o.orderEntity u " + // Thay đổi userEntity thành user
-            "LEFT JOIN o.productEntity p " +
+            "LEFT JOIN o.roomEntity p " +
             "WHERE " +
             "(:#{#userId} is null or u.userEntity.id = :#{#userId})" +
             " AND (:#{#productId} is null or p.id = :#{#productId} )" +

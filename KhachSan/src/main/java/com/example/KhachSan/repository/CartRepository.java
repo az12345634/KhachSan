@@ -13,7 +13,7 @@ import java.util.Set;
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
     @Query(value = "SELECT c FROM CartEntity c " +
             "LEFT JOIN c.userEntity u " +
-            "LEFT JOIN c.productEntity p " +
+            "LEFT JOIN c.roomEntity p " +
             " WHERE " +
             " (:#{#userId} is null or u.id = :#{#userId}) " +
             "AND c.deleted=false ORDER BY p.createdDate desc "
@@ -28,7 +28,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
     @Query(value = "SELECT c FROM CartEntity c " +
             "LEFT JOIN c.userEntity u " +
-            "LEFT JOIN c.productEntity p " +
+            "LEFT JOIN c.roomEntity p " +
             " WHERE " +
             " (:#{#userId} is null or u.id = :#{#userId}) " +
             "AND (:#{#productId} is null or p.id = :#{#productId}) " +

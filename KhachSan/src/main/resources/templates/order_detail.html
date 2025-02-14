@@ -27,7 +27,7 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Sản phẩm</th>
-                                <th scope="col">Đơn giá / Kg</th>
+                                <th scope="col">Giá phòng</th>
                                 <th scope="col">Số lượng</th>
                                 <th scope="col">Tổng</th>
                             </tr>
@@ -86,9 +86,9 @@
                     detailHtml += `
                         <tr>
                             <td><a href="${HOST}/views/product/detail/${item.productCode}" class="text-info">${item.productName}</a></td>
-                            <td>${formatPrice(item.total / item.quantity)} VNĐ</td>
+                            <td>${formatPrice(item.total / item.quantity)} </td>
                             <td>${item.quantity}</td>
-                            <td>${formatPrice(item.total)} VNĐ</td>
+                            <td>${formatPrice(item.total)} </td>
                         </tr>`;
                 });
 
