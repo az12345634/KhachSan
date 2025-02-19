@@ -21,4 +21,6 @@ public interface IRoomService {
     BaseResponse<?> deleteProduct(Long id);
     List<RoomEntity> searchProduct(String keyword); // Thêm phương thức tìm kiếm
     List<RoomEntity> findAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate);
+//BaseResponse<Page<RoomDTO>> findAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, int page, int size);
+
 }

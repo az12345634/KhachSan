@@ -272,6 +272,7 @@ public class OrderServiceImpl implements IOrderService {
         return response;
     }
 
+
     public BaseResponse<?> getInvoicePdf() throws FileNotFoundException {
         File directory = new File(Constant.INVOICE_PDF_PATH);
         if (!directory.exists()) { //Kiểm tra thư mục đã tồn tại chưa

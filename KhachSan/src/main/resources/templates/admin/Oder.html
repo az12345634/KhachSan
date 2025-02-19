@@ -39,9 +39,10 @@
                                 <th scope="col">Khách hàng </th>
                                 <th scope="col">Tên sản phẩm  </th>
                                 <th scope="col">Tổng giá</th>
-                                <th scope="col">Địa chỉ</th>
                                 <th scope="col">Số điện thoại</th>
-                                <th  scope="col">Ngày Thanh toán</th>
+                                <th scope="col">Ngày Thanh toán</th>
+                                <th scope="col" class="datatable-sorter">Thanh toán</th>
+
                             </tr>
                             </thead>
                             <tbody >
@@ -87,15 +88,18 @@
                  for (let i = 0; i < dataOder.length; i++) {
                      let formattedOrder = dataOder[i].totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                      console.log(dataOder[i]);
+                     let status = dataOder[i].status === 1 ? "Chưa thanh toán" : "Đã thanh toán";
+                     let classStatus = dataOder[i].status === 1 ? "danger" : "success";
                      OderO += '<tr>' +
                          '<td data-id="' + dataOder[i].id + '">' + (i + 1) + '</td>' +
                          '<td data-code="' + dataOder[i].code + '">' + dataOder[i].code + '</td>'+
                          '<td data-code="' + dataOder[i].username + '">' + dataOder[i].username + '</td>'+
                          '<td data-code="' + dataOder[i].productname + '">' + dataOder[i].productname + '</td>'+
                          '<td data-totalAmount="' + dataOder[i].totalAmount + '">'+ formattedOrder + '</td>' +
-                         '<td data-addressShipping="' + dataOder[i].addressShipping + '">' + dataOder[i].addressShipping + '</td>' +
                          '<td data-phoneShipping="' + dataOder[i].phoneShipping + '">' + dataOder[i].phoneShipping + '</td>' +
                          '<td data-createDate="' + dataOder[i].createDate + '">' + dataOder[i].createDate + '</td>' +
+                         '<td><span style="color:white; border-radius: 20px; margin-left: 5%; margin-top: 6%; line-height: 1" class="badge bg-' + classStatus + '">' + status + '</span> </td>' +
+
                          '</tr>';
                  }
                  $('#tableDate tbody').empty(); //  jQuery được sử dụng để xóa tất cả các phần tử có id là tableDate để ko lặp trang.

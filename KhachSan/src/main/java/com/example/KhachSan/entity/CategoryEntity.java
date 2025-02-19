@@ -1,5 +1,6 @@
 package com.example.KhachSan.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class CategoryEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
+    @JsonBackReference // Ngăn vòng lặp khi tuần tự hóa JSON
     @ToString.Exclude
     private List<RoomEntity> roomEntities;
 }

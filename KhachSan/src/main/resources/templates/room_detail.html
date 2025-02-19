@@ -225,33 +225,84 @@
                                 <div class="comments-list padding-top-50px">
                                     <div class="comment">
                                         <div class="comment-body">
-                                            <div class="meta-data">
-                                                <h3 class="comment__author">Jenny Doe</h3>
-<!--                                                <div class="meta-data-inner d-flex">-->
-<!--                              -->
-<!--                                                    <p class="comment__date">April 5, 2019</p>-->
-<!--                                                </div>-->
-                                            </div>
-                                            <p class="comment-content">
-                                                Lorem ipsum dolor sit amet, dolores mandamus
-                                                moderatius ea ius, sed civibus vivendum imperdiet
-                                                ei, amet tritani sea id. Ut veri diceret fierent
-                                                mei, qui facilisi suavitate euripidis
-                                            </p>
-
+                                            <h5 class="comment__author">
+                                                a
+                                                <i class="fas fa-trash-alt delete-icon" data-id="4"></i>
+                                                <i class="fas fa-pen update-icon" data-id="4"></i>
+                                            </h5>
+                                            <p class="comment-content">h</p>
                                         </div>
                                     </div>
-                                    <!-- end comments -->
 
 
-                                    <div class="btn-box load-more text-center">
-                                        <button
-                                                class="theme-btn theme-btn-small theme-btn-transparent"
-                                                type="button"
-                                        >
-                                            Load More Review
-                                        </button>
+                                </div>
+
+                                <div class="modal" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Cập Nhật Đánh Giá</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                <form id="updateForm">
+
+                                                    <div class="mb-3">
+                                                        <label for="conten" class="form-label">Nội dung chỉnh sửa</label>
+                                                        <textarea class="form-control" id="conten" rows="4"></textarea>
+                                                    </div>
+                                                    <input type="hidden" id="id">
+                                                </form>
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success" id="buttonApply">Apply</button>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+
+                                <div class="comment-forum padding-top-40px">
+                                    <div class="form-box">
+                                        <div class="form-title-wrap">
+                                            <h3 class="title">Viết đánh giá sản phẩm</h3>
+                                        </div>
+                                        <!-- form-title-wrap -->
+                                        <div class="form-content">
+
+                                            <div class="contact-form-action">
+                                                <form method="post">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="input-box">
+                                                                <label class="label-text">Message</label>
+                                                                <div class="form-group">
+                                                                    <span class="la la-pencil form-icon"></span>
+                                                                    <textarea id="content" class="message-control form-control" name="message" placeholder="Write message"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="btn-box">
+                                                                <button type="button" id="post" class="theme-btn">
+                                                                    Leave a Review
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- end contact-form-action -->
+                                        </div>
+                                        <!-- end form-content -->
+                                    </div>
+                                    <!-- end form-box -->
                                 </div>
                                 <!-- end comments-list -->
 
@@ -340,7 +391,8 @@
 <script>
     initProductDetail();
     clickBooking();
-
+    let object = { productCode: getCode() };
+    getCommentsAndDisplay(object);
     // Biến toàn cục để lưu giá sản phẩm
     let currentProductPrice = 0;
 
@@ -459,7 +511,157 @@
         return price ? price.toLocaleString('vi-VN', { style: 'decimal', minimumFractionDigits: 0 }) : 'N/A';
     }
 
+    // hiển thị comment
+    function getCommentsAndDisplay(object) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/comments",
+            contentType: "application/json",
+            data: JSON.stringify(object),
+            dataType: "json",
+            success: function (response) {
+                console.log(response); // Kiểm tra dữ liệu trả về
+                let comments = response.data.content; // Kiểm tra nếu dữ liệu có ở đây
 
+                if (comments && comments.length > 0) {
+                    displayComments(comments); // Hiển thị bình luận nếu có
+                } else {
+                    console.log("Không có bình luận");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy bình luận:", error);
+            }
+        });
+    }
+
+    function displayComments(comments) {
+        let commentsHTML = '';
+        comments.forEach(function (comment) {
+            commentsHTML += '<div class="comment">' +
+                '<div class="comment-body">' +
+                '<h5 class="comment__author" style="font-size: 35px; color: black;">' + comment.username +
+                '<i style="line-height: 1.3; color: #f14b4b; font-size: 71%; float:right; margin-left: 10px;" class=" fas fa-trash-alt delete-icon" data-id="' + comment.id + '"></i>' +
+                '<i style="line-height: 1.3; color: #51f14b; font-size: 71%; float:right;" class="fas fas fa-pen update-icon" data-id="' + comment.id + '"></i>' +
+                '</h5>' +
+                '<p class="comment-content">' + comment.content + '</p>' +
+                // '<p class="card-text"><small class="text-muted">' + comment.createdDate + '</small></p>' +
+                '</div>' +
+                '</div>';
+        });
+        $('.comment').html(commentsHTML);
+    }
+
+    $(document).on('click', '#post', function () {
+        var content1 = $('#content').val();
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/comments/create",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                productCode: getCode(),
+                content: content1
+            }),
+            success: function (response) {
+                if (response.code !== 200) {
+                    alertInfo("", "Bạn chưa mua hàng ", "error");
+                }
+                let object = { productCode: getCode() };
+                getCommentsAndDisplay(object);  // Gọi lại để hiển thị bình luận sau khi thêm
+            },
+            error: function (error) {
+                console.log("Lỗi khi thêm bình luận:", error);
+            }
+        });
+    });
+    // Update icon click event
+    $(document).ready(function () {
+        // Edit icon click event
+        $(document).on('click', '.update-icon', function () {
+            console.log("Edit button clicked");
+
+            var id = $(this).data('id'); // Retrieve data-id from the clicked icon
+            var CommentUserName = $(this).closest('.card-body').find('.card-title').text().trim();
+            var CommentContent = $(this).closest('.card-body').find('.card-text').first().text().trim();
+
+            // Update modal with comment details
+            $('#myModal').attr('data-id', id);
+            $('#id').val(id);
+            $('#username').val(CommentUserName);
+            $('#conten').val(CommentContent);
+
+            // Show the modal
+            $('#myModal').modal('show');
+        });
+    });
+
+    // Apply button click event
+    $(document).on('click', '#buttonApply', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var id = $('#myModal').data('id');
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/api/comments/" + id,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                id: id,
+                username: $('#username').val(),
+                name: $('#name').val(),
+                content: $('#conten').val()
+            }),
+            success: function (response) {
+                if (response.code ===200) {
+                    alertInfo("", "Sửa bình luận thành công ", "success")
+                }
+                let object = {
+                    productCode: getCode(),
+
+                };
+                getCommentsAndDisplay(object);
+                $('#myModal').modal('hide');
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    });
+    // // xoóa
+    $(document).on('click', '.delete-icon', function () {
+        var id = $(this).data('id'); // Lấy ID từ thuộc tính data-id của biểu tượng
+        console.log("Nút Xóa được nhấn cho ID:", id);
+
+        // Kiểm tra nếu id không tồn tại hoặc không hợp lệ
+        if (!id) {
+            console.log("ID không tồn tại hoặc không hợp lệ");
+            return;
+        }
+
+        var $tr = $(this).closest('tr'); // Lấy thẻ <tr> chứa biểu tượng
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8080/api/comments/" + id,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                if (response.code ===200) {
+                    alertInfo("", "Xóa bình luận thành công ", "success")
+                }
+                let object = {
+                    productCode: getCode(),
+
+                };
+                getCommentsAndDisplay(object);
+
+            },
+            error: function (error) {
+                console.log("Lỗi khi xóa bình luận:", error);
+            }
+        });
+    });
 </script>
 
 </body>

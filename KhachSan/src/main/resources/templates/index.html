@@ -45,10 +45,10 @@ START HERO-WRAPPER AREA
                 <div class="col-lg-12">
                     <div class="hero-content pb-5">
                         <div class="section-heading">
-                            <p class="sec__desc pb-2">Hotel stays, Dream getaways</p>
+                            <p class="sec__desc pb-2">Khách sạn ở lại, giấc mơ nghỉ ngơi</p>
                             <h2 class="sec__title">
-                                Find the Perfect Place to Stay <br />
-                                for Your Next Trip
+                                Tìm nơi hoàn hảo để ở <br />
+                                Tìm nơi hoàn hảo để ở
                             </h2>
                         </div>
                     </div>
@@ -58,173 +58,39 @@ START HERO-WRAPPER AREA
                             <form action="#" class="row">
                                 <div class="col-lg-3 pe-0">
                                     <div class="input-box">
-                                        <label class="label-text"
-                                        >Destination / Hotel name</label
-                                        >
-                                        <div class="form-group">
-                                            <span class="la la-map-marker form-icon"></span>
-                                            <input
-                                                    class="form-control"
-                                                    type="text"
-                                                    placeholder="Enter City or property"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end col-lg-3 -->
-                                <div class="col-lg-3 pe-0">
-                                    <div class="input-box">
-                                        <label class="label-text">Check in - Check out</label>
+                                        <label class="label-text">Check-in Date</label>
                                         <div class="form-group">
                                             <span class="la la-calendar form-icon"></span>
                                             <input
-                                                    class="date-range form-control"
-                                                    type="text"
-                                                    name="daterange"
+                                                    class="form-control"
+                                                    type="date"
+                                                    name="checkin_date"
+                                                    required
                                             />
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end col-lg-3 -->
+
                                 <div class="col-lg-3 pe-0">
                                     <div class="input-box">
-                                        <label class="label-text">Room Type</label>
-                                        <div class="form-group select2-container-wrapper">
-                                            <div
-                                                    class="select-contain select-contain-shadow w-auto"
-                                            >
-                                                <select class="select-contain-select">
-                                                    <option value="0">Select Type</option>
-                                                    <option value="1">Single</option>
-                                                    <option value="2">Double</option>
-                                                    <option value="3">Triple</option>
-                                                    <option value="4">Quad</option>
-                                                    <option value="5">Queen</option>
-                                                    <option value="6">King</option>
-                                                    <option value="7">Twin</option>
-                                                    <option value="8">Double-double</option>
-                                                    <option value="9">Studio</option>
-                                                    <option value="10">Suite</option>
-                                                    <option value="11">Mini Suite</option>
-                                                    <option value="12">President Suite</option>
-                                                    <option value="13">President Suite</option>
-                                                    <option value="14">Apartments</option>
-                                                    <option value="15">Connecting rooms</option>
-                                                    <option value="16">Murphy Room</option>
-                                                    <option value="17">Accessible Room</option>
-                                                    <option value="18">Cabana</option>
-                                                    <option value="19">Adjoining rooms</option>
-                                                    <option value="20">Adjacent rooms</option>
-                                                    <option value="21">Villa</option>
-                                                    <option value="22">Executive Floor</option>
-                                                    <option value="23">Smoking room</option>
-                                                    <option value="24">Non-Smoking Room</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end col-lg-3 -->
-                                <div class="col-lg-3">
-                                    <div class="input-box">
-                                        <label class="label-text">Guests and Rooms</label>
+                                        <label class="label-text">Check-out Date</label>
                                         <div class="form-group">
-                                            <div class="dropdown dropdown-contain gty-container">
-                                                <a
-                                                        class="dropdown-toggle dropdown-btn"
-                                                        href="#"
-                                                        role="button"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
-                                                        data-bs-auto-close="outside"
-                                                >
-                              <span
-                                      class="adult"
-                                      data-text="Adult"
-                                      data-text-multi="Adults"
-                              >0 Adult</span
-                              >
-                                                    -
-                                                    <span
-                                                            class="children"
-                                                            data-text="Child"
-                                                            data-text-multi="Children"
-                                                    >0 Child</span
-                                                    >
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-wrap">
-                                                    <div class="dropdown-item">
-                                                        <div
-                                                                class="qty-box d-flex align-items-center justify-content-between"
-                                                        >
-                                                            <label>Rooms</label>
-                                                            <div class="qtyBtn d-flex align-items-center">
-                                                                <div class="qtyDec">
-                                                                    <i class="la la-minus"></i>
-                                                                </div>
-                                                                <input
-                                                                        type="text"
-                                                                        name="room_number"
-                                                                        value="0"
-                                                                        class="qty-input"
-                                                                />
-                                                                <div class="qtyInc">
-                                                                    <i class="la la-plus"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="dropdown-item">
-                                                        <div
-                                                                class="qty-box d-flex align-items-center justify-content-between"
-                                                        >
-                                                            <label>Adults</label>
-                                                            <div class="qtyBtn d-flex align-items-center">
-                                                                <div class="qtyDec">
-                                                                    <i class="la la-minus"></i>
-                                                                </div>
-                                                                <input
-                                                                        type="text"
-                                                                        name="adult_number"
-                                                                        value="0"
-                                                                />
-                                                                <div class="qtyInc">
-                                                                    <i class="la la-plus"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="dropdown-item">
-                                                        <div
-                                                                class="qty-box d-flex align-items-center justify-content-between"
-                                                        >
-                                                            <label>Children</label>
-                                                            <div class="qtyBtn d-flex align-items-center">
-                                                                <div class="qtyDec">
-                                                                    <i class="la la-minus"></i>
-                                                                </div>
-                                                                <input
-                                                                        type="text"
-                                                                        name="child_number"
-                                                                        value="0"
-                                                                />
-                                                                <div class="qtyInc">
-                                                                    <i class="la la-plus"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- .end dropdown-contain -->
+                                            <span class="la la-calendar form-icon"></span>
+                                            <input
+                                                    class="form-control"
+                                                    type="date"
+                                                    name="checkout_date"
+                                                    required
+                                            />
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end col-lg-3 -->
+
+
                             </form>
                             <div class="btn-box pt-2">
                                 <a href="room-search-result.html" class="theme-btn"
-                                >Search Now</a
+                                >Tìm kiếm</a
                                 >
                             </div>
                         </div>
@@ -257,8 +123,8 @@ START INFO AREA
                     </div>
                     <!-- end info-icon-->
                     <div class="info-content">
-                        <h4 class="info__title">Unique Atmosphere</h4>
-                        <p class="info__desc">Varius quam quisque id diam vel quam</p>
+                        <h4 class="info__title">Không khí độc đáo</h4>
+                        <p class="info__desc">Đa dạng hơn bất kỳ ai, nó có thể là một điều gì đó đặc biệt</p>
                     </div>
                     <!-- end info-content -->
                 </div>
@@ -272,8 +138,8 @@ START INFO AREA
                     </div>
                     <!-- end info-icon-->
                     <div class="info-content">
-                        <h4 class="info__title">Environment</h4>
-                        <p class="info__desc">Varius quam quisque id diam vel quam</p>
+                        <h4 class="info__title">Môi trường</h4>
+                        <p class="info__desc">Đa dạng hơn bất kỳ ai, nó có thể là một điều gì đó đặc biệt</p>
                     </div>
                     <!-- end info-content -->
                 </div>
@@ -287,8 +153,8 @@ START INFO AREA
                     </div>
                     <!-- end info-icon-->
                     <div class="info-content">
-                        <h4 class="info__title">Great Location</h4>
-                        <p class="info__desc">Varius quam quisque id diam vel quam</p>
+                        <h4 class="info__title">Vị trí tuyệt vời </h4>
+                        <p class="info__desc">Đa dạng hơn bất kỳ ai, nó có thể là một điều gì đó đặc biệt</p>
                     </div>
                     <!-- end info-content -->
                 </div>
@@ -302,8 +168,8 @@ START INFO AREA
                     </div>
                     <!-- end info-icon-->
                     <div class="info-content">
-                        <h4 class="info__title">Homey Comfort</h4>
-                        <p class="info__desc">Varius quam quisque id diam vel quam</p>
+                        <h4 class="info__title">Sự thoải mái</h4>
+                        <p class="info__desc">Mang lại không gian trẻ trung, riêng tư</p>
                     </div>
                     <!-- end info-content -->
                 </div>
@@ -329,26 +195,16 @@ START ABOUT AREA
             <div class="col-lg-6">
                 <div class="about-content pe-5">
                     <div class="section-heading">
-                        <h4 class="font-size-16 pb-2">Our Story</h4>
-                        <h2 class="sec__title">Atmosphere and Design</h2>
+                        <h4 class="font-size-16 pb-2">Giới thiệu hotel trizen</h4>
+                        <h2 class="sec__title">Mô tả về chúng tôi</h2>
                         <p class="sec__desc pt-4 pb-2">
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                            The point of using Lorem Ipsum is that it has a more-or-less
-                            normal distribution of letters
+                            Hotel Trizen là một khách sạn chất lượng cao, tọa lạc tại vị trí trung tâm, thuận tiện cho việc di chuyển.
+                            Khách sạn cung cấp phòng nghỉ hiện đại, nhà hàng với đa dạng món ăn, và các tiện nghi như hồ bơi, phòng gym và spa.
+                            Đội ngũ nhân viên chuyên nghiệp luôn sẵn sàng hỗ trợ khách hàng 24/7, mang đến trải nghiệm lưu trú thoải mái và dễ chịu.
                         </p>
-                        <p class="sec__desc">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A
-                            accusamus amet consectetur ipsa officia. Doloremque error
-                            porro sit soluta totam! A iste nobis vel voluptatem!
-                        </p>
+
                     </div>
-                    <!-- end section-heading -->
-                    <div class="btn-box pt-4">
-                        <a href="about.html" class="theme-btn"
-                        >Read More <i class="la la-arrow-right ms-1"></i
-                        ></a>
-                    </div>
+
                 </div>
             </div>
             <!-- end col-lg-6 -->
@@ -433,264 +289,8 @@ START ROOM TYPE AREA
     </div>
     <!-- end container -->
 </section>
-<!-- ================================
-END ROOM TYPE AREA
-================================= -->
 
-<!-- ================================
-START HOTEL AREA
-================================= -->
-<section
-        class="hotel-area section-bg padding-top-100px padding-bottom-200px overflow-hidden"
->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading text-center">
-                    <h2 class="sec__title line-height-55">
-                        Popular Hotel Destinations <br />
-                        You Might Like
-                    </h2>
-                </div>
-                <!-- end section-heading -->
-            </div>
-            <!-- end col-lg-12 -->
-        </div>
-        <!-- end row -->
-        <div class="row padding-top-50px">
-            <div class="col-lg-12">
-                <div class="hotel-card-wrap">
-                    <div class="hotel-card-carousel-2 carousel-action">
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img1.jpg" alt="hotel-img" />
-                                </a>
-                                <span class="badge">Bestseller</span>
-                                <span class="badge badge-ribbon">30% off</span>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >The Millennium Hilton New York</a
-                                    >
-                                </h3>
-                                <p class="card-meta">124 E Huron St, New york</p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__num">$90.00</span>
-                                        <span class="price__num before-price color-text-3"
-                                        >$120.00</span
-                                        >
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img2.jpg" alt="hotel-img" />
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >Best Western Grant Park Hotel</a
-                                    >
-                                </h3>
-                                <p class="card-meta">124 E Huron St, Chicago</p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__from">From</span>
-                                        <span class="price__num">$58.00</span>
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img3.jpg" alt="hotel-img" />
-                                </a>
-                                <span class="badge">Featured</span>
-                                <span class="badge badge-ribbon">20% off</span>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >Hyatt Regency Maui Resort & Spa</a
-                                    >
-                                </h3>
-                                <p class="card-meta">200 Nohea Kai Dr, Lahaina, HI</p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__num">$80.00</span>
-                                        <span class="price__num before-price color-text-3"
-                                        >$100.00</span
-                                        >
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img4.jpg" alt="hotel-img" />
-                                </a>
-                                <span class="badge">Popular</span>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >Four Seasons Resort Maui at Wailea</a
-                                    >
-                                </h3>
-                                <p class="card-meta">3900 Wailea Alanui Drive, Kihei, HI</p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__from">From</span>
-                                        <span class="price__num">$88.00</span>
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img5.jpg" alt="hotel-img" />
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >Ibis Styles London Heathrow</a
-                                    >
-                                </h3>
-                                <p class="card-meta">272 Bath Road, Harlington, England</p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__from">From</span>
-                                        <span class="price__num">$88.00</span>
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                        <div class="card-item">
-                            <div class="card-img">
-                                <a href="hotel-single.html" class="d-block">
-                                    <img src="/frontend/images/img6.jpg" alt="hotel-img" />
-                                </a>
-                                <span class="badge badge-ribbon">10% off</span>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a href="hotel-single.html"
-                                    >Hotel Europe Saint Severin Paris</a
-                                    >
-                                </h3>
-                                <p class="card-meta">
-                                    38-40 Rue Saint Séverin, Paris, Paris
-                                </p>
-                                <div class="card-rating">
-                                    <span class="badge text-white">4.4/5</span>
-                                    <span class="review__text">Average</span>
-                                    <span class="rating__text">(30 Reviews)</span>
-                                </div>
-                                <div
-                                        class="card-price d-flex align-items-center justify-content-between"
-                                >
-                                    <p>
-                                        <span class="price__num">$70.00</span>
-                                        <span class="price__num before-price color-text-3"
-                                        >$80.00</span
-                                        >
-                                        <span class="price__text">Per night</span>
-                                    </p>
-                                    <a href="hotel-single.html" class="btn-text"
-                                    >See details<i class="la la-angle-right"></i
-                                    ></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card-item -->
-                    </div>
-                    <!-- end hotel-card-carousel -->
-                </div>
-            </div>
-            <!-- end col-lg-12 -->
-        </div>
-        <!-- end row -->
-    </div>
-    <!-- end container-fluid -->
-</section>
-<!-- end hotel-area -->
-<!-- ================================
-END HOTEL AREA
-================================= -->
 
-<!-- ================================
-START DISCOUNT AREA
-================================= -->
 <section class="discount-area">
     <div class="container">
         <div class="row">
@@ -708,12 +308,7 @@ START DISCOUNT AREA
                                 First Booking
                             </h2>
                         </div>
-                        <!-- end section-heading -->
-                        <div class="btn-box pt-4">
-                            <a href="#" class="theme-btn border-0"
-                            >Learn More <i class="la la-arrow-right ms-1"></i
-                            ></a>
-                        </div>
+
                     </div>
                     <!-- end discount-content -->
                     <div class="company-logo">
@@ -729,397 +324,44 @@ START DISCOUNT AREA
     </div>
     <!-- end container -->
 </section>
-<!-- end discount-area -->
-<!-- ================================
-END DISCOUNT AREA
-================================= -->
 
-<!-- ================================
-   START TESTIMONIAL AREA
-================================= -->
-<section class="testimonial-area section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading text-center mb-0">
-                    <h2 class="sec__title line-height-50">
-                        What Our Customers <br />
-                        are Saying Us?
-                    </h2>
-                </div>
-                <!-- end section-heading -->
-            </div>
-            <!-- end col-lg-12 -->
-        </div>
-        <!-- end row  -->
-        <div class="row padding-top-50px">
-            <div class="col-lg-12">
-                <div class="testimonial-carousel carousel-action">
-                    <div class="testimonial-card">
-                        <div class="testi-desc-box">
-                            <p class="testi__desc">
-                                Excepteur sint occaecat cupidatat non proident sunt in culpa
-                                officia deserunt mollit anim laborum sint occaecat cupidatat
-                                non proident. Occaecat cupidatat non proident des.
-                            </p>
-                        </div>
-                        <div class="author-content d-flex align-items-center">
-                            <div class="author-img">
-                                <img src="/frontend/images/team8.jpg" alt="testimonial image" />
-                            </div>
-                            <div class="author-bio">
-                                <h4 class="author__title">Leroy Bell</h4>
-                                <span class="author__meta">United States</span>
-                                <span class="ratings d-flex align-items-center">
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                    </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end testimonial-card -->
-                    <div class="testimonial-card">
-                        <div class="testi-desc-box">
-                            <p class="testi__desc">
-                                Excepteur sint occaecat cupidatat non proident sunt in culpa
-                                officia deserunt mollit anim laborum sint occaecat cupidatat
-                                non proident. Occaecat cupidatat non proident des.
-                            </p>
-                        </div>
-                        <div class="author-content d-flex align-items-center">
-                            <div class="author-img">
-                                <img src="/frontend/images/team9.jpg" alt="testimonial image" />
-                            </div>
-                            <div class="author-bio">
-                                <h4 class="author__title">Richard Pam</h4>
-                                <span class="author__meta">Canada</span>
-                                <span class="ratings d-flex align-items-center">
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                    </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end testimonial-card -->
-                    <div class="testimonial-card">
-                        <div class="testi-desc-box">
-                            <p class="testi__desc">
-                                Excepteur sint occaecat cupidatat non proident sunt in culpa
-                                officia deserunt mollit anim laborum sint occaecat cupidatat
-                                non proident. Occaecat cupidatat non proident des.
-                            </p>
-                        </div>
-                        <div class="author-content d-flex align-items-center">
-                            <div class="author-img">
-                                <img src="/frontend/images/team10.jpg" alt="testimonial image" />
-                            </div>
-                            <div class="author-bio">
-                                <h4 class="author__title">Luke Jacobs</h4>
-                                <span class="author__meta">Australia</span>
-                                <span class="ratings d-flex align-items-center">
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                    </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end testimonial-card -->
-                    <div class="testimonial-card">
-                        <div class="testi-desc-box">
-                            <p class="testi__desc">
-                                Excepteur sint occaecat cupidatat non proident sunt in culpa
-                                officia deserunt mollit anim laborum sint occaecat cupidatat
-                                non proident. Occaecat cupidatat non proident des.
-                            </p>
-                        </div>
-                        <div class="author-content d-flex align-items-center">
-                            <div class="author-img">
-                                <img src="/frontend/images/team8.jpg" alt="testimonial image" />
-                            </div>
-                            <div class="author-bio">
-                                <h4 class="author__title">Chulbul Panday</h4>
-                                <span class="author__meta">Italy</span>
-                                <span class="ratings d-flex align-items-center">
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                      <i class="la la-star"></i>
-                    </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end testimonial-card -->
-                </div>
-                <!-- end testimonial-carousel -->
-            </div>
-            <!-- end col-lg-12 -->
-        </div>
-        <!-- end row -->
-    </div>
-    <!-- end container -->
-</section>
-<!-- end testimonial-area -->
-<!-- ================================
-   START TESTIMONIAL AREA
-================================= -->
 
 <div class="section-block"></div>
 
 <footer th:replace="layout/footer :: footer"></footer>
-<!-- end footer-area -->
-<!-- ================================
-   START FOOTER AREA
-================================= -->
 
-<!-- start back-to-top -->
-<div id="back-to-top">
-    <i class="la la-angle-up" title="Go top"></i>
-</div>
-<!-- end back-to-top -->
-
-<!-- end modal-shared -->
-<div class="modal-popup">
-    <div
-            class="modal fade"
-            id="signupPopupForm"
-            tabindex="-1"
-            role="dialog"
-            aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <h5 class="modal-title title" id="exampleModalLongTitle">
-                            Sign Up
-                        </h5>
-                        <p class="font-size-14">Hello! Welcome Create a New Account</p>
-                    </div>
-                    <button
-                            type="button"
-                            class="btn-close close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                    >
-                        <span aria-hidden="true" class="la la-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="contact-form-action">
-                        <form method="post">
-                            <div class="input-box">
-                                <label class="label-text">Username</label>
-                                <div class="form-group">
-                                    <span class="la la-user form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type your username"
-                                    />
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="input-box">
-                                <label class="label-text">Email Address</label>
-                                <div class="form-group">
-                                    <span class="la la-envelope form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type your email"
-                                    />
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="input-box">
-                                <label class="label-text">Password</label>
-                                <div class="form-group">
-                                    <span class="la la-lock form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type password"
-                                    />
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="input-box">
-                                <label class="label-text">Repeat Password</label>
-                                <div class="form-group">
-                                    <span class="la la-lock form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type again password"
-                                    />
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="btn-box pt-3 pb-4">
-                                <button type="button" class="theme-btn w-100">
-                                    Register Account
-                                </button>
-                            </div>
-                            <div class="action-box text-center">
-                                <p class="font-size-14">Or Sign up Using</p>
-                                <ul class="social-profile py-3">
-                                    <li>
-                                        <a href="#" class="bg-5 text-white"
-                                        ><i class="lab la-facebook-f"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-6 text-white"
-                                        ><i class="lab la-twitter"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-7 text-white"
-                                        ><i class="lab la-instagram"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-5 text-white"
-                                        ><i class="lab la-linkedin-in"></i
-                                        ></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- end contact-form-action -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end modal-popup -->
-
-<!-- end modal-shared -->
-<div class="modal-popup">
-    <div
-            class="modal fade"
-            id="loginPopupForm"
-            tabindex="-1"
-            role="dialog"
-            aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <h5 class="modal-title title" id="exampleModalLongTitle2">
-                            Login
-                        </h5>
-                        <p class="font-size-14">Hello! Welcome to your account</p>
-                    </div>
-                    <button
-                            type="button"
-                            class="btn-close close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                    >
-                        <span aria-hidden="true" class="la la-close"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="contact-form-action">
-                        <form method="post">
-                            <div class="input-box">
-                                <label class="label-text">Username</label>
-                                <div class="form-group">
-                                    <span class="la la-user form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type your username"
-                                    />
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="input-box">
-                                <label class="label-text">Password</label>
-                                <div class="form-group mb-2">
-                                    <span class="la la-lock form-icon"></span>
-                                    <input
-                                            class="form-control"
-                                            type="text"
-                                            name="text"
-                                            placeholder="Type your password"
-                                    />
-                                </div>
-                                <div
-                                        class="d-flex align-items-center justify-content-between"
-                                >
-                                    <div class="custom-checkbox mb-0">
-                                        <input
-                                                type="checkbox"
-                                                class="form-check-input"
-                                                id="rememberchb"
-                                        />
-                                        <label for="rememberchb">Remember me</label>
-                                    </div>
-                                    <p class="forgot-password">
-                                        <a href="recover.html">Forgot Password?</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- end input-box -->
-                            <div class="btn-box pt-3 pb-4">
-                                <button type="button" class="theme-btn w-100">
-                                    Login Account
-                                </button>
-                            </div>
-                            <div class="action-box text-center">
-                                <p class="font-size-14">Or Login Using</p>
-                                <ul class="social-profile py-3">
-                                    <li>
-                                        <a href="#" class="bg-5 text-white"
-                                        ><i class="lab la-facebook-f"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-6 text-white"
-                                        ><i class="lab la-twitter"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-7 text-white"
-                                        ><i class="lab la-instagram"></i
-                                        ></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="bg-5 text-white"
-                                        ><i class="lab la-linkedin-in"></i
-                                        ></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- end contact-form-action -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- end modal-popup -->
 <div th:replace="layout/script :: script"></div>
-</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.theme-btn').on('click', function (e) {
+            e.preventDefault();  // Ngăn chặn hành động mặc định
 
+            // Lấy giá trị ngày check-in và check-out
+            var checkInDate = $('input[name="checkin_date"]').val();
+            var checkOutDate = $('input[name="checkout_date"]').val();
+
+            // Kiểm tra dữ liệu đầu vào
+            if (!checkInDate || !checkOutDate) {
+                alert('Vui lòng chọn ngày check-in và check-out.');
+                return;
+            }
+
+            // Kiểm tra logic ngày (check-out phải lớn hơn check-in)
+            if (new Date(checkInDate) >= new Date(checkOutDate)) {
+                alert('Ngày check-out phải lớn hơn ngày check-in.');
+                return;
+            }
+
+            // Chuyển hướng sang trang /views/product với tham số trên URL
+            var searchUrl = `http://localhost:8080/views/product?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}`;
+            window.location.href = searchUrl;
+        });
+    });
+</script>
+
+
+</body>
 </html>

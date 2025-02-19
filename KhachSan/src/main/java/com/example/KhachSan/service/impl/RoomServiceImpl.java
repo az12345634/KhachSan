@@ -245,8 +245,48 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public List<RoomEntity> findAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate) {
-//        return roomRepository.findAvailableRooms(checkInDate, checkOutDate);
-        return roomRepository.findAll();
+        if (checkInDate == null || checkOutDate == null) {
+            throw new IllegalArgumentException("Check-in and check-out dates must not be null.");
+        }
+        if (checkInDate.isAfter(checkOutDate)) {
+            throw new IllegalArgumentException("Check-in date must be before or equal to check-out date.");
+        }
+
+        List<RoomEntity> availableRooms = roomRepository.findAvailableRooms(checkInDate, checkOutDate);
+
+        // Loại bỏ các phòng bị trùng lặp (nếu vẫn còn xảy ra vấn đề)
+        return availableRooms.stream().distinct().collect(Collectors.toList());
     }
+//@Override
+//public BaseResponse<Page<RoomDTO>> findAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, int page, int size) {
+//    if (checkInDate == null || checkOutDate == null) {
+//        throw new IllegalArgumentException("Check-in and check-out dates must not be null.");
+//    }
+//    if (checkInDate.isAfter(checkOutDate)) {
+//        throw new IllegalArgumentException("Check-in date must be before or equal to check-out date.");
+//    }
+//
+//    Pageable pageable = PageRequest.of(page, size);
+//    Page<RoomEntity> roomEntities = roomRepository.findAvailableRooms(checkInDate, checkOutDate, pageable);
+//
+//    List<RoomDTO> roomDTOS = roomEntities.getContent().stream().map(roomEntity -> {
+//        RoomDTO roomDTO = new RoomDTO();
+//        try {
+//            setCommonValueProductDTO(roomDTO, roomEntity, null);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return roomDTO;
+//    }).collect(Collectors.toList());
+//
+//    Page<RoomDTO> pageData = new PageImpl<>(roomDTOS, pageable, roomEntities.getTotalElements());
+//    BaseResponse<Page<RoomDTO>> response = new BaseResponse<>();
+//    response.setCode(200);
+//    response.setMessage("Get available rooms successfully");
+//    response.setData(pageData);
+//    return response;
+//}
+//
 
 }
+

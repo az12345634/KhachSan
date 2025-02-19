@@ -3,6 +3,7 @@ package com.example.KhachSan.repository;
 import com.example.KhachSan.entity.OrderDetailEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,16 +15,37 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, 
             "AND p.deleted=false"
     )
     List<OrderDetailEntity> findByCode(Long orderId);
-    @Query(value = "SELECT o FROM OrderDetailEntity o " +
-            "LEFT JOIN o.orderEntity u " + // Thay đổi userEntity thành user
-            "LEFT JOIN o.roomEntity p " +
-            "WHERE " +
-            "(:#{#userId} is null or u.userEntity.id = :#{#userId})" +
-            " AND (:#{#productId} is null or p.id = :#{#productId} )" +
+//    @Query(value = "SELECT o FROM OrderDetailEntity o " +
+//            "LEFT JOIN o.orderEntity u " + // Thay đổi userEntity thành user
+//            "LEFT JOIN o.roomEntity p " +
+//            "WHERE " +
+//            "(:#{#userId} is null or u.userEntity.id = :#{#userId})" +
+//            " AND (:#{#productId} is null or p.id = :#{#productId} )" +
+//
+////            "AND (+:#{#productId.name} IS NULL OR p.name = :#{#filter.name})" +
+//            "AND o.deleted=false ORDER BY o.createdDate desc ")
+//    OrderDetailEntity findOrderEntitiesBy(Long userId, Long productId);
 
-//            "AND (+:#{#productId.name} IS NULL OR p.name = :#{#filter.name})" +
-            "AND o.deleted=false ORDER BY o.createdDate desc ")
-    OrderDetailEntity findOrderEntitiesBy(Long userId, Long productId);
+    @Query("SELECT o FROM OrderDetailEntity o " +
+            "LEFT JOIN o.orderEntity u " +
+            "LEFT JOIN u.userEntity user " +  // ✅ Join với UserEntity
+            "LEFT JOIN o.roomEntity p " +
+            "WHERE (:userId IS NULL OR user.id = :userId) " +  // ✅ Sử dụng user.id
+            "AND (:productId IS NULL OR p.id = :productId) " +
+            "AND o.deleted = false " +
+            "ORDER BY o.createdDate DESC")
+    List<OrderDetailEntity> findOrderEntitiesBy(@Param("userId") Long userId, @Param("productId") Long productId);
+
+
+//    @Query("SELECT o FROM OrderDetailEntity o " +
+//            "LEFT JOIN o.orderEntity u " +
+//            "LEFT JOIN u.userEntity user " +  // ✅ Join với UserEntity
+//            "LEFT JOIN o.roomEntity p " +
+//            "WHERE (:userId IS NULL OR user.id = :userId) " +  // ✅ Sử dụng user.id
+//            "AND (:productId IS NULL OR p.id = :productId) " +
+//            "AND o.deleted = false " +
+//            "ORDER BY o.createdDate DESC")
+//    List<OrderDetailEntity> findOrderEntitiesBy(@Param("userId") Long userId, @Param("productId") Long productId);
 
 
 }

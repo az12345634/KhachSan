@@ -16,6 +16,70 @@ body {
     background-color: var(--background);
     color: var(--foreground);
 }
+.comment {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-body {
+    padding: 10px;
+}
+
+.comment__author {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.comment__author i {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.delete-icon {
+    color: #f14b4b;
+    transition: color 0.3s;
+}
+
+.update-icon {
+    color: #51f14b;
+    transition: color 0.3s;
+}
+
+.delete-icon:hover,
+.update-icon:hover {
+    color: #d13a3a;
+}
+
+.comment-content {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.comment__author i:first-child {
+    margin-left: 10px;
+}
+
+.comment__author i:last-child {
+    margin-left: 5px;
+}
+
+.comment-body:hover {
+    background-color: #f1f1f1;
+}
+
+
 
 .product-img {
     width: 80px;

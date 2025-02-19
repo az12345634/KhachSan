@@ -5,6 +5,7 @@ import com.example.KhachSan.model.request.RoomFilterRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -47,32 +48,26 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     )
     RoomEntity findByCode(String code);
 
-//    @Query("SELECT r FROM RoomEntity r WHERE r.id NOT IN (" +
-//            "SELECT od.roomEntity.id FROM OrderDetailEntity od " +
-//            "JOIN od.orderEntity o " +
-//            "WHERE (:checkInDate < o.checkOutDate AND :checkOutDate > o.checkInDate) " +
-//            "AND o.status = 2) " +  // Chỉ loại trừ những đơn có status = 2 (đặt thành công)
-//            "AND r.deleted = false")
-//    List<RoomEntity> findAvailableRooms(@Param("checkInDate") LocalDate checkInDate,
-//                                        @Param("checkOutDate") LocalDate checkOutDate);
-
-    @Query("SELECT r FROM RoomEntity r WHERE NOT EXISTS (" +
-            "SELECT od.roomEntity.id FROM OrderDetailEntity od " +
-            "JOIN od.orderEntity o " +
-            "WHERE od.roomEntity.id = r.id " +
-            "AND o.status = 2 " +  // Chỉ loại trừ các đơn đặt đã được xác nhận (status = 2)
-            "AND (:checkInDate < o.checkOutDate AND :checkOutDate > o.checkInDate)) " +
-            "AND r.deleted = false")
+    @Query("SELECT r FROM RoomEntity r WHERE r.deleted = false AND (" +
+            "  SELECT COUNT(od) FROM OrderDetailEntity od " +
+            "  JOIN od.orderEntity o " +
+            "  WHERE od.roomEntity.id = r.id " +
+            "  AND o.status = 2 " +
+            "  AND (:checkInDate < o.checkOutDate AND :checkOutDate > o.checkInDate)" +
+            ") < r.quantity")
     List<RoomEntity> findAvailableRooms(@Param("checkInDate") LocalDate checkInDate,
                                         @Param("checkOutDate") LocalDate checkOutDate);
 
-
-//    @Query("SELECT r FROM RoomEntity r WHERE r.id NOT IN " +
-//            "(SELECT od.roomEntity.id FROM OrderDetailEntity od " +
-//            "WHERE (:checkInDate <= od.orderEntity.checkOutDate " +
-//            "AND :checkOutDate >= od.orderEntity.checkInDate))")
-//    List<RoomEntity> findAvailableRooms(@Param("checkInDate") LocalDate checkInDate,
-//                                        @Param("checkOutDate") LocalDate checkOutDate);
+//    @Query("SELECT r FROM RoomEntity r WHERE r.deleted = false AND (" +
+//            "  SELECT COUNT(od) FROM OrderDetailEntity od " +
+//            "  JOIN od.orderEntity o " +
+//            "  WHERE od.roomEntity.id = r.id " +
+//            "  AND o.status = 2 " +
+//            "  AND (:checkInDate < o.checkOutDate AND :checkOutDate > o.checkInDate)" +
+//            ") < r.quantity")
+//    Page<RoomEntity> findAvailableRooms(@Param("checkInDate") LocalDate checkInDate,
+//                                        @Param("checkOutDate") LocalDate checkOutDate,
+//                                        Pageable pageable);
 
 
     @Query("SELECT nv FROM RoomEntity nv WHERE nv.name LIKE %:keyword% OR nv.code LIKE %:keyword%")
