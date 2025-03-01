@@ -24,4 +24,9 @@ public interface IOrderService {
     BaseResponse<List<OrderDTO>> getOrderByUser();
 
     BaseResponse<?> getInvoicePdf() throws FileNotFoundException;
+
+    // Thêm 3 hàm mới
+    BaseResponse<Double> getTotalRevenue();  // Tổng doanh thu đơn hàng thành công
+    BaseResponse<Long> getTotalCustomers();  // Tổng số khách hàng đặt hàng
+    BaseResponse<Long> getSuccessfulOrders();  // Tổng số đơn hàng thành công
 }

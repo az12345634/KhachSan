@@ -36,7 +36,9 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Danh Sách Danh Mục <span data-bs-toggle="modal" data-bs-target="#myModal1" type="button" class="badge bg-warning" style="color:#ffffff" >+ Thêm mới</span ></h5>
+                        <h5 class="card-title">Danh Sách Danh Mục
+                            <span data-bs-toggle="modal" data-bs-target="#myModal1" type="button"
+                                  class="badge bg-warning" style="color:#ffffff ; float: right " >Thêm mới</span ></h5>
                         <table class="table" id="tableDate">
                             <thead>
                             <tr>
@@ -52,9 +54,8 @@
 
                             </tbody>
                         </table>
-                        <nav style="display: ruby-text;" aria-label="...">
-                            <ul class="pagination" id="pageId">
-
+                        <nav aria-label="Page navigation example">
+                            <ul style="justify-content: center" id="pag" class="pagination">
                             </ul>
                         </nav>
                     </div>
@@ -206,39 +207,71 @@
                  // Phân trang
                  let totalPage = response.data.totalPages;
                  let currentPage = response.data.pageable.pageNumber;
-                 if (totalPage > 0){
-                     $("#pageId").empty();
-                     let pages = '<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage - 1)+ ',5,event)" href="#"><</a></li>';
-                     for (let i = 0; i < totalPage; i++) {
-                         if (currentPage === i){
-                             pages += '            <li class="page-item active">\n' +
-                                 '                <a class="page-link " onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }else {
-                             pages += '            <li class="page-item">\n' +
-                                 '                <a class="page-link" onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }
+                 console.log(totalPage, currentPage);
 
+                 if (totalPage > 0) {
+                     let pages = '<li class="page-item">';
+                     if (currentPage - 1 < 0) {
+                         pages = '<li class="page-item">';
                      }
-                     pages +='<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage + 1) + ',5,event)" href="#">Next</a></li>';
-                     $("#pageId").append(pages);
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage - 1) + ',' + size + ')" aria-label="<">' +
+                         '<span aria-hidden="true"> < </span>' +
+                         '</a>' +
+                         '</li>';
+
+                     for (let i = 0; i < totalPage; i++) {
+                         if (currentPage === i) {
+                             pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                         } else pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                     }
+
+                     if (currentPage + 1 > totalPage - 1) {
+                         pages += '<li class="page-item">'
+                     } else {
+                         pages += '<li class="page-item">'
+                     }
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage + 1) + ',' + size + ')" aria-label=">">' +
+                         '<span aria-hidden="true"> > </i></span>' +
+                         '</a>' +
+                         '</li>'
+
+                     $('#pag').html(pages);
                  }
-
              },
-
              error: function (error) {
                  console.log(error);
              }
          });
      };
      // hàm xử lý sự kiện
-     function changePage(page,size,event){
-         event.preventDefault();
-         // searchCondition(page,size);
-         getCategoryAdmin(page, size, {}); // lấy dữ liệu trang mới
+     function changePage(page, size) {
+         let filter = {};
+         $.ajax({
+             type: "POST",
+             url: HOST + "/api/category?page=" + page + "&size=" + size,
+             contentType: "application/json",
+             data: JSON.stringify(filter),
+             dataType: "json",
+             success: function (response) {
+                 if (response.data.content.length === 0) {
+                     // Nếu không có sản phẩm, thông báo và không chuyển trang
+                     Swal.fire({
+                         title: "Thông báo",
+                         text: "Không có sản phẩm nào ở trang này!",
+                         icon: "info",
+                     });
+                     return;
+                 }
+                 // Nếu có sản phẩm, hiển thị sản phẩm và cập nhật phân trang
+                 getCategoryAdmin(page, size, filter);
+             },
+             error: function (error) {
+                 console.error("Lỗi khi chuyển trang:", error);
+             }
+         });
      }
-
 
      // hàm xóa
          $(document).on('click', '#iconFix', function() {

@@ -33,4 +33,16 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             "AND o.deleted=false ORDER BY o.createdDate desc LIMIT 1"
     )
     Optional<OrderEntity> getByCode(Long userId, String code);
+
+    // Tính tổng doanh thu từ các đơn hàng có status = 2
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM OrderEntity o WHERE o.status = 2 AND o.deleted = false")
+    Double getTotalRevenue();
+
+    // Đếm tổng số khách hàng đã đặt hàng (user duy nhất)
+    @Query("SELECT COUNT(DISTINCT o.userEntity.id) FROM OrderEntity o WHERE o.deleted = false")
+    Long getTotalCustomers();
+
+    // Đếm số lượng đơn hàng thành công (status = 2)
+    @Query("SELECT COUNT(o) FROM OrderEntity o WHERE o.status = 2 AND o.deleted = false")
+    Long countSuccessfulOrders();
 }

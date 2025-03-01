@@ -28,7 +28,7 @@
                     <div class="card-body">
 
                         <div class="search">
-                            <h5 class="card-title">Danh sách hoá đơn <span type="button" class="badge bg-warning" style="margin-left: 1%;color:#ffffff">+ Thêm mới</span ></h5></div>
+                            <h5 class="card-title">Danh sách hoá đơn phòng <span type="button" class="badge bg-warning" style="float: right;color:#ffffff">Thêm mới</span ></h5></div>
 
 <!--                         Table thông tin muốn hiển thị -->
                         <table class="table table-bordered" id="tableDate">
@@ -48,10 +48,10 @@
                             <tbody >
                             </tbody>
                         </table>
-                        <div class="container mt-3" style="display: ruby-text;">
-                            <ul id="pageId" class="pagination">
+                        <nav aria-label="Page navigation example">
+                            <ul style="justify-content: center" id="pag" class="pagination">
                             </ul>
-                        </div>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -75,6 +75,9 @@
          };
          getOderAdmin(page,size,objFilter);
      }
+     function formatPrice(price) {
+         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+     }
      function getOderAdmin(page,size,objectFilter){
          $.ajax({
              type: "POST",
@@ -86,7 +89,7 @@
                  let dataOder = response?.data?.content;
                 let OderO = ''
                  for (let i = 0; i < dataOder.length; i++) {
-                     let formattedOrder = dataOder[i].totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                     let formattedOrder = formatPrice(dataOder[i].totalAmount);
                      console.log(dataOder[i]);
                      let status = dataOder[i].status === 1 ? "Chưa thanh toán" : "Đã thanh toán";
                      let classStatus = dataOder[i].status === 1 ? "danger" : "success";
@@ -108,35 +111,70 @@
                  // Phân trang
                  let totalPage = response.data.totalPages;
                  let currentPage = response.data.pageable.pageNumber;
-                 if (totalPage > 0){
-                     $("#pageId").empty();
-                     let pages = '<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage - 1)+ ',5,event)" href="#"> < </a></li>';
-                     for (let i = 0; i < totalPage; i++) {
-                         if (currentPage === i){
-                             pages += '            <li class="page-item active">\n' +
-                                 '                <a class="page-link " onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }else {
-                             pages += '            <li class="page-item">\n' +
-                                 '                <a class="page-link" onclick="changePage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }
+                 console.log(totalPage, currentPage);
+
+                 if (totalPage > 0) {
+                     let pages = '<li class="page-item">';
+                     if (currentPage - 1 < 0) {
+                         pages = '<li class="page-item">';
                      }
-                     pages +='<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage + 1) + ',5,event)" href="#">Next</a></li>';
-                     $("#pageId").append(pages);
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage - 1) + ',' + size + ')" aria-label="<">' +
+                         '<span aria-hidden="true"> < </span>' +
+                         '</a>' +
+                         '</li>';
+
+                     for (let i = 0; i < totalPage; i++) {
+                         if (currentPage === i) {
+                             pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                         } else pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                     }
+
+                     if (currentPage + 1 > totalPage - 1) {
+                         pages += '<li class="page-item">'
+                     } else {
+                         pages += '<li class="page-item">'
+                     }
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage + 1) + ',' + size + ')" aria-label=">">' +
+                         '<span aria-hidden="true"> > </i></span>' +
+                         '</a>' +
+                         '</li>'
+
+                     $('#pag').html(pages);
                  }
              },
-
              error: function (error) {
                  console.log(error);
              }
          });
      };
      // hàm xử lý sự kiện
-     function changePage(page,size,event){
-         event.preventDefault();
-
-         getOderAdmin(page, size, {}); // lấy dữ liệu trang mới
+     function changePage(page, size) {
+         let filter = {};
+         $.ajax({
+             type: "POST",
+             url: HOST + "/api/order?page=" + page + "&size=" + size,
+             contentType: "application/json",
+             data: JSON.stringify(filter),
+             dataType: "json",
+             success: function (response) {
+                 if (response.data.content.length === 0) {
+                     // Nếu không có sản phẩm, thông báo và không chuyển trang
+                     Swal.fire({
+                         title: "Thông báo",
+                         text: "Không có sản phẩm nào ở trang này!",
+                         icon: "info",
+                     });
+                     return;
+                 }
+                 // Nếu có sản phẩm, hiển thị sản phẩm và cập nhật phân trang
+                 getOderAdmin(page, size, filter);
+             },
+             error: function (error) {
+                 console.error("Lỗi khi chuyển trang:", error);
+             }
+         });
      }
  </script>
 </body>

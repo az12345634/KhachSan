@@ -49,4 +49,19 @@ public class OrderResource {
     public ResponseEntity<?> getInvoicePdf() throws FileNotFoundException {
         return ResponseEntity.ok(service.getInvoicePdf());
     }
+// tính tổng
+    @GetMapping("/revenue")
+    public ResponseEntity<BaseResponse<Double>> getTotalRevenue() {
+        return ResponseEntity.ok(service.getTotalRevenue());
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<BaseResponse<Long>> getTotalCustomers() {
+        return ResponseEntity.ok(service.getTotalCustomers());
+    }
+
+    @GetMapping("/successful-orders")
+    public ResponseEntity<BaseResponse<Long>> getSuccessfulOrders() {
+        return ResponseEntity.ok(service.getSuccessfulOrders());
+    }
 }

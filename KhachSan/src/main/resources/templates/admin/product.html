@@ -28,8 +28,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Danh sách sản phẩm <a th:href="@{/admin/product/new}"><span
-                                style="margin-left: 1%;color:#ffffff"
-                                type="button" class="badge bg-warning">+ Thêm mới</span></a>
+                                style="margin-left: 1%;color:#ffffff; float: right"
+                                type="button" class="badge bg-warning"> Thêm mới</span></a>
                         </h5>
 
                         <div class="bd-example">
@@ -48,11 +48,13 @@
                                 </thead>
                                 <tbody id="body-Produc"></tbody>
                             </table>
+
+                            <nav aria-label="Page navigation example">
+                                <ul style="justify-content: center" id="pag" class="pagination">
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="container mt-3" style="display: ruby-text;">
-                            <ul id="pageCD" class="pagination">
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -106,24 +108,40 @@
                         + '</tr>';
                 }
                 $('#body-Produc').html(producT);
-                let productNumber = response.data.totalPages;
-                let productPresent = response.data.pageable.pageNumber;
-                if (productNumber > 0) {
-                    $('#pageCD').empty();
-                    let pageproduct = '<li class="page-item"><a class="page-link" onclick="loadPage(' + (productPresent - 1) + ',5,event)" href="#"><</a></li>';
-                    for (let i = 0; i < productNumber; i++) {
-                        if (productPresent === i) {
-                            pageproduct += '            <li class="page-item active">\n' +
-                                '                <a class="page-link " onclick="loadPage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                '            <li class="page-item">'
-                        } else {
-                            pageproduct += '            <li class="page-item">\n' +
-                                '                <a class="page-link" onclick="loadPage(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                '            <li class="page-item">'
-                        }
+                // Phân trang
+                let totalPage = response.data.totalPages;
+                let currentPage = response.data.pageable.pageNumber;
+                console.log(totalPage, currentPage);
+
+                if (totalPage > 0) {
+                    let pages = '<li class="page-item">';
+                    if (currentPage - 1 < 0) {
+                        pages = '<li class="page-item">';
                     }
-                    pageproduct += '<li class="page-item"><a class="page-link" onclick="loadPage(' + (productPresent + 1) + ',5,event)" href="#">Next</a></li>';
-                    $("#pageCD").append(pageproduct);
+                    pages +=
+                        '<a class="page-link" href="#" onclick="changePage(' + (currentPage - 1) + ',' + size + ')" aria-label="<">' +
+                        '<span aria-hidden="true"> < </span>' +
+                        '</a>' +
+                        '</li>';
+
+                    for (let i = 0; i < totalPage; i++) {
+                        if (currentPage === i) {
+                            pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                        } else pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                    }
+
+                    if (currentPage + 1 > totalPage - 1) {
+                        pages += '<li class="page-item">'
+                    } else {
+                        pages += '<li class="page-item">'
+                    }
+                    pages +=
+                        '<a class="page-link" href="#" onclick="changePage(' + (currentPage + 1) + ',' + size + ')" aria-label=">">' +
+                        '<span aria-hidden="true"> > </i></span>' +
+                        '</a>' +
+                        '</li>'
+
+                    $('#pag').html(pages);
                 }
             },
             error: function (error) {
@@ -132,9 +150,31 @@
         });
     };
 
-    function loadPage(page, size, event) {
-        event.preventDefault();
-        getProductAdmin(page, size, {});
+    function changePage(page, size) {
+        let filter = {};
+        $.ajax({
+            type: "POST",
+            url: HOST + "/api/product?page=" + page + "&size=" + size,
+            contentType: "application/json",
+            data: JSON.stringify(filter),
+            dataType: "json",
+            success: function (response) {
+                if (response.data.content.length === 0) {
+                    // Nếu không có sản phẩm, thông báo và không chuyển trang
+                    Swal.fire({
+                        title: "Thông báo",
+                        text: "Không có sản phẩm nào ở trang này!",
+                        icon: "info",
+                    });
+                    return;
+                }
+                // Nếu có sản phẩm, hiển thị sản phẩm và cập nhật phân trang
+                getProducts(page, size, filter);
+            },
+            error: function (error) {
+                console.error("Lỗi khi chuyển trang:", error);
+            }
+        });
     }
 
     $(document).on('click', '#iconDelete', function () {

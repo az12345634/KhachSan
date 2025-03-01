@@ -385,6 +385,25 @@ public class OrderServiceImpl implements IOrderService {
         response.setMessage("Get invoice pdf successfully");
         return response;
     }
+// phần tính tổng
+    @Override
+    public BaseResponse<Double> getTotalRevenue() {
+        Double totalRevenue = orderRepository.getTotalRevenue();
+        return new BaseResponse<>(200, "Success", totalRevenue);
+    }
+
+    @Override
+    public BaseResponse<Long> getTotalCustomers() {
+        Long totalCustomers = orderRepository.getTotalCustomers();
+        return new BaseResponse<>(200, "Success", totalCustomers);
+    }
+
+    @Override
+    public BaseResponse<Long> getSuccessfulOrders() {
+        Long successfulOrders = orderRepository.countSuccessfulOrders();
+        return new BaseResponse<>(200, "Success", successfulOrders);
+    }
+
 
     private static Cell getHeaderTextCell(String textValue) {
         return new Cell().add(textValue).setBold().setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT);
@@ -402,4 +421,7 @@ public class OrderServiceImpl implements IOrderService {
         Cell cell = new Cell().add(textValue).setFontSize(10f).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT);
         return isBold ? cell.setBold() : cell;
     }
+
+
+
 }

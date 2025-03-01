@@ -32,7 +32,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Danh Sách Tài Khoản <span type="button" class="badge bg-warning" style="color:#ffffff">+ Thêm mới</span ></h5>
+                        <h5 class="card-title">Danh Sách Tài Khoản </h5>
                         <!-- Table thông tin muốn hiển thị -->
 
                         <table class="table table-separate table-head-custom table-checkable" id="kt_datatable">
@@ -48,11 +48,10 @@
                             </thead>
                             <tbody id="iuser-Body" style="cursor: context-menu;"> </tbody>
                         </table>
-                        <!--    thư mục 1 2 3 phân trang-->
-                        <div class="container mt-3" style="display: ruby-text;">
-                            <ul id="page-User" class="pagination">
+                        <nav aria-label="Page navigation example">
+                            <ul style="justify-content: center" id="pag" class="pagination">
                             </ul>
-                        </div>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -153,36 +152,72 @@
                  }
                  $('#iuser-Body').html(userD);
 
-                 let pagePanpum = response.data.totalPages;
-                 let presentUser = response.data.pageable.pageNumber;
-                 if (pagePanpum > 0){
-                     $('#page-User').empty();
-                     let pageUseri = '<li class="page-item"><a class="page-link" onclick="loadUser(' + (presentUser - 1)+ ',5,event)" href="#"><</a></li>';
-                     for (let i = 0; i < pagePanpum; i++) {
-                         if (presentUser === i){
-                             pageUseri += '            <li class="page-item active">\n' +
-                                 '                <a class="page-link " onclick="loadUser(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }else {
-                             pageUseri += '            <li class="page-item">\n' +
-                                 '                <a class="page-link" onclick="loadUser(' + i + ',5,event)" href="#">' + (i + 1) + '</a></li>\n' +
-                                 '            <li class="page-item">'
-                         }
+                 let totalPage = response.data.totalPages;
+                 let currentPage = response.data.pageable.pageNumber;
+                 console.log(totalPage, currentPage);
 
+                 if (totalPage > 0) {
+                     let pages = '<li class="page-item">';
+                     if (currentPage - 1 < 0) {
+                         pages = '<li class="page-item">';
                      }
-                     pageUseri +='<li class="page-item"><a class="page-link" onclick="loadUser(' + (presentUser + 1) + ',5,event)" href="#">Next</a></li>';
-                     $("#page-User").append(pageUseri);
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage - 1) + ',' + size + ')" aria-label="<">' +
+                         '<span aria-hidden="true"> < </span>' +
+                         '</a>' +
+                         '</li>';
+
+                     for (let i = 0; i < totalPage; i++) {
+                         if (currentPage === i) {
+                             pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                         } else pages += '<li class="page-item"><a onclick="changePage(' + i + ',' + size + ')" class="page-link" href="#">' + (i + 1) + '</a></li>';
+                     }
+
+                     if (currentPage + 1 > totalPage - 1) {
+                         pages += '<li class="page-item">'
+                     } else {
+                         pages += '<li class="page-item">'
+                     }
+                     pages +=
+                         '<a class="page-link" href="#" onclick="changePage(' + (currentPage + 1) + ',' + size + ')" aria-label=">">' +
+                         '<span aria-hidden="true"> > </i></span>' +
+                         '</a>' +
+                         '</li>'
+
+                     $('#pag').html(pages);
                  }
-                 },
+             },
              error: function (error) {
                  console.log(error);
              }
          });
      };
 
-   function loadUser(page, size, event){
-       event.preventDefault();
-       getUserAdmin(page, size, {});
+   function changePage(page, size) {
+       let filter = {};
+       $.ajax({
+           type: "POST",
+           url: HOST + "/api/account/ListUser?page=" + page + "&size=" + size,
+           contentType: "application/json",
+           data: JSON.stringify(filter),
+           dataType: "json",
+           success: function (response) {
+               if (response.data.content.length === 0) {
+                   // Nếu không có sản phẩm, thông báo và không chuyển trang
+                   Swal.fire({
+                       title: "Thông báo",
+                       text: "Không có sản phẩm nào ở trang này!",
+                       icon: "info",
+                   });
+                   return;
+               }
+               // Nếu có sản phẩm, hiển thị sản phẩm và cập nhật phân trang
+               getUserAdmin(page, size, filter);
+           },
+           error: function (error) {
+               console.error("Lỗi khi chuyển trang:", error);
+           }
+       });
    }
      // hàm cập nhật /update
      $(document).on('click', '#iconUpdate', function() {
